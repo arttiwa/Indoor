@@ -18,7 +18,10 @@ if(isset($_POST['submit'])){
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shortest Path Finder</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Shortest Path Finder</h1>
@@ -43,6 +46,8 @@ if(isset($_POST['submit'])){
         </select>
 
         <br>
+        
+         <!-- <select name="destination" id="destination"> แก้ไข id เป็น "destination" -->
 
         <input type="submit" name="submit" value="Calculate Shortest Path">
     </form>
