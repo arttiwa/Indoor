@@ -23,7 +23,7 @@ if(isset($_POST['submit'])){
 <body>
     <h1>Shortest Path Finder</h1>
     
-    <form action="process.php" method="post">
+    <form action="process.php" method="get">
         <label for="source">Source Node:</label>
         <select name="source" id="source">
             <!-- สร้างตัวเลือกสำหรับ Source Node จากข้อมูลในกราฟ -->
