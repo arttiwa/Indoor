@@ -1,4 +1,5 @@
 <?php
+
 function dijkstra($graph, $start, $end) {
     $distances = array_fill_keys(array_keys($graph), PHP_INT_MAX);
     $distances[$start] = 0;
@@ -46,7 +47,7 @@ function dijkstra($graph, $start, $end) {
 }
 
 $graph = [
-        'EleF11_f4m' => ['F11_401' => 6, 'F11_402' => 6, 'F11_414' => 10, 'F11_415' => 9, 'F11_419' => 5, 'F11_420' => 4, 'F11_421' => 4, 'F11_422' => 5, 'F11_423' => 6],
+        'elevatorF11_4M' => ['F11_401' => 6, 'F11_402' => 6, 'F11_414' => 10, 'F11_415' => 9, 'F11_419' => 5, 'F11_420' => 4, 'F11_421' => 4, 'F11_422' => 5, 'F11_423' => 6],
         'StairF11_f4c' => ['F11_401' => 4, 'F11_402' => 4, 'F11_414' => 11, 'F11_415' => 10, 'F11_419' => 12, 'F11_420' => 12, 'F11_421' => 13, 'F11_422' => 14, 'F11_423' => 15],
         'F11_401' => ['StairF11_f4c' => 4, 'EleF11_f4m' => 6, 'F11_402' => 1, 'F11_414' => 8, 'F11_415' => 9, 'F11_419' => 9, 'F11_420' => 8, 'F11_421' => 8, 'F11_422' => 9, 'F11_423' => 13],
         'F11_402' => ['StairF11_f4c' => 4, 'EleF11_f4m' => 6, 'F11_401' => 1, 'F11_414' => 8, 'F11_415' => 9, 'F11_419' => 9, 'F11_420' => 8, 'F11_421' => 8, 'F11_422' => 9, 'F11_423' => 13],
@@ -62,33 +63,32 @@ $graph = [
         'C' => ['A' => 4, 'B' => 2, 'D' => 1],
         'D' => ['B' => 5, 'C' => 1]
 ];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get the start point from the form
     $start = $_POST["start"];
-
-    // Here, you can process the start point or perform any other actions you need
-
-    // For demonstration purposes, let's just echo the start point
-    echo "You selected start point: " . $start;
-}
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the start point from the form
     $end = $_POST["end"];
 
-    // Here, you can process the start point or perform any other actions you need
+    // Calculate the shortest path
+    $shortestPath = dijkstra($graph, $start, $end);
 
-    // For demonstration purposes, let's just echo the start point
-    echo "You selected end point: " . $end;
+    // Display the selected start and end points
+    echo "You selected start point: " . $start . "<br>";
+    echo "You selected end point: " . $end . "<br>";
+
+    // Display the shortest path
+    if ($shortestPath !== null) {
+        echo "Shortest path from $start to $end: " . implode(' -> ', $shortestPath);
+    } else {
+        echo "No path found.";
+    }
 }
 
-$shortestPath = dijkstra($graph, $start, $end);
-echo "Shortest path from $start to $end: " . implode(' -> ', $shortestPath);
 ?>
 <!DOCTYPE html>
 <html>
 <form method="post" action="index.php">
 <input type="submit" value="Back">
 </form>
-
 
 </html>

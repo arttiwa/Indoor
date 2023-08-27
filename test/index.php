@@ -7,24 +7,61 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Enter your start point:</h1>
+<?php
+    // Database connection setup
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "indoor_db";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Retrieve data from the database
+    $sql = "SELECT roomname FROM room";
+    $result = $conn->query($sql);
+    ?>
+
+    <h1>Select a start and an end:</h1>
     <form method="post" action="process.php">
-    <label for="start">Choose a start:</label>
+         <label for="start">Start:</label>
     <select name="start" id="start">
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-        <option value="D">D</option>
-    </select>
-<p></p>
-    <label for="end">Choose a end:</label>
-    <select name="end" id="end">
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-        <option value="D">D</option>
-    </select> <p></p>
-    <input type="submit" value="Submit">
+            <?php
+            // Loop through the query result and create options in the select
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<option value='" . $row["roomname"] . "'>" . $row["roomname"] . "</option>";
+                }
+            }
+            ?>
+        </select>
+
+        <label for="end">End:</label>
+        <select name="end" id="end">
+            <?php
+            // Reset the data pointer for the second select
+            $result->data_seek(0);
+
+            // Loop through the query result and create options in the select
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<option value='" . $row["roomname"] . "'>" . $row["roomname"] . "</option>";
+                }
+            }
+            ?>
+        </select>
+        <input type="submit" value="Find Shortest Path">
     </form>
+
+    <?php
+    // Close the database connection
+    $conn->close();
+    ?>
 </body>
 </html>
+            
