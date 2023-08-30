@@ -5,7 +5,11 @@ require_once 'graph.php';
 // Create the graph object
 
 //$graph_data  = array("A","B","C","D","E","F","G","EleF11_f4m","StairF11_f4c","F11_401",
-//    "F11_402","F11_414","F11_415","F11_419","F11_420","F11_421","F11_422","F11_423"
+//    "F11_
+//402","F11
+//_414","F11_415","F11_419
+//","F11_420","F11_421","F11_4
+//22","F11_423"
 //);
 
 $graph_data  = array(
