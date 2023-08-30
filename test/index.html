@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Camera OpenCV.js</title>
+    <script async src="/path/to/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+</head>
+<body>
+    <h1>Camera OpenCV.js</h1>
+    <video id="videoInput" autoplay></video>
+    <canvas id="canvasOutput" width="640" height="480"></canvas>
+
+    <script type="text/javascript">
+        function onOpenCvReady() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    var video = document.getElementById('videoInput');
+                    video.srcObject = stream;
+                })
+                .catch(function(error) {
+                    console.error('Camera access denied:', error);
+                });
+        }
+
+        var video = document.getElementById('videoInput');
+        var canvas = document.getElementById('canvasOutput');
+        var ctx = canvas.getContext('2d');
+
+        function processVideo() {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            requestAnimationFrame(processVideo);
+        }
+
+        video.addEventListener('play', function() {
+            requestAnimationFrame(processVideo);
+        });
+    </script>
+</body>
+</html>
