@@ -7,14 +7,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP Upload Image System</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <title>Shortest Path Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" >
+    <!-- <link rel="stylesheet" href="style.css"> -->
 </head>
-<body>
+<body>    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" ></script>
+
+<div class="container">
+    <header class="d-flex justify-content-center py-3">
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="beindex.php" class="nav-link active" aria-current="page">UPDATE PICTURE</a></li>
+        <li class="nav-item"><a href="capture.php" class="nav-link">USE CAM FOR FIND ROOM </a></li>
+        <!-- <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">About</a></li> -->
+      </ul>
+    </header>
+</div>
     
     <div class="container">
         <div class="row mt-5">
@@ -44,9 +55,9 @@
             <!-- SELECT pic to show on web -->
         <div class="row g-2">
             <?php 
-                $query = $conn->query("SELECT * FROM images WHERE file_name IN ('Screenshot 2021-09-16 175807.png', 'picme.jpg') 
-                ORDER BY FIELD(file_name, 'Screenshot 2021-09-16 175807.png', 'picme.jpg');
+                $query = $conn->query("SELECT * FROM images ORDER BY uploaded_on DESC;
                 ");
+                //WHERE file_name IN ('Screenshot 2021-09-16 175807.png', 'picme.jpg') ORDER BY FIELD(file_name, 'Screenshot 2021-09-16 175807.png', 'picme.jpg')
                 //SELECT * FROM images WHERE file_name IN ('picme.jpg', 'Screenshot 2021-09-16 175807.png') ORDER BY uploaded_on DESC;
                 if ($query->num_rows > 0) {
                     while($row = $query->fetch_assoc()) {
@@ -64,6 +75,5 @@
             <?php } ?>
         </div>
     </div>
-    
 </body>
 </html>

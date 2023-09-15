@@ -4,11 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shortest Path Finder</title>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
-    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" >
+    <!-- <link rel="stylesheet" href="style.css"> -->
 </head>
-<body>
+<body>    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" ></script>
+
+<div class="container">
+    <header class="d-flex justify-content-center py-3">
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="index.php" class="nav-link active" aria-current="page">Home</a></li>
+        <li class="nav-item"><a href="beindex.php" class="nav-link">UPDATE PICTURE</a></li>
+        <li class="nav-item"><a href="capture.php" class="nav-link">USE CAM FOR FIND ROOM </a></li>
+        <!-- <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">About</a></li> -->
+      </ul>
+    </header>
+</div>
+
 <?php
     // Database connection setup
     $servername = "localhost";
@@ -65,5 +78,14 @@
     $conn->close();
     ?>
 </body>
+<!-- <form method="post" action="index.php">
+<input type="submit" value="index">
+</form>
+<form method="post" action="beindex.php">
+<input type="submit" value="beindex">
+</form>
+<form method="post" action="capture.php">
+<input type="submit" value="capture">
+</form> -->
 </html>
             
