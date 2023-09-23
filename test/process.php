@@ -28,6 +28,9 @@
 
 </html>
 <?php
+ 
+session_start();
+include_once 'dbConfig.php';
 
 function dijkstra($graph, $start, $end) {
     $distances = array_fill_keys(array_keys($graph), PHP_INT_MAX);
@@ -141,12 +144,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "You selected start point: " . $start . "<br>";
     echo "You selected end point: " . $end . "<br>";
 
+    
+
     // Display the shortest path
     if ($shortestPath !== null) {
+        $shortestArrayPath = $shortestPath;
         echo "Shortest path from $start to $end: " . implode(' -> ', $shortestPath);
+        
+        echo "<pre>";
+        print_r($shortestArrayPath);
+        echo "</pre>";
+    
+        // Fetch and display images related to the shortestArrayPath
+        echo "<div class='row g-2'>";
+        
+        // แสดงรูปสำหรับ $start
+        $imageURLStart = 'uploads/' . $start . '.jpg';
+        echo "<div class='col-sm-6 col-lg-4 col-xl-3'>";
+        echo "<div class='card shadow h-100'>";
+        echo "<img src='$imageURLStart' alt='' width='100%' class='card-img'>";
+        echo "</div>";
+        echo "</div>";
+
+        foreach ($shortestArrayPath as $point1) {
+            $nextPointIndex = array_search($point1, $shortestArrayPath) + 1;
+            if ($nextPointIndex < count($shortestArrayPath)) {
+                $point2 = $shortestArrayPath[$nextPointIndex];
+                // $fileName = $point1  ;ok can use 1 valiable
+                $fileName = $point1 . '_' . $point2 ;
+
+                // สร้าง query เพื่อค้นหารูปภาพโดยใช้ $fileName
+                //$query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName" . "b.jpg'");ok
+                $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName.jpg'");
+
+                if ($query->num_rows > 0) {
+                    while ($row = $query->fetch_assoc()) {
+                        $imageURL = 'uploads/' . $row['file_name'];
+                        echo "<div class='col-sm-6 col-lg-4 col-xl-3'>";
+                        echo "<div class='card shadow h-100'>";
+                        echo "<img src='$imageURL' alt='' width='100%' class='card-img'>";
+                        echo "</div>";
+                        echo "</div>";
+                    }
+                } else {
+                    echo "<p>No image found for point: $fileName</p>";
+                }
+            }
+        }
+
+        // แสดงรูปสำหรับ $end
+        $imageURLEnd = 'uploads/' . $end . '.jpg';
+        echo "<div class='col-sm-6 col-lg-4 col-xl-3'>";
+        echo "<div class='card shadow h-100'>";
+        echo "<img src='$imageURLEnd' alt='' width='100%' class='card-img'>";
+        echo "</div>";
+        echo "</div>";
+
+
     } else {
         echo "No path found.";
     }
 }
-
+    
 ?>
+<!-- <!DOCTYPE html>
+<html>
+    Find picture from uploads by $shortestArrayPath
+</html> -->
