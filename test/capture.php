@@ -24,9 +24,10 @@
     </header>
 </div>
 
-<form method="post" action="capture.php">
-    <input type="submit" value="Open Camera">
-</form>
+    <div class="d-flex justify-content-center py-3">
+        <form method="post" action="capture.php">
+            <input type="submit" value="Open Camera" class ="btn btn-primary">
+        </form>
 
 </body>
 </html>
