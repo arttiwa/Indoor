@@ -72,15 +72,15 @@
         <header class="d-flex justify-content-center py-3">
         <ul class="nav nav-pills">
             <li class="nav-item"><a href="index.php" class="nav-link active" aria-current="page">Home</a></li>
-            <li class="nav-item"><a href="beindex.php" class="nav-link">UPDATE PICTURE</a></li>
-            <li class="nav-item"><a href="capture.php" class="nav-link">USE CAM FOR FIND ROOM </a></li>
+            <li class="nav-item"><a href="beindex.php" class="nav-link">UPLOAD PICTURE TO DATABASE</a></li>
+            <li class="nav-item"><a href="capture.php" class="nav-link">USE CAM FOR FINDING ROOM </a></li>
             <!-- <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
             <li class="nav-item"><a href="#" class="nav-link">About</a></li> -->
         </ul>
         </header>
     </div>
 
-    <?php
+    <!-- ?php
         // Database connection setup
         $servername = "localhost";
         $username = "root";
@@ -98,95 +98,150 @@
         // Retrieve data from the database
         $sql = "SELECT roomname FROM room";
         $result = $conn->query($sql);
-        ?>
-        
-<!-- start - end  -->
-<div class="container">
-    <header class="d-flex justify-content-center py-3">
-        <h2>Select a start and an end:</h2>
-    </header>
+    ? -->
 
-    
-    <div class="d-flex justify-content-center py-3">
-        <form method="post" action="process.php">
-            <label for="start">Start:</label>
-            <select name="start" id="start">
-                <?php
-                // Loop through the query result and create options in the select
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<option value='" . $row["roomname"] . "'>" . $row["roomname"] . "</option>";
-                    }
-                }
-                ?>
-            </select>
-        </div>
-
-        <div class="d-flex justify-content-center py-3">
-            <label for="end">End:</label>
-            <select name="end" id="end">
-                <?php
-                // Reset the data pointer for the second select
-                $result->data_seek(0);
-
-                // Loop through the query result and create options in the select
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<option value='" . $row["roomname"] . "'>" . $row["roomname"] . "</option>";
-                    }
-                }
-                ?>
-            </select>
-            <input type="submit" value="Find Shortest Path" class="btn btn-primary">
-            
-        </form>
-    </div>
-
-    <?php
-    // Close the database connection
-    $conn->close();
-    ?>
-</div>
-
-
-
-<!-- <header class="py-3 mb-3 border-bottom">
-    <div class="d-flex justify-content-center py-3">
+    <header class="d-flex justify-content-start py-3">
         <div class="dropdown">
-            <a href="#" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 link-dark text-decoration-none dropdown-toggle" id="dropdownNavLink" data-bs-toggle="dropdown" aria-expanded="false">
-            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
-            </a>
-            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownNavLink">
-            <li><a class="dropdown-item active" href="#" aria-current="page">Overview</a></li>
-            <li><a class="dropdown-item" href="#">Inventory</a></li>
-            <li><a class="dropdown-item" href="#">Customers</a></li>
-            <li><a class="dropdown-item" href="#">Products</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Reports</a></li>
-            <li><a class="dropdown-item" href="#">Analytics</a></li>
-            </ul> 
-        </div>
 
-        <div class="d-flex align-items-center">
-            <form class="w-100 me-3">
-            <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-            </form>
-            <input type="submit" value="Search" class="btn btn-primary">
-            <div class="flex-shrink-0 dropdown">
-            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
-            </a>
-            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                <li><a class="dropdown-item" href="#">New project...</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Sign out</a></li>
-            </ul>
+        
+
+        <button onclick="myFunction1()" class="dropbtn">Please select your current location</button>
+            <div id="myDropdown1" class="dropdown-content">
+            <label for="start">Start:</label>
+            <input type="text" placeholder="Search.." id="start" onkeyup="filterFunction1()" name="start">
+                <?php   
+                    // ติดต่อกับฐานข้อมูล
+                    $conn = new mysqli("localhost", "root", "", "indoor_db");
+
+                    // ตรวจสอบการเชื่อมต่อ
+                    if ($conn->connect_error) {
+                        die("Connection failed: " . $conn->connect_error);
+                    }
+
+                    // สร้าง query เพื่อดึงข้อมูลจากฐานข้อมูล
+                    $sql = "SELECT roomname FROM room";
+                    $result = $conn->query($sql);
+
+                    // ตรวจสอบผลลัพธ์
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<a href='#' onclick='selectLocation1(\"" . $row["roomname"] . "\")'>" . $row["roomname"] . "</a>";
+                        }
+                    }
+
+                    // ปิดการเชื่อมต่อกับฐานข้อมูล
+                    $conn->close();
+                ?>
             </div>
         </div>
-        </div>
-</header> -->
 
+        <script>
+            // เมื่อคลิกที่ปุ่ม Dropdown
+            function myFunction1() {
+                document.getElementById("myDropdown1").classList.toggle("show");
+            }
+
+            // ค้นหาตัวเลือกใน Dropdown
+            function filterFunction1() {
+                var input, filter, ul, li, a, i;
+                input = document.getElementById("start");
+                filter = input.value.toUpperCase();
+                div = document.getElementById("myDropdown1");
+                a = div.getElementsByTagName("a");
+                for (i = 0; i < a.length; i++) {
+                    txtValue = a[i].textContent || a[i].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        a[i].style.display = "";
+                    } else {
+                        a[i].style.display = "none";
+                    }
+                }
+            }
+
+            // เมื่อคลิกที่ตัวเลือกใน Dropdown
+            function selectLocation1($start) {
+                document.getElementById("myDropdown1").classList.toggle("show");
+                document.getElementById("start").value = $start;
+            }
+        </script>
+
+
+        ------------------------
+
+        <div class="dropdown">
+            <button onclick="myFunction2()" class="dropbtn">Please select your target location</button>
+            <div id="myDropdown2" class="dropdown-content">
+            <label for="end">end:</label>
+            <input type="text" placeholder="Search.." id="end" onkeyup="filterFunction2()" name="end" >
+
+            <?php
+                // ติดต่อกับฐานข้อมูล
+                $conn = new mysqli("localhost", "root", "", "indoor_db");
+
+                // ตรวจสอบการเชื่อมต่อ
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                // สร้าง query เพื่อดึงข้อมูลจากฐานข้อมูล
+                $sql = "SELECT roomname FROM room";
+                $result = $conn->query($sql);
+
+                // ตรวจสอบผลลัพธ์
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<a href='#' onclick='selectLocation2(\"" . $row["roomname"] . "\")'>" . $row["roomname"] . "</a>";
+                    }
+                }
+
+                // ปิดการเชื่อมต่อกับฐานข้อมูล
+                $conn->close();
+            ?>
+            </div>
+        </div>
+
+        <script>
+            // เมื่อคลิกที่ปุ่ม Dropdown
+            function myFunction2() {
+            document.getElementById("myDropdown2").classList.toggle("show");
+            }
+
+            // ค้นหาตัวเลือกใน Dropdown
+            function filterFunction2() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("end");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("myDropdown2");
+            a = div.getElementsByTagName("a");
+                for (i = 0; i < a.length; i++) {
+                    txtValue = a[i].textContent || a[i].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                    } else {
+                    a[i].style.display = "none";
+                    }
+                }
+            }
+
+            // เมื่อคลิกที่ตัวเลือกใน Dropdown
+            function selectLocation2($end) {
+            document.getElementById("myDropdown2").classList.toggle("show");
+            document.getElementById("end").value = $end;
+            }
+
+
+        </script>
+
+        
+    *----------------*
+    <form method="post" action="process.php">
+        <input type="hidden" id="start" name="start" value="">
+        <input type="hidden" id="end" name="end" value="">
+        <input type="submit" value="Find Shortest Path" class="btn btn-primary">
+    </form>
+    ------------
+        
+    </header>
+    
 </body>
 </html>
