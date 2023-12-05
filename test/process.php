@@ -135,10 +135,11 @@ $graph = [
     'D' => ['B' => 5, 'C' => 1]
 ];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the start point from the form
-    $start = $_POST["start"];
-    $end = $_POST["end"];
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    // Get the start and end values from the URL parameters
+    $start = $_GET["start"];
+    $end = $_GET["end"];
+
 
     // Calculate the shortest path
     $shortestPath = dijkstra($graph, $start, $end);
@@ -147,9 +148,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "You selected start point: " . $start . "<br>";
     echo "You selected end point: " . $end . "<br>";
 
-    
-
-    // Display the shortest path
     if ($shortestPath !== null) {
         $shortestArrayPath = $shortestPath;
         echo "Shortest path from $start to $end: " . implode(' -> ', $shortestPath);
@@ -210,7 +208,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
     
 ?>
-<!-- <!DOCTYPE html>
-<html>
-    Find picture from uploads by $shortestArrayPath
-</html> -->

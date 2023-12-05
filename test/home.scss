@@ -1,0 +1,29 @@
+/* styles.scss */
+body{
+    background: salmon;
+    margin: auto;
+    text-align: center;
+
+.conPoint {
+    background: blue;
+    .conStart {
+        background: olive;
+        display: inline-block;
+    }
+    .conTarget{
+        background: darkcyan;
+        display: inline-block;
+    }
+}
+
+.goGo{
+    border: none;
+    border-radius: 5px;
+    background: rgb(7, 205, 175);
+    height: 30px;
+    width: 40px;
+    margin: 10px;
+}
+
+
+}
