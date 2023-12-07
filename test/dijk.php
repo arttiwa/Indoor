@@ -5,18 +5,18 @@ function dijkstra($graph, $start, $end) {
     $previous = array_fill_keys(array_keys($graph), null);
     $queue = array_keys($graph);
 
-    while (!empty($queue)) {
+    while(!empty($queue)) {
         // Find the node with the smallest distance in the queue
         $minDistance = PHP_INT_MAX;
         $minNode = null;
-        foreach ($queue as $node) {
-            if ($distances[$node] < $minDistance) {
+        foreach($queue as $node) {
+            if($distances[$node] < $minDistance) {
                 $minDistance = $distances[$node];
                 $minNode = $node;
             }
         }
 
-        if ($minNode === $end) {
+        if($minNode === $end) {
             break; // Found shortest path to end
         }
 
@@ -24,9 +24,9 @@ function dijkstra($graph, $start, $end) {
         $queue = array_diff($queue, [$minNode]);
 
         // Update distances and previous nodes for neighboring nodes
-        foreach ($graph[$minNode] as $neighbor => $weight) {
+        foreach($graph[$minNode] as $neighbor => $weight) {
             $alt = $distances[$minNode] + $weight;
-            if ($alt < $distances[$neighbor]) {
+            if($alt < $distances[$neighbor]) {
                 $distances[$neighbor] = $alt;
                 $previous[$neighbor] = $minNode;
             }
@@ -36,7 +36,7 @@ function dijkstra($graph, $start, $end) {
     // Reconstruct the shortest path
     $path = [];
     $node = $end;
-    while ($previous[$node] !== null) {
+    while($previous[$node] !== null) {
         array_unshift($path, $node);
         $node = $previous[$node];
     }
@@ -56,5 +56,5 @@ $start = 'A';
 $end = 'D';
 
 $shortestPath = dijkstra($graph, $start, $end);
-echo "Shortest path from $start to $end: " . implode(' -> ', $shortestPath);
+echo "Shortest path from $start to $end: ".implode(' -> ', $shortestPath);
 ?>

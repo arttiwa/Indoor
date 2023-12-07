@@ -1,11 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Camera Capture</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
+
 <body>
+    <div class="container">
+        <header class="d-flex justify-content-center py-3">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="index.php" class="nav-link" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="beindex.php" class="nav-link">UPLOAD PICTURE TO DATABASE</a></li>
+                <li class="nav-item"><a href="capture.php" class="nav-link">USE CAM FOR FINDING ROOM </a></li>
+                <li class="nav-item"><a href="maptest.php" class="nav-link">MAP</a></li>
+                <li class="nav-item"><a href="page3.php" class="nav-link active">page3</a></li>
+            </ul>
+        </header>
+    </div>
     <h1>Camera Capture</h1>
 
     <!-- Button to open the camera -->
@@ -80,4 +95,5 @@
         }
     </script>
 </body>
+
 </html>
