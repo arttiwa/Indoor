@@ -1,31 +1,94 @@
-import cv2
-#import pytesseract
+# import cv2
+# import pytesseract
 
-# เริ่มกล้อง
+# # Start the camera
+# cap = cv2.VideoCapture(0)
+
+# while True:
+#     # Read the frame from the camera
+#     ret, frame = cap.read()
+
+#     # Display the frame
+#     cv2.imshow('Video Feed', frame)
+
+#     # Press 'c' to capture a frame and use Tesseract on the captured frame
+#     key = cv2.waitKey(1)
+#     if key == ord('c'):
+#         # Convert the frame to grayscale
+#         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+#         # Apply thresholding
+#         _, thresholded_frame = cv2.threshold(gray_frame, 128, 255, cv2.THRESH_BINARY)
+
+#         # Use Tesseract to convert the thresholded image to text
+#         text = pytesseract.image_to_string(thresholded_frame, config='--oem 3 --psm 6')
+
+#         # Display the captured frame
+#         cv2.imshow('Captured Frame', thresholded_frame)
+
+#         # Print the extracted text
+#         print("Extracted Text:", text)
+
+#     # Press 'q' to exit the program
+#     elif key == ord('q'):
+#         break
+
+# # Release the camera and close all windows
+# cap.release()
+# cv2.destroyAllWindows()
+
+
+
+
+
+
+# --oem 0: Legacy OCR Engine.
+# --oem 1: LSTM OCR Engine.
+# --oem 2: Default OCR Engine (LSTM falling back to Legacy).
+# --oem 3: Fully LSTM OCR Engine.
+
+
+
+
+
+
+import cv2
+import pytesseract
+
+# Start the camera
 cap = cv2.VideoCapture(0)
 
-# ตั้งค่าภาษาให้ Tesseract ตรวจจับ
-#custom_config = r'--oem 3 --psm 6 -l eng'
-
 while True:
-    # อ่านภาพจากกล้อง
+    # Read the frame from the camera
     ret, frame = cap.read()
 
-    # แปลงภาพเป็นข้อความด้วย Tesseract
-    #custom_config = r'--oem 3 --psm 6 --lang eng --whitelist ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    #text = pytesseract.image_to_string(frame, config=custom_config)
+    # Display the frame
+    cv2.imshow('Video Feed', frame)
 
+    # Press 'c' to capture a frame and use Tesseract on the captured frame
+    key = cv2.waitKey(1)
+    if key == ord('c'):
+        # Convert the frame to grayscale
+        gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-    # แสดงผลลัพธ์บนหน้าจอ
-    #cv2.imshow('Text Detection', frame)
-    #print(text)
-    cv2.imshow('Camera', frame)
-   
+        # Apply adaptive thresholding
+        thresholded_frame = cv2.adaptiveThreshold(
+            gray_frame, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2
+        )
 
-    # กด 'q' เพื่อออกจากโปรแกรม
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+        # Use Tesseract to convert the thresholded image to text
+        text = pytesseract.image_to_string(thresholded_frame, config='--oem 3 --psm 6')
+
+        # Display the captured frame
+        cv2.imshow('Captured Frame', thresholded_frame)
+
+        # Print the extracted text
+        print("Extracted Text:", text)
+
+    # Press 'q' to exit the program
+    elif key == ord('q'):
         break
 
-# ปิดกล้องและหน้าจอ
+# Release the camera and close all windows
 cap.release()
 cv2.destroyAllWindows()
