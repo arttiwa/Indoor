@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Map</title>
+    <style>
+        #map {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+        .map-object {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: green;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .line {
+            position: absolute;
+            background-color: blue;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div id="map" onclick="addPoint(event)">
+        <div class="map-object" style="left: 50px; top: 50px;"></div>
+        <div class="map-object" style="left: 150px; top: 100px;"></div>
+        <div class="map-object" style="left: 250px; top: 200px;"></div>
+        <div class="map-object" style="left: 100px; top: 300px;"></div>
+    </div>
+
+    <script>
+        let startSelected = false;
+        let endSelected = false;
+
+        function addPoint(event) {
+            const map = document.getElementById('map');
+            const line = document.createElement('div');
+            line.className = 'line';
+            map.appendChild(line);
+
+            const rect = map.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            const clickedObject = getClickedObject(x, y);
+
+            if (clickedObject) {
+                if (!startSelected) {
+                    // Set start point
+                    line.style.width = '0';
+                    line.style.transform = 'rotate(0rad)';
+                    line.style.left = clickedObject.style.left;
+                    line.style.top = clickedObject.style.top;
+                    startSelected = true;
+                } else if (!endSelected) {
+                    // Set end point
+                    const startX = parseInt(line.style.left);
+                    const startY = parseInt(line.style.top);
+                    const endX = parseInt(clickedObject.style.left);
+                    const endY = parseInt(clickedObject.style.top);
+
+                    const distance = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+
+                    line.style.width = distance + 'px';
+                    line.style.transform = `rotate(${Math.atan2(endY - startY, endX - startX)}rad)`;
+                    endSelected = true;
+                } else {
+                    // Reset when both points are selected
+                    startSelected = false;
+                    endSelected = false;
+                    map.removeChild(line);
+                }
+            }
+        }
+
+        function getClickedObject(x, y) {
+            const mapObjects = document.getElementsByClassName('map-object');
+
+            for (const object of mapObjects) {
+                const rect = object.getBoundingClientRect();
+                const objectX = rect.left + rect.width / 2;
+                const objectY = rect.top + rect.height / 2;
+
+                const distance = Math.sqrt(Math.pow(objectX - x, 2) + Math.pow(objectY - y, 2));
+
+                if (distance <= rect.width / 2) {
+                    return object;
+                }
+            }
+
+            return null;
+        }
+    </script>
+</body>
+</html>

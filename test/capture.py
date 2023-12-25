@@ -83,7 +83,7 @@ while True:
         cv2.imshow('Captured Frame', thresholded_frame)
 
         # Print the extracted text
-        print("Extracted Text:", text)
+        print("\n Extracted Text:", text)
 
     # Press 'q' to exit the program
     elif key == ord('q'):
