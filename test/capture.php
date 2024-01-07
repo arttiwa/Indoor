@@ -25,6 +25,7 @@
         </header>
     </div>
 
+    
     <div class="d-flex justify-content-center py-3">
         <form method="post" action="capture.php">
         <br/>
