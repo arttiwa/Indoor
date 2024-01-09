@@ -1,3 +1,4 @@
+#this code from Arttiwa
 import cv2
 from ultralytics import YOLO
 import time
@@ -14,8 +15,8 @@ target_fps = 2
 delay = 1 / target_fps
 
 # Set the new width and height for the resized frames
-new_width = 640  # Adjust as needed
-new_height = 480  # Adjust as needed
+new_width = 640 
+new_height = 480  
 
 # Create the directory to save captured images
 cap_directory = r'D:\xampp\htdocs\Indoor\test\yolov8\cap'
@@ -45,7 +46,7 @@ while cap.isOpened():
         annotated_frame = result[0].plot()
 
         # Display the annotated frame
-        cv2.putText(annotated_frame, f"FPS: {int(fps)}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2,cv2.LINE_AA)
+        cv2.putText(annotated_frame, f"FPS: {int(fps)}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
         cv2.imshow('YOLO Result', annotated_frame)
 
         # Check if there are any detections
@@ -56,15 +57,16 @@ while cap.isOpened():
                     w, h = x2 - x, y2 - y
                     # Crop the region containing the target
                     cropped_image = frame[y:y + h, x:x + w]
+                    
                     # Save the cropped image to the output directory
                     crop_image_filename = os.path.join(output_directory, f"cropped_{time.time()}.jpg")
                     cv2.imwrite(crop_image_filename, cropped_image)
                     print(f"Target detected! Cropped image saved as {crop_image_filename}")
                     
-                    # Save the captured image to the captured_directory
+                    # Save the annotated frame to the output directory
                     cap_image_filename = os.path.join(cap_directory, f"captured_{time.time()}.jpg")
-                    cv2.imwrite(cap_image_filename, frame)
-                    print(f"Frame captured! Image saved as {cap_image_filename}")
+                    cv2.imwrite(cap_image_filename, annotated_frame)
+                    print(f"Annotated frame saved as {cap_image_filename}")
                     
                     # Debugging: Print coordinates
                     print(f"Bounding box coordinates: x={x}, y={y}, w={w}, h={h}")
@@ -75,6 +77,10 @@ while cap.isOpened():
         else:
             print("No detections in the frame.")
 
+         # Sleep to control the processing rate
+        
+        time.sleep(delay)
+        
         # Waiting for user input
         key = cv2.waitKey(1)
 
