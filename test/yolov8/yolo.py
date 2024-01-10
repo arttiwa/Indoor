@@ -26,6 +26,9 @@ os.makedirs(cap_directory, exist_ok=True)
 output_directory = r'D:\xampp\htdocs\Indoor\test\yolov8\crop'
 os.makedirs(output_directory, exist_ok=True)
 
+#counter
+count_pic = 0
+
 while cap.isOpened():
     success, frame = cap.read()
 
@@ -70,6 +73,11 @@ while cap.isOpened():
                     
                     # Debugging: Print coordinates
                     print(f"Bounding box coordinates: x={x}, y={y}, w={w}, h={h}")
+                    
+                    count_pic += count_pic
+                    if count_pic == 3:
+                        break
+                    
                 else:
                     print("No bounding box coordinates available.")
             else:
