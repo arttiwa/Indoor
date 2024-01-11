@@ -7,7 +7,6 @@
     <title>Shortest Path Finder</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">    
 
-    <!-- <link rel="stylesheet" href="style.css"> -->
 </head>
 
 <body>
@@ -18,7 +17,7 @@
             <ul class="nav nav-pills">
                 <li class="nav-item"><a href="index.php" class="nav-link" aria-current="page">Home</a></li>
                 <li class="nav-item"><a href="beindex.php" class="nav-link ">UPLOAD PICTURE TO DATABASE</a></li>
-                <li class="nav-item"><a href="capture.php" class="nav-link active">USE CAM FOR FINDING ROOM </a></li>
+                <li class="nav-item"><a href="wabcam.php" class="nav-link active">USE CAM FOR FINDING ROOM </a></li>
                 <li class="nav-item"><a href="maptest.php" class="nav-link">MAP</a></li>
                 <li class="nav-item"><a href="page3.php" class="nav-link">page3</a></li>
             </ul>
@@ -27,7 +26,7 @@
 
     
     <div class="d-flex justify-content-center py-3">
-        <form method="post" action="capture.php">
+        <form method="post" action="wabcam.php">
         <br/>
             <input type="submit" value="Open Camera" class="btn btn-primary">
             <br/>

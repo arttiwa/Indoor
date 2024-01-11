@@ -2,6 +2,7 @@ import cv2
 import pytesseract
 import os
 import re
+import shutil
 from PIL import Image
 from difflib import SequenceMatcher
 
@@ -41,7 +42,7 @@ def ocr_from_image(image_path, lang='eng'):
     return recognized_text
 
 # Database entries
-database_entries = ['B1100', 'B1136', 'B1137', 'B1138']
+database_entries = ['B1135', 'B1136', 'B1137', 'B1138']
 
 # Get image files in the cap directory
 image_files = [f for f in os.listdir(cap_directory) if f.endswith('.jpg')]
@@ -70,5 +71,17 @@ for image_file in image_files:
         
     print("- " * 15)
 
-# Print the most similar result after processing all images
-print(f"Most similar result: {most_similarity[0]} matched with {most_similarity[1]} (Similarity: {most_similarity[2]})")
+# Check if no similarity is greater than 0.6
+if most_similarity is not None and most_similarity[2] <= 0.6:
+    print(f"No entry has similarity greater than 0.6. The most similar result is {most_similarity[0]} matched with {most_similarity[1]} (Similarity: {most_similarity[2]})")
+else:
+    print(f"Most similar result: {most_similarity[0]} matched with {most_similarity[1]} (Similarity: {most_similarity[2]})")
+
+
+# Move files to the calculated_data directory
+calculated_data_directory = r'D:\xampp\htdocs\Indoor\test\yolov8\calculated_data'
+shutil.move(cap_directory, os.path.join(calculated_data_directory, 'cap'))
+
+# Move files from new_data/crop to calculated_data/crop
+crop_directory = r'D:\xampp\htdocs\Indoor\test\yolov8\new_data\crop'
+shutil.move(crop_directory, os.path.join(calculated_data_directory, 'crop'))

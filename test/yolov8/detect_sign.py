@@ -3,6 +3,7 @@ import cv2
 from ultralytics import YOLO
 import time
 import os
+import subprocess
 
 # Initialize YOLOv8 model
 model = YOLO('sign_model.pt')
@@ -19,11 +20,11 @@ new_width = 640
 new_height = 480  
 
 # Create the directory to save captured images
-cap_directory = r'D:\xampp\htdocs\Indoor\test\yolov8\cap'
+cap_directory = r'D:\xampp\htdocs\Indoor\test\yolov8\new_data\cap'
 os.makedirs(cap_directory, exist_ok=True)
 
 # Create the directory to save cropped images
-output_directory = r'D:\xampp\htdocs\Indoor\test\yolov8\crop'
+output_directory = r'D:\xampp\htdocs\Indoor\test\yolov8\new_data\crop'
 os.makedirs(output_directory, exist_ok=True)
 
 #counter
@@ -74,9 +75,9 @@ while cap.isOpened():
                     # Debugging: Print coordinates
                     print(f"Bounding box coordinates: x={x}, y={y}, w={w}, h={h}")
                     
-                    count_pic += count_pic
-                    if count_pic == 3:
-                        break
+                    count_pic += 1
+                    print(count_pic)
+                    
                     
                 else:
                     print("No bounding box coordinates available.")
@@ -96,6 +97,10 @@ while cap.isOpened():
         if key == ord('q'):
             break
 
+        # picture = 3 then exit
+        if count_pic == 3:
+            break
+        
     except Exception as e:
         # Handle exceptions
         print(f"Error: {e}")
@@ -103,3 +108,7 @@ while cap.isOpened():
 # Release the camera and close all windows (in case it's not already done)
 cap.release()
 cv2.destroyAllWindows()
+
+# Run next Python script
+next_script_path = r'D:\xampp\htdocs\Indoor\test\yolov8\ocr_cal.py'
+subprocess.run(['python', next_script_path])
