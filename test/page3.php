@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camera Capture</title>
+    <title>Find Sign</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
@@ -21,11 +21,11 @@
             </ul>
         </header>
     </div>
-    <h1>Camera Capture</h1>
+    <h1>Find Sign</h1>
 
     <div class="butCon">
-        <button onclick="openCamera()">Open Camera</button>
-        <button onclick="capturePicture()">Capture</button>
+        <button onclick="detect_sign()">Open Camera</button>
+        <button onclick="refresh()">Capture</button>
     </div>
     <div class="camOut">
         <video id="cameraFeed" autoplay></video>
@@ -34,102 +34,63 @@
 
 
 
+
+    <script>
+        // Function to start camera feed
+        async function detect_sign() {
+            try {
+                const video = document.getElementById('cameraFeed');
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+            }
+        }
+
+        // Function to refresh camera and output
+        function refresh() {
+            const video = document.getElementById('cameraFeed');
+            const canvas = document.getElementById('capturedImage');
+            const context = canvas.getContext('2d');
+
+            // Capture current frame from video to canvas
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Additional logic or actions you want to perform
+            // e.g., send the captured image to the server for processing
+
+            // Stop the video stream to release resources
+            const stream = video.srcObject;
+            const tracks = stream.getTracks();
+            tracks.forEach(track => track.stop());
+            video.srcObject = null;
+        }
+    </script>
+    <style>
+        body {
+            background: #ddd;
+            margin: auto;
+            text-align: center;
+
+            .butCon {
+                height: 30px;
+
+                button {
+                    background-color: #0000CC;
+                    border-radius: 5px;
+                    border: none;
+                    height: 100%;
+                    width: 10%;
+                    color: white;
+                    margin-left: 10px;
+                }
+            }
+
+            .camOut {
+                margin: 20px;
+            }
+        }
+    </style>
 </body>
 
 </html>
-
-
-<script>
-    let cameraStream = null;
-
-    async function openCamera() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            const cameraFeed = document.getElementById('cameraFeed');
-            cameraFeed.srcObject = stream;
-            cameraStream = stream;
-        } catch (error) {
-            console.error('Error accessing the camera:', error);
-        }
-    }
-
-    function capturePicture() {
-        const cameraFeed = document.getElementById('cameraFeed');
-        const capturedImage = document.getElementById('capturedImage');
-        const context = capturedImage.getContext('2d');
-
-        // Ensure the video dimensions match the canvas dimensions
-        capturedImage.width = cameraFeed.videoWidth;
-        capturedImage.height = cameraFeed.videoHeight;
-
-        // Draw the current video frame onto the canvas
-        context.drawImage(cameraFeed, 0, 0, capturedImage.width, capturedImage.height);
-
-        // You can now work with the captured image as needed
-        // For example, you can convert it to a data URL and send it to a server
-
-        // To stop the camera stream (optional)
-        if (cameraStream) {
-            const tracks = cameraStream.getTracks();
-            tracks.forEach(track => track.stop());
-        }
-
-        // Extract the captured image data (Base64-encoded)
-        const base64Image = capturedImage.toDataURL('image/jpeg'); // or 'image/png'
-
-        // Send the captured image data to the server for processing
-        sendImageToServer(base64Image);
-    }
-
-    function sendImageToServer(base64Image) {
-        // Make an HTTP POST request to your server with the image data
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'your_server_endpoint.php'); // Replace with your server endpoint
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({ imageData: base64Image }));
-
-        // Handle the response from the server if needed
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
-                // Handle the response from the server
-                console.log(response);
-            }
-        };
-    }
-</script>
-
-
-<style lang="scss" :scope>
-    body {
-        background: #ddd;
-        margin: auto;
-        text-align: center;
-
-
-
-        .butCon {
-            /* background: #000; */
-            height: 30px;
-
-
-
-
-            button {
-                background-color: #0000CC;
-                border-radius: 5px;
-                border: none;
-                height: 100%;
-                width: 10%;
-                color: white;
-                margin-left: 10px;
-            }
-
-        }
-
-        .camOut {
-            margin: 20px
-        }
-
-    }
-</style>

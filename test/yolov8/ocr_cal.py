@@ -80,8 +80,41 @@ else:
 
 # Move files to the calculated_data directory
 calculated_data_directory = r'D:\xampp\htdocs\Indoor\test\yolov8\calculated_data'
-shutil.move(cap_directory, os.path.join(calculated_data_directory, 'cap'))
 
 # Move files from new_data/crop to calculated_data/crop
-crop_directory = r'D:\xampp\htdocs\Indoor\test\yolov8\new_data\crop'
-shutil.move(crop_directory, os.path.join(calculated_data_directory, 'crop'))
+for subdirectory in ['crop', 'cap']:
+    source_directory = os.path.join(r'D:\xampp\htdocs\Indoor\test\yolov8\new_data', subdirectory)
+    destination_directory = os.path.join(calculated_data_directory, subdirectory)
+    
+    for filename in os.listdir(source_directory):
+        src_path = os.path.join(source_directory, filename)
+        dest_path = os.path.join(destination_directory, filename)
+        shutil.move(src_path, dest_path)
+        
+        
+        
+        
+# # Move files to the calculated_data directory crop
+# calculated_data_directory = r'D:\xampp\htdocs\Indoor\test\yolov8\calculated_data'
+# for filename in os.listdir(cap_directory):
+#     src_path = os.path.join(cap_directory, filename)
+#     dest_path = os.path.join(calculated_data_directory, 'crop', filename)
+#     shutil.move(src_path, dest_path)
+# crop_directory = r'D:\xampp\htdocs\Indoor\test\yolov8\new_data\crop'
+# for filename in os.listdir(crop_directory):
+#     src_path = os.path.join(crop_directory, filename)
+#     dest_path = os.path.join(calculated_data_directory, 'crop', filename)
+#     shutil.move(src_path, dest_path)
+
+
+# # Move files to the calculated_data directory cap
+# calculated_data_directory = r'D:\xampp\htdocs\Indoor\test\yolov8\calculated_data'
+# for filename in os.listdir(cap_directory):
+#     src_path = os.path.join(cap_directory, filename)
+#     dest_path = os.path.join(calculated_data_directory, 'cap', filename)
+#     shutil.move(src_path, dest_path)
+# crop_directory = r'D:\xampp\htdocs\Indoor\test\yolov8\new_data\cap'
+# for filename in os.listdir(crop_directory):
+#     src_path = os.path.join(crop_directory, filename)
+#     dest_path = os.path.join(calculated_data_directory, 'cap', filename)
+#     shutil.move(src_path, dest_path)

@@ -62,15 +62,15 @@ while cap.isOpened():
                     # Crop the region containing the target
                     cropped_image = frame[y:y + h, x:x + w]
                     
-                    # Save the cropped image to the output directory
-                    crop_image_filename = os.path.join(output_directory, f"cropped_{time.time()}.jpg")
-                    cv2.imwrite(crop_image_filename, cropped_image)
-                    print(f"Target detected! Cropped image saved as {crop_image_filename}")
+                    # # Save the cropped image to the output directory
+                    # crop_image_filename = os.path.join(output_directory, f"cropped_{time.time()}.jpg")
+                    # cv2.imwrite(crop_image_filename, cropped_image)
+                    # print(f"Target detected! Cropped image saved as {crop_image_filename}")
                     
-                    # Save the annotated frame to the output directory
-                    cap_image_filename = os.path.join(cap_directory, f"captured_{time.time()}.jpg")
-                    cv2.imwrite(cap_image_filename, annotated_frame)
-                    print(f"Annotated frame saved as {cap_image_filename}")
+                    # # Save the annotated frame to the output directory
+                    # cap_image_filename = os.path.join(cap_directory, f"captured_{time.time()}.jpg")
+                    # cv2.imwrite(cap_image_filename, annotated_frame)
+                    # print(f"Annotated frame saved as {cap_image_filename}")
                     
                     # Debugging: Print coordinates
                     print(f"Bounding box coordinates: x={x}, y={y}, w={w}, h={h}")

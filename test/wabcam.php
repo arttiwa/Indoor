@@ -38,9 +38,12 @@
 </html>
 
 <?php
-if($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Execute the Python script
-    $output = shell_exec('python capture.py');
-    echo $output;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Execute the Python script and capture the output
+    $output = shell_exec('python D:/xampp/htdocs/Indoor/test/yolov8/detect_sign.py 2>&1');
+    
+    // Display the captured output
+    echo "<pre>$output</pre>";
 }
 ?>
+
