@@ -11,8 +11,7 @@ include_once 'dbConfig.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shortest Path Finder</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -23,7 +22,7 @@ include_once 'dbConfig.php';
             <ul class="nav nav-pills">
                 <li class="nav-item"><a href="index.php" class="nav-link" aria-current="page">Home</a></li>
                 <li class="nav-item"><a href="beindex.php" class="nav-link active">UPLOAD PICTURE TO DATABASE</a></li>
-                <li class="nav-item"><a href="wabcam.php" class="nav-link">USE CAM FOR FINDING ROOM </a></li>
+                <li class="nav-item"><a href="yolov8\wabcam.php" class="nav-link">USE CAM FOR FINDING ROOM </a></li>
                 <li class="nav-item"><a href="maptest.php" class="nav-link">MAP</a></li>
                 <li class="nav-item"><a href="page3.php" class="nav-link">page3</a></li>
             </ul>

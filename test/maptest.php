@@ -16,7 +16,7 @@
             <ul class="nav nav-pills">
                 <li class="nav-item"><a href="index.php" class="nav-link" aria-current="page">Home</a></li>
                 <li class="nav-item"><a href="beindex.php" class="nav-link">UPLOAD PICTURE TO DATABASE</a></li>
-                <li class="nav-item"><a href="wabcam.php" class="nav-link">USE CAM FOR FINDING ROOM </a></li>
+                <li class="nav-item"><a href="yolov8\wabcam.php" class="nav-link">USE CAM FOR FINDING ROOM </a></li>
                 <li class="nav-item"><a href="maptest.php" class="nav-link active">MAP</a></li>
                 <li class="nav-item"><a href="page3.php" class="nav-link">page3</a></li>
             </ul>
