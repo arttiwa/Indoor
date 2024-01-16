@@ -14,7 +14,7 @@
         <header class="d-flex justify-content-center py-3">
             <ul class="nav nav-pills">
                 <li class="nav-item"><a href="index.php" class="nav-link" aria-current="page">Home</a></li>
-                <li class="nav-item"><a href="beindex.php" class="nav-link">UPLOAD PICTURE TO DATABASE</a></li>
+                <li class="nav-item"><a href="beindex.php" class="nav-link">UP 2 DATABASE</a></li>
                 <li class="nav-item"><a href="yolov8\wabcam.php" class="nav-link">USE CAM FOR FINDING ROOM </a></li>
                 <li class="nav-item"><a href="maptest.php" class="nav-link">MAP</a></li>
                 <li class="nav-item"><a href="page3.php" class="nav-link active">page3</a></li>

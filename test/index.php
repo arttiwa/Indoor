@@ -18,7 +18,8 @@
             <header class="d-flex justify-content-center py-3">
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a href="index.php" class="nav-link active" aria-current="page">Home</a></li>
-                    <li class="nav-item"><a href="beindex.php" class="nav-link">UPLOAD PICTURE TO DATABASE</a></li>
+                    <li class="nav-item"><a href="beindex.php" class="nav-link">UP 2 DATABASE</a></li>
+                    <li class="nav-item"><a href="testup.php" class="nav-link ">UPLOAD test</a></li>
                     <li class="nav-item"><a href="yolov8\wabcam.php" class="nav-link">USE CAM FOR FINDING ROOM </a></li>
                     <li class="nav-item"><a href="maptest.php" class="nav-link">MAP</a></li>
                     <li class="nav-item"><a href="page3.php" class="nav-link">page3</a></li>
@@ -52,8 +53,6 @@
 
         <button type="submit" class="goGo"><i class="fa fa-search"></i></button>
     </form>
-
-
 
     <script>
         function selectLo1(start) {
@@ -150,31 +149,33 @@
     }
 
     ?>
+    <form id="searchForm" action="process.php" method="get">
+        <div class="conBuild">
+            <div class="Building">
+                <div class="conFloors">
+                    <div class="floors">
+                        <h4>Building : </h4>
+                        <select id="BuildingId" onchange="updateFloors()">
+                            <?php
+                            $buildings = Buildinglist("selectBuilding");
+                            foreach ($buildings as $building) {
+                                echo "<option value=\"" . $building['buildingname'] . "\">" . $building['buildingname'] . "</option>";
+                            }
+                            ?>
+                        </select>
 
+                        <h4>Floors : </h4>
+                        <input list="FloorsList" name="Floors" id="FloorsId" required>
+                        <datalist id="FloorsList"></datalist>
 
-
-
-    <div class="conBuild">
-        <div class="Building">
-            <div class="conFloors">
-                <div class="floors">
-                    <h4>Building : </h4>
-                    <select id="BuildingId" onchange="updateFloors()">
-                        <?php
-                        $buildings = Buildinglist("selectBuilding");
-                        foreach ($buildings as $building) {
-                            echo "<option value=\"" . $building['buildingname'] . "\">" . $building['buildingname'] . "</option>";
-                        }
-                        ?>
-                    </select>
-
-                    <h4>Floors : </h4>
-                    <input list="FloorsList" name="Floors" id="FloorsId">
-                    <datalist id="FloorsList"></datalist>
+                        <br>
+                        <br>
+                        <button type="submit">open indoor map</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 
 
     <div class="conMap">
@@ -226,10 +227,7 @@
 
                 <!-- <area shape="poly" coords="604,92,652,62,682,113,636,139" title="S" href=""> -->
             </map>
-
         </div>
-
-
     </div>
 
     <div id="output"></div>
@@ -315,6 +313,12 @@
         margin-top: 50px;
         border-radius: 4px;
         text-align: center;
+
+        area {
+            &:hover {
+                cursor: pointer;
+            }
+        }
     }
 
     .goGo {
