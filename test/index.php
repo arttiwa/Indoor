@@ -270,7 +270,7 @@
     }
 
     .conPoint {
-        background: blue;
+        background: #4682B4;
 
 
 

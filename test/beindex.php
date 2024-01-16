@@ -59,6 +59,7 @@ include_once 'dbConfig.php';
         </div>
         <!-- SELECT pic to show on web -->
         <div class="row g-2">
+            
             <?php
             $query = $conn->query("SELECT * FROM images ORDER BY uploaded_on DESC;
                 ");
@@ -78,6 +79,7 @@ include_once 'dbConfig.php';
             } else { ?>
                 <p>No image found...</p>
             <?php } ?>
+            
         </div>
     </div>
 </body>
