@@ -21,55 +21,39 @@
             // Move the file to the specified directory
             if (move_uploaded_file($_FILES[$fileInputName]["tmp_name"], $file)) {
                 // Copy the file with a new name
-                copy($file, $copyFile);
+                if (!copy($file, $copyFile)) {
+                    return "Error copying file.";
+                }
 
-                return "File uploaded successfully. Old name: " . $oldFileName . ", New name: " . $newFileName . "<br>Copied as: " . $copyFileName;
+                return "File uploaded successfully. Old name: " . $oldFileName . ", New name: " . $newFileName . "<br>Copied as File 1: " . $copyFileName;
             } else {
                 return "Error uploading file.";
             }
         }
 
-        // Function to generate combinations of tags for a given file
-        function generateTagCombinations($fileNumber, $totalFiles)
-        {
-            $tags = ['T', 'L', 'R', 'B'];
-            $combinations = [];
-
-            for ($i = 0; $i < $totalFiles; $i++) {
-                $tag = $tags[($fileNumber + $i) % count($tags)];
-                $combinations[] = $tag;
-            }
-
-            return $combinations;
-        }
-
         // Process File 1
         $pointName1 = $_POST["fileName1"];
-        $combinations1 = generateTagCombinations(0, 4);
         $message1 = implode("<br>Copied as File 1: ", array_map(function ($tag) use ($pointName1, $targetDir) {
             return handleFileUpload("fileUpload1", $targetDir, $pointName1, "fileName1", $tag);
-        }, $combinations1));
+        }, ['T', 'R', 'L', 'B']));
 
         // Process File 2
         $pointName2 = $_POST["fileName2"];
-        $combinations2 = generateTagCombinations(1, 4);
         $message2 = implode("<br>Copied as File 2: ", array_map(function ($tag) use ($pointName2, $targetDir) {
             return handleFileUpload("fileUpload2", $targetDir, $pointName2, "fileName2", $tag);
-        }, $combinations2));
+        }, ['L', 'T', 'B', 'R']));
 
         // Process File 3
         $pointName3 = $_POST["fileName3"];
-        $combinations3 = generateTagCombinations(2, 4);
         $message3 = implode("<br>Copied as File 3: ", array_map(function ($tag) use ($pointName3, $targetDir) {
             return handleFileUpload("fileUpload3", $targetDir, $pointName3, "fileName3", $tag);
-        }, $combinations3));
+        }, ['R', 'B', 'T', 'L']));
 
         // Process File 4
         $pointName4 = $_POST["fileName4"];
-        $combinations4 = generateTagCombinations(3, 4);
         $message4 = implode("<br>Copied as File 4: ", array_map(function ($tag) use ($pointName4, $targetDir) {
             return handleFileUpload("fileUpload4", $targetDir, $pointName4, "fileName4", $tag);
-        }, $combinations4));
+        }, ['B', 'L', 'R', 'T']));
 
         // Display uploaded images only if they exist
         if (file_exists($targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload1"]["name"])) {
