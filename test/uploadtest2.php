@@ -1,118 +1,69 @@
 <?php
-session_start();
-include_once 'dbConfig.php';
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $targetDir = "uploads/"; // specify the directory where you want to store the uploaded files
 
-// File upload path
-$targetDir = "uploads/";
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $dropAreaId = $_POST['dropAreaId'];
-    $newName = $_POST['newName'];
-    $pointName = $_POST['pointName'];
-
-    // Check if the file field is set in $_FILES
-    if (isset($_FILES["file"])) {
-        $fileName = basename($_FILES["file"]["name"]);
-        $targetFilePath = $targetDir . $fileName;
-        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-
-        // Allow certain file formats
-        $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'pdf');
-        if (in_array($fileType, $allowTypes)) {
-            if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFilePath)) {
-                // Adjust the file name based on dropAreaId and newName
-                $baseName = $pointName . '-' . $newName;
-
-                switch ($dropAreaId) {
-                    case 'top':
-                        $newFileName = $baseName . '-T';
-                        break;
-                    case 'left':
-                        $newFileName = $baseName . '-L';
-                        break;
-                    case 'point':
-                        $newFileName = $baseName . '-P';
-                        break;
-                    case 'Right':
-                        $newFileName = $baseName . '-R';
-                        break;
-                    case 'bottom':
-                        $newFileName = $baseName . '-B';
-                        break;
-                    default:
-                        $newFileName = $baseName;
-                        break;
-                }
-
-                // Perform additional actions or store information in the database if needed
-                // For now, let's assume the file information is stored in a table named 'images'
-                $insert = $conn->query("INSERT INTO images(file_name, uploaded_on) VALUES ('" . $newFileName . "', NOW())");
-
-                if ($insert) {
-                    $_SESSION['statusMsg'] = "The file <b>" . $fileName . "</b> has been uploaded successfully.";
-                } else {
-                    $_SESSION['statusMsg'] = "File upload failed, please try again.";
-                }
+        // Function to handle file upload and return an error message if unsuccessful
+        function handleFileUpload($fileInputName, $targetDir, $pointName, $fileNameAll)
+        {
+            $oldFileName = $_FILES[$fileInputName]["name"];
+            $extension = pathinfo($oldFileName, PATHINFO_EXTENSION);
+            $fileNameMid = $_POST["fileNameMid"];
+            $setFileNameAll = $_POST[$fileNameAll];
+            $newFileName = $fileNameMid . "_" . $setFileNameAll . "." . $extension;
+            $file = $targetDir . $newFileName;
+            $uploadOk = 1;
+            
+            // Move the file to the specified directory
+            if (move_uploaded_file($_FILES[$fileInputName]["tmp_name"], $file)) {
+                return "File uploaded successfully. Old name: " . $oldFileName . ", New name: " . $newFileName;
             } else {
-                $_SESSION['statusMsg'] = "Sorry, there was an error uploading your file.";
-            }
-        } else {
-            $_SESSION['statusMsg'] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed to upload.";
-        }
-    } else {
-        $_SESSION['statusMsg'] = "Please select a file to upload.";
-    }
-} else {
-    $_SESSION['statusMsg'] = "Invalid request.";
-}
-
-// Redirect to the appropriate page with the status message
-header("location: testup.php");
-?>
-
-
-<?php
-session_start();
-include_once 'dbConfig.php';
-
-// File upload path
-$targetDir = "uploads/";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    for ($i = 1; $i <= 4; $i++) {
-        $fileInputName = "fileUpload" . $i;
-
-        if (!empty($_FILES[$fileInputName]["name"])) {
-            $fileName = basename($_FILES[$fileInputName]["name"]);
-            $targetFilePath = $targetDir . $fileName;
-            $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-
-            // Allow certain file formats
-            $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'pdf');
-            if (in_array($fileType, $allowTypes)) {
-                if (move_uploaded_file($_FILES[$fileInputName]["tmp_name"], $targetFilePath)) {
-                    $insert = $conn->query("INSERT INTO images(file_name, uploaded_on) VALUES ('" . $fileName . "', NOW())");
-                    if (!$insert) {
-                        $_SESSION['statusMsg'] = "File upload failed, please try again.";
-                        header("location: testup.php");
-                        exit(); // Ensure the script stops execution if an error occurs
-                    }
-                } else {
-                    $_SESSION['statusMsg'] = "Sorry, there was an error uploading your file.";
-                    header("location: testup.php");
-                    exit(); // Ensure the script stops execution if an error occurs
-                }
-            } else {
-                $_SESSION['statusMsg'] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed to upload.";
-                header("location: testup.php");
-                exit(); // Ensure the script stops execution if an error occurs
+                return "Error uploading file.";
             }
         }
-    }
 
-    // Redirect only if there were no errors
-    $_SESSION['statusMsg'] = "All files have been uploaded successfully.";
-    header("location: testup.php");
-    exit(); // Ensure the script stops execution after the redirect
-}
+        // Process File 1
+        $pointName1 = $_POST["fileName1"];
+        $message1 = handleFileUpload("fileUpload1", $targetDir, $_POST["fileNameMid"], "fileName1");
+
+        // Process File 2
+        $pointName2 = $_POST["fileName2"];
+        $message2 = handleFileUpload("fileUpload2", $targetDir, $_POST["fileNameMid"], "fileName2");
+
+        // Process File 3
+        $pointName3 = $_POST["fileName3"];
+        $message3 = handleFileUpload("fileUpload3", $targetDir, $_POST["fileNameMid"], "fileName3");
+
+        // Process File 4
+        $pointName4 = $_POST["fileName4"];
+        $message4 = handleFileUpload("fileUpload4", $targetDir, $_POST["fileNameMid"], "fileName4");
+
+        // Display uploaded images only if they exist
+        if (file_exists($targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload1"]["name"])) {
+            echo "File 1:<br>";
+            echo "<img src='" . $targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload1"]["name"] . "' alt='File 1' width='300' height='300'><br>";
+
+        }
+
+        if (file_exists($targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload2"]["name"])) {
+            echo "File 2:<br>";
+            echo "<img src='" . $targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload2"]["name"] . "' alt='File 2' width='300' height='300'><br>";
+        }
+
+        if (file_exists($targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload3"]["name"])) {
+            echo "File 3:<br>";
+            echo "<img src='" . $targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload3"]["name"] . "' alt='File 3' width='300' height='300'><br>";
+        }
+
+        if (file_exists($targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload4"]["name"])) {
+            echo "File 4:<br>";
+            echo "<img src='" . $targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload4"]["name"] . "' alt='File 4' width='300' height='300'><br>";
+        }
+
+        // You can add more processing logic or database operations here if needed
+
+        echo "File 1: " . $message1 . "<br>";
+        echo "File 2: " . $message2 . "<br>";
+        echo "File 3: " . $message3 . "<br>";
+        echo "File 4: " . $message4 . "<br>";
+    }
 ?>

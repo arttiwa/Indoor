@@ -9,300 +9,149 @@
     <title>Drag and Drop Image Upload with Rename</title>
 
 
-
 </head>
+
 <body>
 
-    <div class="container">
-        <header class="d-flex justify-content-center py-3">
-            <ul class="nav nav-pills">
-                <li class="nav-item"><a href="index.php" class="nav-link " aria-current="page">Home</a></li>
-                <li class="nav-item"><a href="beindex.php" class="nav-link">UP 2 DATABASE</a></li>
-                <li class="nav-item"><a href="testup.php" class="nav-link active">UPLOAD test</a></li>
-                <li class="nav-item"><a href="yolov8\wabcam.php" class="nav-link">USE CAM FOR FINDING ROOM </a></li>
-                <li class="nav-item"><a href="maptest.php" class="nav-link">MAP</a></li>
-                <li class="nav-item"><a href="page3.php" class="nav-link">page3</a></li>
-            </ul>
-        </header>
-    </div>
-<!--     <form action="uploadtest2.php" method="post" enctype="multipart/form-data">
-      <label for="fileInput1">File 1:</label>
-      <input type="file" id="fileInput1" name="fileUpload1"><br>
-    
-      <label for="fileInput2">File 2:</label>
-      <input type="file" id="fileInput2" name="fileUpload2"><br>
-    
-      <label for="fileInput3">File 3:</label>
-      <input type="file" id="fileInput3" name="fileUpload3"><br>
-    
-      <label for="fileInput4">File 4:</label>
-      <input type="file" id="fileInput4" name="fileUpload4"><br>
-    
-      <input type="submit" value="Upload">
-    </form>  -->
-
-    <div class="uppic">
-
-        <div class="dropArea" id="dropAreaTop" data-drop-area="top" ondragover="allowDrop(event)" ondrop="dropImage(event)">
-            <p>Drag and drop an image here</p>
-            <input type="text" class="newNameInput" placeholder="Enter new name">
+    <form action="uploadtest2.php" method="post" enctype="multipart/form-data">
+        <input type="text" class="BlockUpDown" id="fileName1" name="fileName1" placeholder="Enter next point name" required><br><br>
+        <div class="uploadFields">
+            <label for="fileInput1">File 1:</label>
+            <input type="file" id="fileInput1" name="fileUpload1"
+                onchange="previewImage(this, 'preview1', 'fileName1')"><br><br>
+            <div id="preview1"></div>
         </div>
-
 
         <div class="upDown"><span style='font-size:100px;'>&#8593;</span></div>
         <div class="midd">
-            <div class="dropArea" id="dropAreaLeft" data-drop-area="left" ondragover="allowDrop(event)" ondrop="dropImage(event)">
-                <p>Drag and drop an image here</p>
-                <input type="text" class="newNameInput" placeholder="Enter new name">
-            </div>        
+            <div class="uploadFields">
+                <input type="text" class="newPoint" id="fileName2" name="fileName2" placeholder="Left point name" required><br>
+
+                <label for="fileInput2">File 2:</label>
+                <input type="file" id="fileInput2" name="fileUpload2"
+                    onchange="previewImage(this, 'preview2', 'fileName2')"><br><br>
+                <div id="preview2"></div>
+            </div>
 
             <div class="leftRightSpan"><span style='font-size:100px;'>&#8592;</span></div>
-            <figure class="circle"><input type="text" class="newPoint" placeholder="Enter point name"></figure>
+            <figure class="circle">
+                <input type="text" class="newPoint" name="fileNameMid" id="fileNameMid" placeholder="Enter point name" required>
+            </figure>
             <div class="leftRightSpan"><span style='font-size:100px;'>&#8594;</span></div>
 
-            <div class="dropArea" id="dropAreaRight" data-drop-area="Right" ondragover="allowDrop(event)" ondrop="dropImage(event)">
-                <p>Drag and drop an image here</p>
-                <input type="text" class="newNameInput" placeholder="Enter new name">
+            <div class="uploadFields">
+                <input type="text" class="newPoint" id="fileName3" name="fileName3" placeholder="Right point name" required><br>
+                <label for="fileInput3">File 3:</label>
+                <input type="file" id="fileInput3" name="fileUpload3" 
+                    onchange="previewImage(this, 'preview3', 'fileName3')"><br><br>
+                <div id="preview3"></div>
             </div>
         </div>
         <div class="upDown"><span style='font-size:100px;'>&#8595;</span></div>
 
-
-        <div class="dropArea" id="dropAreaBottom" data-drop-area="bottom" ondragover="allowDrop(event)" ondrop="dropImage(event)">
-            <p>Drag and drop an image here</p>
-            <input type="text" class="newNameInput" placeholder="Enter new name">
+        <input type="text" class="BlockUpDown" id="fileName4" name="fileName4" placeholder="Enter before point name" required><br><br>
+        <div class="uploadFields">
+            <label for="fileInput4">File 4:</label>
+            <input type="file" id="fileInput4" name="fileUpload4"
+                onchange="previewImage(this, 'preview4', 'fileName4')"><br><br>
+            <div id="preview4"></div><br><br>
+            <br><br>
         </div>
 
-    </div>
-    
-    <div class="uploadPic">
-        <button class="uploadBut" onclick="uploadAll()">Upload</button>
-    </div>
+        <input type="submit" value="Upload">
+    </form>
 
     <script>
-        async function uploadAll() {
-            console.log('Upload button pressed');
+        function previewImage(input, previewId, fileNameAll) {
+            var preview = document.getElementById(previewId);
 
-            var dropAreas = document.querySelectorAll('.dropArea');
-            console.log('Upload button 0');
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
-            for (const dropArea of dropAreas) {
-                var input = dropArea.querySelector('.newNameInput');
-                var fileInput = dropArea.querySelector('input[type="file"]');
-                console.log('Upload button 111');
+                reader.onload = function (e) {
+                    var img = new Image();
+                    img.src = e.target.result;
 
-                if (!fileInput) continue;  // Use 'continue' to move to the next iteration if no file input is found
+                    img.onload = function () {
+                        var canvas = document.createElement('canvas');
+                        var ctx = canvas.getContext('2d');
+                        var maxWidth = 300;
+                        var maxHeight = 300;
+                        var width = img.width;
+                        var height = img.height;
 
-                var file = fileInput.files[0];
-                console.log('Upload button 1');
-
-                if (input && file && input.value.trim() !== '') {
-                    var newName = input.value.trim();
-                    var dropAreaId = dropArea.getAttribute('data-drop-area');
-                    var pointName = document.querySelector('.circle .newPoint').value.trim();
-
-                    console.log('Upload button 2');
-                    var formData = new FormData();
-                    formData.append('file', file);
-                    formData.append('dropAreaId', dropAreaId);
-                    formData.append('newName', newName);
-                    formData.append('pointName', pointName);
-
-                    console.log('Upload button formData');
-                    console.log(formData);
-
-                    try {
-                        const response = await fetch('upload.php', {
-                            method: 'POST',
-                            body: formData,
-                        });
-
-                        if (!response.ok) {
-                            throw new Error('Error uploading file');
+                        if (width > height) {
+                            if (width > maxWidth) {
+                                height *= maxWidth / width;
+                                width = maxWidth;
+                            }
+                        } else {
+                            if (height > maxHeight) {
+                                width *= maxHeight / height;
+                                height = maxHeight;
+                            }
                         }
 
-                        const data = await response.json();
-                        alert('File uploaded successfully');
-                        console.log('File uploaded successfully', data);
-                    } catch (error) {
-                        alert('Error uploading file. Please try again.');
-                        console.error('Error uploading file', error);
-                    }
-                } else {
-                    alert('Please fill in all the required fields.');
-                }
-            }
-        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
 
+                        var oldFileName = input.files[0].name;
+                        var newFileName = generateNewFileName(input, previewId, fileNameAll);
 
+                        console.log("Old File Name:", oldFileName);
+                        console.log("New File Name:", newFileName);
 
-
-
-        function uploadFile(file, dropAreaId, newName, pointName) {
-            var formData = new FormData();
-            formData.append('file', file);
-            formData.append('dropAreaId', dropAreaId);
-            formData.append('newName', newName);
-            formData.append('pointName', pointName);
-
-            fetch('upload.php', {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error uploading file');
-                }
-                console.log('File uploaded successfully');
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        }
-
-
-
-        function allowDrop(event) {
-            event.preventDefault();
-        }
-
-        function dropImage(event) {
-            event.preventDefault();
-
-            var files = event.dataTransfer.files;
-
-            if (files.length > 0) {
-                var file = files[0];
-
-                if (file.type.startsWith('image/')) {
-                    var reader = new FileReader();
-
-                    reader.readAsDataURL(file);
-
-                    reader.onload = function (e) {
-                        var img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.className = 'droppedImage';
-
-                        // Create a container for the image and input
-                        var container = document.createElement('div');
-                        container.className = 'dropAreaContainer';
-                        container.appendChild(img);
-
-                        var input = document.createElement('input');
-                        input.type = 'text';
-                        input.className = 'newNameInput';
-                        input.placeholder = 'Enter new name';
-                        container.appendChild(input);
-
-                        // Append the container to the drop area
-                        event.target.innerHTML = '';
-                        event.target.appendChild(container);
-
-                        // Send the file to the server
-                        var dropAreaId = event.target.getAttribute('data-drop-area');
-                        var newName = input.value.trim();  // Get the newName at the time of uploading
-                        var pointName = document.querySelector('.circle .newPoint').value.trim();
-                        uploadFile(file, dropAreaId, newName, pointName);
+                        preview.innerHTML = '<img src="' + canvas.toDataURL('image/jpeg') + '" alt="Preview">';
                     };
-                } else {
-                    alert('Please drop an image file.');
-                }
+                };
+
+                reader.readAsDataURL(input.files[0]);
             }
         }
 
+        function generateNewFileName(input, previewId, fileNameAll) {
+            var oldFileName = input.files[0].name;
+            var timestamp = new Date().getTime();
+            var extension = oldFileName.split('.').pop();
+            var fileNameMid = document.getElementById('fileNameMid').value;
+            let setFileNameAll = document.getElementById(fileNameAll).value
+
+            // Use the value from the fileNameMid input field in the new file name
+            var newFileName = fileNameMid + "-" + setFileNameAll + "." + extension;
+
+            return newFileName;
+        }
     </script>
-
-<div class="footter"></div>
-
-<?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $dropAreaId = $_POST['dropAreaId'];
-        $newName = $_POST['newName'];
-        $pointName = $_POST['pointName'];
-
-        $uploadsDirectory = 'D:\xampp\htdocs\Indoor\test\uploads';
-
-        if (!file_exists($uploadsDirectory)) {
-            mkdir($uploadsDirectory, 0777, true);
-        }
-
-        $tempFilePath = $_FILES['file']['tmp_name'];
-        $originalFileName = $_FILES['file']['name'];
-        $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
-
-        $baseName = $pointName . '-' . $newName;
-
-        switch ($dropAreaId) {
-            case 'top':
-                $newFileName = $baseName . '-T';
-                break;
-            case 'left':
-                $newFileName = $baseName . '-L';
-                break;
-            case 'point':
-                $newFileName = $baseName . '-P';
-                break;
-            case 'Right':
-                $newFileName = $baseName . '-R';
-                break;
-            case 'bottom':
-                $newFileName = $baseName . '-B';
-                break;
-            default:
-                $newFileName = $baseName;
-                break;
-        }
-
-        $targetFilePath = $uploadsDirectory . '/' . $newFileName . '.' . $fileExtension;
-
-        move_uploaded_file($tempFilePath, $targetFilePath);
-
-        // You can perform additional actions here if needed
-
-        echo 'File uploaded successfully';
-    } else {
-        http_response_code(400);
-        echo 'Invalid request';
-    }
-?>
 
 
 </body>
 <style>
-
-        
-    /* Styles for the drop area */
-    .dropArea {
-        width: 300px;
-        height: 250px;
-        border: 2px dashed #555;
-        border-radius: 8px;
-        margin: 50px auto;
+    form {
         text-align: center;
-        padding: 20px;
-        cursor: pointer;
-
-        background-color: #B0C4DE; 
-
+        padding: 50px;
     }
 
 
 
+    .uploadFields {
+        /* background: #000; */
+    }
 
 
-    .midd{
+    .midd {
         display: inline-flex;
         text-align: center;
         /* background: #80C1DE; */
         width: 100%;
     }
 
-    .leftRightSpan{
+    .leftRightSpan {
         display: flex;
         align-items: center;
     }
-    .upDown{
+
+    .upDown {
         margin: auto;
         text-align: center;
     }
@@ -311,13 +160,14 @@
         display: block;
         background: gainsboro;
         border-radius: 50%;
-        height: 200px;
-        width: 200px;
+        height: 150px;
+        width: 150px;
         margin: auto;
         border: 2px dashed #555;
 
     }
-    .newPoint{
+
+    .newPoint {
         margin-top: 40%;
         text-align: center;
         justify-items: center;
@@ -351,23 +201,25 @@
 
 
 
-    .uploadBut{
+    .uploadBut {
         border: 1px solid gray;
-        border-radius: 5px; 
+        border-radius: 5px;
         width: 20%;
         height: 40px;
         background: #6666FF;
-                
+
     }
-    .uploadPic{
+
+    .uploadPic {
         margin-top: 100px;
         width: 100%;
         text-align: center;
     }
 
 
-    .footter{
+    .footter {
         padding: 100px;
     }
 </style>
+
 </html>
