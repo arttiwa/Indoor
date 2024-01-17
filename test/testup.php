@@ -25,6 +25,21 @@
             </ul>
         </header>
     </div>
+<!--     <form action="uploadtest2.php" method="post" enctype="multipart/form-data">
+      <label for="fileInput1">File 1:</label>
+      <input type="file" id="fileInput1" name="fileUpload1"><br>
+    
+      <label for="fileInput2">File 2:</label>
+      <input type="file" id="fileInput2" name="fileUpload2"><br>
+    
+      <label for="fileInput3">File 3:</label>
+      <input type="file" id="fileInput3" name="fileUpload3"><br>
+    
+      <label for="fileInput4">File 4:</label>
+      <input type="file" id="fileInput4" name="fileUpload4"><br>
+    
+      <input type="submit" value="Upload">
+    </form>  -->
 
     <div class="uppic">
 
