@@ -17,9 +17,9 @@
             <ul class="nav nav-pills">
                 <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="process.php" class="nav-link active" aria-current="page">ANS</a></li>
-                <li class="nav-item"><a href="beindex.php" class="nav-link">UP 2 DATABASE</a></li>
+                <li class="nav-item"><a href="up_show_DB.php" class="nav-link">UP 2 DATABASE</a></li>
                 <li class="nav-item"><a href="yolov8\wabcam.php" class="nav-link">USE CAM FOR FINDING ROOM </a></li>
-                <li class="nav-item"><a href="maptest.php" class="nav-link ">MAP</a></li>
+                <li class="nav-item"><a href="mapapi.php" class="nav-link ">MAP</a></li>
                 <li class="nav-item"><a href="page3.php" class="nav-link">page3</a></li>
             </ul>
         </header>

@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Redirect only if there were no errors
     $_SESSION['statusMsg'] = "All files have been uploaded successfully.";
-    header("location: testup.php");
+    header("location: admin_upload.php");
     exit();
 
 }

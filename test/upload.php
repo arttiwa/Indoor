@@ -18,22 +18,22 @@ if(isset($_POST['submit'])) {
                 $insert = $conn->query("INSERT INTO images(file_name, uploaded_on) VALUES ('".$fileName."', NOW())");
                 if($insert) {
                     $_SESSION['statusMsg'] = "The file <b>".$fileName."</b> has been uploaded successfully.";
-                    header("location: beindex.php");
+                    header("location: up_show_DB.php");
                 } else {
                     $_SESSION['statusMsg'] = "File upload failed, please try again.";
-                    header("location: beindex.php");
+                    header("location: up_show_DB.php");
                 }
             } else {
                 $_SESSION['statusMsg'] = "Sorry, there was an error uploading your file.";
-                header("location: beindex.php");
+                header("location: up_show_DB.php");
             }
         } else {
             $_SESSION['statusMsg'] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed to upload.";
-            header("location: beindex.php");
+            header("location: up_show_DB.php");
         }
     } else {
         $_SESSION['statusMsg'] = "Please select a file to upload.";
-        header("location: beindex.php");
+        header("location: up_show_DB.php");
     }
 }
 ?>

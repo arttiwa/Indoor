@@ -13,11 +13,9 @@
         <header class="d-flex justify-content-center py-3">
             <ul class="nav nav-pills">
                 <li class="nav-item"><a href="/indoor/test/index.php" class="nav-link" aria-current="page">Home</a></li>
-                <li class="nav-item"><a href="/indoor/test/beindex.php" class="nav-link">UPLOAD PICTURE TO DATABASE</a>
-                </li>
-                <li class="nav-item"><a href="/indoor/test/yolov8/wabcam.php" class="nav-link active">USE CAM FOR
-                        FINDING ROOM</a></li>
-                <li class="nav-item"><a href="/indoor/test/maptest.php" class="nav-link">MAP</a></li>
+                <li class="nav-item"><a href="/indoor/test/up_show_DB.php" class="nav-link">UPLOAD PICTURE TO DATABASE</a></li>
+                <li class="nav-item"><a href="/indoor/test/yolov8/wabcam.php" class="nav-link active">USE CAM FOR FINDING ROOM</a></li>
+                <li class="nav-item"><a href="/indoor/test/mapapi.php" class="nav-link">MAP</a></li>
                 <li class="nav-item"><a href="/indoor/test/page3.php" class="nav-link">page3</a></li>
             </ul>
         </header>
