@@ -37,8 +37,7 @@
         <div class="upDown"><span style='font-size:100px;'>&#8593;</span></div>
         <div class="midd">
             <div class="uploadFields">
-                <input type="text" class="newPoint" id="fileName2" name="fileName2" placeholder="Left point name"
-                    required><br>
+                <input type="text" class="newPoint" id="fileName2" name="fileName2" placeholder="Left point name" required><br><br><br>
 
                 <label for="fileInput2">File 2:</label>
                 <input type="file" id="fileInput2" name="fileUpload2"
@@ -54,8 +53,7 @@
             <div class="leftRightSpan"><span style='font-size:100px;'>&#8594;</span></div>
 
             <div class="uploadFields">
-                <input type="text" class="newPoint" id="fileName3" name="fileName3" placeholder="Right point name"
-                    required><br>
+                <input type="text" class="newPoint" id="fileName3" name="fileName3" placeholder="Right point name"required><br><br><br>
                 <label for="fileInput3">File 3:</label>
                 <input type="file" id="fileInput3" name="fileUpload3"
                     onchange="previewImage(this, 'preview3', 'fileName3')"><br><br>

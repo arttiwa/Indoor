@@ -13,47 +13,100 @@
 
 <body>
 
+    <div class="container">
+        <header class="d-flex justify-content-center py-3">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="index.php" class="nav-link " aria-current="page">Home</a></li>
+                <!-- <li class="nav-item"><a href="up_show_DB.php" class="nav-link">UP 2 DATABASE</a></li> -->
+                <li class="nav-item"><a href="map_select.php" class="nav-link active">Map View</a></li>
+                <li class="nav-item"><a href="admin_upload.php" class="nav-link ">UPLOAD</a></li>
+                <li class="nav-item"><a href="yolov8\wabcam.php" class="nav-link">Finding Room with Camera</a></li>
+                <li class="nav-item"><a href="mapapi.php" class="nav-link">MAP</a></li>
+                <!-- <li class="nav-item"><a href="page3.php" class="nav-link">page3</a></li> -->
+            </ul>
+        </header>
+    </div>
+
     <form id="searchForm" action="process.php" method="get">
-        <div class="container">
-            <header class="d-flex justify-content-center py-3">
-                <ul class="nav nav-pills">
-                    <li class="nav-item"><a href="index.php" class="nav-link active" aria-current="page">Home</a></li>
-                    <!-- <li class="nav-item"><a href="up_show_DB.php" class="nav-link">UP 2 DATABASE</a></li> -->
-                    <li class="nav-item"><a href="map_select.php" class="nav-link ">Map View</a></li>
-                    <li class="nav-item"><a href="admin_upload.php" class="nav-link ">UPLOAD</a></li>
-                    <li class="nav-item"><a href="yolov8\wabcam.php" class="nav-link">Finding Room with Camera</a></li>
-                    <li class="nav-item"><a href="mapapi.php" class="nav-link">MAP</a></li>
-                    <!-- <li class="nav-item"><a href="page3.php" class="nav-link">page3</a></li> -->
-                </ul>
-            </header>
-        </div>
+        <div class="conBuild">
+            <div class="Building">
+                <div class="conFloors">
+                    <div class="floors">
+                        <h4>Building : </h4>
+                        <select id="BuildingId" onchange="updateFloors()">
+                            <?php
+                            $buildings = Buildinglist("selectBuilding");
+                            foreach ($buildings as $building) {
+                                echo "<option value=\"" . $building['buildingname'] . "\">" . $building['buildingname'] . "</option>";
+                            }
+                            ?>
+                        </select>
 
-        <div class="conPoint">
-            <div class="conStart">
-                <div class="start">
-                    <h4>Start : </h4>
-                    <input list="startList" name="start" id="startId" required>
-                    <datalist id="startList">
-                        <option value="test1"></option>
-                        <?php generateDatalist("selectLo1"); ?>
-                    </datalist>
-                </div>
-            </div>
+                        <h4>Floors : </h4>
+                        <input list="FloorsList" name="Floors" id="FloorsId" required>
+                        <datalist id="FloorsList"></datalist>
 
-            <div class="conTarget">
-                <div class="target">
-                    <h4>Target : </h4>
-                    <input list="targetList" name="end" id="endId" required>
-                    <datalist id="targetList">
-                        <option value="test2"></option>
-                        <?php generateDatalist("selectLo2"); ?>
-                    </datalist>
+                        <br>
+                        <br>
+                        <button type="submit">open indoor map</button>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <button type="submit" class="goGo"><i class="fa fa-search"></i></button>
     </form>
+
+    <div class="conMap">
+        <div class="map">
+            <img src="/Indoor/Map_for_indor/Map_F11_41.png" usemap="#Map_F11_4" alt="Indoor Map" id="mapImage">
+
+            <map name="Map_F11_4" id="imageMap">
+                <area shape="rect" coords="4,213,154,293" title="P'Ohm">
+                <area shape="rect" coords="5,294,85,408" title="Elevator">
+
+                <area shape="rect" coords="4,441,117,576" title="PneuLap">
+                <area shape="rect" coords="120,441,237,576" title="Th">
+
+                <area shape="rect" coords="4,575,119,688" title="413">
+                <area shape="rect" coords="120,576,237,688" title="415">
+
+
+                <area shape="rect" coords="4,746,121,802" title="412">
+                <area shape="rect" coords="4,807,119,866" title="410">
+
+                <area shape="rect" coords="179,736,344,867" title="408">
+
+                <area shape="rect" coords="3,911,110,1052" title="411">
+                <area shape="rect" coords="112,912,235,1049" title="409">
+                <area shape="rect" coords="234,912,344,1050" title="407">
+
+                <area shape="rect" coords="393,972,504,1048" title="WC">
+                <area shape="rect" coords="506,973,617,1047" title="Stair">
+
+                <area shape="rect" coords="401,739,616,911" title="402">
+
+                <area shape="rect" coords="702,660,924,821" title="401">
+                <area shape="rect" coords="702,823,924,915" title="Th">
+                <area shape="rect" coords="703,915,924,1047" title="Lab">
+
+                <area shape="poly" coords="357,213,410,212,461,181,481,210,427,245,357,245" title="Stair & WC">
+                <area shape="poly" coords="393,323,486,266,534,344,442,399" title="419">
+                <area shape="poly" coords="442,401,535,345,585,420,491,478" title="420">
+                <area shape="poly" coords="503,503,598,445,643,518,550,575" title="Elavator">
+
+                <area shape="poly" coords="533,211,605,163,722,341,647,389" title="421">
+                <area shape="poly" coords="608,161,685,113,795,293,720,340" title="422">
+                <area shape="poly" coords="654,63,753,-1,941,302,842,366" title="423">
+
+                <area shape="poly" coords="500,157,551,125,581,178,533,206" title="W">
+                <area shape="poly" coords="549,126,601,92,634,143,581,175" title="H">
+                <area shape="poly" coords="604,92,652,62,682,113,636,139" title="S">
+
+
+                <!-- <area shape="poly" coords="604,92,652,62,682,113,636,139" title="S" href=""> -->
+            </map>
+        </div>
+    </div>
+
 
     <script>
         function selectLo1(start) {
@@ -150,7 +203,7 @@
     }
 
     ?>
-    
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
