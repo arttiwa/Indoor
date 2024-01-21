@@ -7,6 +7,90 @@
     <title>Shortest Path Finder</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- <link rel="stylesheet" href="style.css"> -->
+
+    <script>
+        function toggle() {
+            // Use the PHP values in your JavaScript function
+            console.log("Start: " + start);
+            console.log("End: " + end);
+        }
+
+        let pointXY_f11_4 = {
+            'F11_423': { 'X': 790, 'Y': 350 },
+            'F11_423_F11_423': { 'X': 820, 'Y': 332 },
+
+            'F11_422': { 'X': 790, 'Y': 350 },
+            'F11_422_F11_422': { 'X': 790, 'Y': 350 },
+
+            'F11_421': { 'X': 712, 'Y': 400 },
+            'F11_421_F11_421': { 'X': 712, 'Y': 400 },
+
+            'F11_421b': { 'X': 510, 'Y': 240 },
+            'F11_421b_F11_421b': { 'X': 542, 'Y': 224 },
+
+            'F11_420': { 'X': 591, 'Y': 373 },
+            'F11_420_F11_420': { 'X': 557, 'Y': 378 },
+
+            'F11_419': { 'X': 540, 'Y': 290 },
+            'F11_419_F11_419': { 'X': 508, 'Y': 300 },
+
+            'toilet_421': { 'X': 435, 'Y': 269 },
+            'toilet_421_toilet_421': { 'X': 422, 'Y': 238 },
+
+
+            'b1': { 'X': 650, 'Y': 440 },
+
+            'elevatorF11_4M': { 'X': 658, 'Y': 590 },
+            'elevatorF11_4M_elevatorF11_4M': { 'X': 595, 'Y': 546 },
+
+            'c1': { 'X': 658, 'Y': 703 },
+
+            'F11_401': { 'X': 658, 'Y': 786 },
+            'F11_401_F11_401': { 'X': 702, 'Y': 776 },
+
+            'F11_402': { 'X': 658, 'Y': 786 },
+            'F11_402_F11_402': { 'X': 615, 'Y': 823 },
+
+
+
+
+            'F11_407': { 'X': 655, 'Y': 786 },
+
+            'F11_408': { 'X': 655, 'Y': 786 },
+
+            'F11_409': { 'X': 655, 'Y': 786 },
+
+            'F11_410': { 'X': 655, 'Y': 786 },
+
+            'F11_412': { 'X': 655, 'Y': 786 },
+            'F11_413': { 'X': 655, 'Y': 786 },
+            'F11_414': { 'X': 655, 'Y': 786 },
+            'F11_415': { 'X': 655, 'Y': 786 },
+
+
+
+
+
+
+
+            //(pathway[last]+"_"+pathway[last]) : { 'X': 655, 'Y': 786 },
+            //เพราะก่อนถึงห้องมันหยุดก่อน เลยต้องใส่ลาส ลาส เพื่อให้ไปถึงห้องมันจริงๆได้ เหมือน422 423 มาหยุดหน้าห้องแต่ไม่เข้าห้องเราเพิ่มส่วนท้ายให้มันไปอีก
+            //
+        };
+
+        // Call drawLines after the page has loaded
+        window.onload = function () {
+            let canvas = document.getElementById('mapCanvas');
+            let mapImage = document.getElementById('mapImage');
+
+            // Set canvas size based on the image dimensions
+            canvas.width = mapImage.width;
+            canvas.height = mapImage.height;
+
+            drawLines();
+        };
+    </script>
+
 </head>
 
 <body>
@@ -25,54 +109,25 @@
         </header>
     </div>
 
+    <div class="conResult">
+        <div class="conStart">
+            <div class="ResStart">
+                <h1>your origin is "start"</h1>
+            </div>
+        </div>
+        <div class="conDestination">
+            <div class="ResDestination">
+                <h1>your destination is "end"</h1>
+            </div>
+        </div>
+    </div> <br>
+
+    <button onclick="toggle()">show start end</button><br>
+
     <div class="conMap">
         <div class="map">
-            <img src="/Indoor/Map_for_indor/Map_F11_41.png" usemap="#Map_F11_4" alt="Indoor Map" id="mapImage">
-            <map name="Map_F11_4" id="imageMap">
-                <area shape="rect" coords="4,213,154,293" title="P'Ohm">
-                <area shape="rect" coords="5,294,85,408" title="Elevator">
-
-                <area shape="rect" coords="4,441,117,576" title="PneuLap">
-                <area shape="rect" coords="120,441,237,576" title="Th">
-
-                <area shape="rect" coords="4,575,119,688" title="413">
-                <area shape="rect" coords="120,576,237,688" title="415">
-
-
-                <area shape="rect" coords="4,746,121,802" title="412">
-                <area shape="rect" coords="4,807,119,866" title="410">
-
-                <area shape="rect" coords="179,736,344,867" title="408">
-
-                <area shape="rect" coords="3,911,110,1052" title="411">
-                <area shape="rect" coords="112,912,235,1049" title="409">
-                <area shape="rect" coords="234,912,344,1050" title="407">
-
-                <area shape="rect" coords="393,972,504,1048" title="WC">
-                <area shape="rect" coords="506,973,617,1047" title="Stair">
-
-                <area shape="rect" coords="401,739,616,911" title="402">
-
-                <area shape="rect" coords="702,660,924,821" title="401">
-                <area shape="rect" coords="702,823,924,915" title="Th">
-                <area shape="rect" coords="703,915,924,1047" title="Lab">
-
-                <area shape="poly" coords="357,213,410,212,461,181,481,210,427,245,357,245" title="Stair & WC">
-                <area shape="poly" coords="393,323,486,266,534,344,442,399" title="419">
-                <area shape="poly" coords="442,401,535,345,585,420,491,478" title="420">
-                <area shape="poly" coords="503,503,598,445,643,518,550,575" title="Elavator">
-
-                <area shape="poly" coords="533,211,605,163,722,341,647,389" title="421">
-                <area shape="poly" coords="608,161,685,113,795,293,720,340" title="422">
-                <area shape="poly" coords="654,63,753,-1,941,302,842,366" title="423">
-
-                <area shape="poly" coords="500,157,551,125,581,178,533,206" title="W">
-                <area shape="poly" coords="549,126,601,92,634,143,581,175" title="H">
-                <area shape="poly" coords="604,92,652,62,682,113,636,139" title="S">
-
-
-                <!-- <area shape="poly" coords="604,92,652,62,682,113,636,139" title="S" href=""> -->
-            </map>
+            <canvas id="mapCanvas" style="border: solid 1px; position: absolute; "></canvas>
+            <img src="/Indoor/Map_for_indor/Map_F11_41.png" id="mapImage">
         </div>
     </div>
 
@@ -82,32 +137,9 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <br><br>
 
     <?php
-
     session_start();
     include_once 'dbConfig.php';
 
@@ -198,16 +230,22 @@
         'Pohmroom' => ['L2' => 2, 'b2' => 3],
 
         'b2' => ['c5' => 4, 'L2' => 4, 'Pohmroom' => 3, 'toilet_421' => 2],
-        'toilet_421' => ['b2' => 2, 'F11_421b' => 1, 'b1' => 5],
+        'toilet_421' => ['b2' => 2, 'F11_421b' => 1],
 
-        'F11_421b' => ['toilet_421' => 1, 'F11_421' => 3, 'F11_419' => 2, 'b1' => 4],
-        'F11_421' => ['F11_421b' => 3, 'F11_422' => 2, 'F11_423' => 5, 'b1' => 1],
+        'F11_421b' => ['toilet_421' => 1, 'F11_421' => 5, 'F11_419' => 2],
+        'F11_421' => ['F11_421b' => 5, 'F11_422' => 2, 'F11_423' => 5, 'b1' => 1],
         'F11_419' => ['F11_421b' => 2, 'F11_420' => 1, 'b1' => 3],
         'F11_420' => ['F11_419' => 1, 'b1' => 2],
         'F11_422' => ['F11_421' => 2, 'F11_423' => 1, 'b1' => 4],
         'F11_423' => ['toilet_421' => 5, 'F11_422' => 1, 'b1' => 6],
 
-        'b1' => ['elevatorF11_4M' => 3, 'toilet_421' => 5, 'F11_421b' => 4, 'F11_421' => 1, 'F11_419' => 3, 'F11_420' => 2, 'F11_422' => 4, 'F11_423' => 6],
+        'b1' => [
+            'elevatorF11_4M' => 3,
+            'F11_421' => 1,
+            'F11_420' => 2,
+            'F11_422' => 4,
+            'F11_423' => 6
+        ],
 
         'A' => ['B' => 1, 'C' => 4],
         'B' => ['A' => 1, 'C' => 2, 'D' => 5],
@@ -235,6 +273,10 @@
             echo "<pre>";
             print_r($shortestArrayPath);
             echo "</pre>";
+
+            // Encode the PHP array as JSON
+            $pathWayJSON = json_encode($shortestArrayPath);
+
 
             // Fetch and display images related to the shortestArrayPath
             echo "<div class='row g-2'>";
@@ -291,6 +333,97 @@
 
 </body>
 
+<script>
+    var start = "<?php echo $start; ?>";
+    var end = "<?php echo $end; ?>";
+    var pathWay = <?php echo $pathWayJSON; ?>;
+    console.log(pathWay);
+    console.log(pathWay[pathWay.length - 1]);
+    console.log(pathWay[pathWay.length - 1] + "_" + pathWay[pathWay.length - 1]);
+
+    // Function to draw a square on the canvas
+    function drawLines() {
+        console.log("drawLines_function =-=-=-=");
+        let canvas = document.getElementById('mapCanvas');
+        let ctx = canvas.getContext('2d');
+
+        const radius = 8;
+
+        for (let index = 0; index < pathWay.length - 1; index++) {
+            console.log(pathWay[index]);
+
+            let x1 = pointXY_f11_4[pathWay[index]].X;
+            let y1 = pointXY_f11_4[pathWay[index]].Y;
+            let x2 = pointXY_f11_4[pathWay[index + 1]].X;
+            let y2 = pointXY_f11_4[pathWay[index + 1]].Y;
+
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = 'white'; // Set the border color
+            ctx.lineWidth = 8; // Set the border width
+            ctx.stroke();
+
+            // Draw line
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = 'blue';
+            ctx.lineWidth = 5;
+            ctx.stroke();
+
+            // Draw circle at the start point
+            if (index == 0) {
+                ctx.beginPath();
+                ctx.arc(x1, y1, radius, 0, 2 * Math.PI);
+                ctx.fillStyle = "blue";
+                ctx.fill();
+                ctx.strokeStyle = "white";
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            }
+
+        }
+
+
+        let lastPoint = pathWay[pathWay.length - 1];
+        let lastX = pointXY_f11_4[lastPoint].X;
+        let lastY = pointXY_f11_4[lastPoint].Y;
+
+        // Draw circle at the last point
+        let lastPointReal = pathWay[pathWay.length - 1] + "_" + pathWay[pathWay.length - 1];
+        let lastXReal = pointXY_f11_4[lastPointReal].X;
+        let lastYReal = pointXY_f11_4[lastPointReal].Y;
+
+        // Draw line
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(lastXReal, lastYReal);
+        ctx.strokeStyle = 'white'; // Set the border color
+        ctx.lineWidth = 8; // Set the border width
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(lastXReal, lastYReal);
+        ctx.strokeStyle = 'blue';
+        ctx.lineWidth = 5;
+        ctx.stroke();
+
+
+        ctx.beginPath();
+        ctx.arc(lastXReal, lastYReal, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = "blue";
+        ctx.fill();
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+    }
+
+
+
+</script>
+
 </html>
 
 <style lang="scss" :scope>
@@ -337,19 +470,21 @@
 
     .map {
         margin: auto;
-        background: #bbb;
-        width: 80%;
+        background: skyblue;
+        width: 1000px;
         height: 30%;
         margin-bottom: 50px;
         margin-top: 50px;
         border-radius: 4px;
         text-align: center;
+        padding: 10px;
 
-        area {
-            &:hover {
-                cursor: pointer;
-            }
-        }
+        /* canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            size: 20px;
+        } */
     }
 
     .goGo {

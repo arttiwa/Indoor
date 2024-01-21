@@ -27,38 +27,40 @@
         </header>
     </div>
 
-    <form id="searchForm" action="process.php" method="get">
-        <div class="conBuild">
-            <div class="Building">
-                <div class="conFloors">
-                    <div class="floors">
-                        <h4>Building : </h4>
-                        <select id="BuildingId" onchange="updateFloors()">
-                            <?php
-                            $buildings = Buildinglist("selectBuilding");
-                            foreach ($buildings as $building) {
-                                echo "<option value=\"" . $building['buildingname'] . "\">" . $building['buildingname'] . "</option>";
-                            }
-                            ?>
-                        </select>
 
-                        <h4>Floors : </h4>
-                        <input list="FloorsList" name="Floors" id="FloorsId" required>
-                        <datalist id="FloorsList"></datalist>
+    <div class="conBuild">
+        <div class="Building">
+            <div class="conFloors">
+                <div class="floors">
+                    <h4>Building : </h4>
+                    <select id="BuildingId" onchange="updateFloors()">
+                        <?php
+                        $buildings = Buildinglist("selectBuilding");
+                        foreach ($buildings as $building) {
+                            echo "<option value=\"" . $building['buildingname'] . "\">" . $building['buildingname'] . "</option>";
+                        }
+                        ?>
+                    </select>
 
-                        <br>
-                        <br>
-                        <button type="submit">open indoor map</button>
-                    </div>
+                    <h4>Floors : </h4>
+                    <input list="FloorsList" name="Floors" id="FloorsId" required>
+                    <datalist id="FloorsList"></datalist>
+
+                    <br>
+                    <br>
+                    <button type="submit" onclick="changeMap()">Search Floor Map</button>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
+    <br><br>
+    <button type="submit" onclick="toggleVisibility()">Toggle Map</button>
+    <br><br>
 
-    <div class="conMap">
+
+    <div class="conMap" id="map_toggle">
         <div class="map">
-            <img src="/Indoor/Map_for_indor/Map_F11_41.png" usemap="#Map_F11_4" alt="Indoor Map" id="mapImage">
-
+            <img src="" usemap="#Map_F11_4" alt="Indoor Map" id="mapImage">
             <map name="Map_F11_4" id="imageMap">
                 <area shape="rect" coords="4,213,154,293" title="P'Ohm">
                 <area shape="rect" coords="5,294,85,408" title="Elevator">
@@ -109,14 +111,50 @@
 
 
     <script>
-        function selectLo1(start) {
-            document.getElementById("startList").classList.toggle("show");
-            document.getElementById("startId").value = start;
+        function changeMap() {
+            let buildingId = document.getElementById("BuildingId").value
+            let floorsId = document.getElementById("FloorsId").value
+            let newMapSource = ""
+
+            console.log("buildingId")
+            console.log(buildingId)
+            console.log("floorsId")
+            console.log(floorsId)
+
+            if (buildingId == "F11 -- อาคารสิรินธรวิศวพัฒน์" && floorsId == 4) {
+                console.log("Building and floors match");
+                newMapSource = "Map_F11_41.png"
+
+            } else if (buildingId == "F11 -- อาคารสิรินธรวิศวพัฒน์" && floorsId == 3) {
+                console.log("Building and floors match");
+                newMapSource = "Map_F11_3.png"
+
+            } else if (buildingId == "F11 -- อาคารสิรินธรวิศวพัฒน์" && floorsId == 2) {
+                console.log("Building and floors match");
+                newMapSource = "Map_F11_2.png"
+
+            } else if (buildingId == "F11 -- อาคารสิรินธรวิศวพัฒน์" && floorsId == 1) {
+                console.log("Building and floors match");
+                newMapSource = "Map_F11_1.png"
+
+            }
+
+            //change img
+            var element = document.getElementById('mapImage');
+            element.src = '/Indoor/Map_for_indor/' + newMapSource;
         }
 
-        function selectLo2(end) {
-            document.getElementById("targetList").classList.toggle("show");
-            document.getElementById("endId").value = end;
+        function toggleVisibility() {
+            var element = document.getElementById('map_toggle');
+
+            // Check the current visibility state
+            if (element.style.display === 'none' || element.style.display === '') {
+                // If hidden, make it visible
+                element.style.display = 'block';
+            } else {
+                // If visible, make it hidden
+                element.style.display = 'none';
+            }
         }
 
         function toProcess() {
@@ -146,32 +184,33 @@
                 }
             }
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get the map image and the map areas
+            var mapImage = document.getElementById('mapImage');
+            var imageMap = document.getElementById('imageMap');
+
+            imageMap.addEventListener('click', function (event) {
+                // Get the clicked area
+                var clickedArea = event.target;
+
+                // Check if the clicked element is an area
+                if (clickedArea.tagName.toLowerCase() === 'area') {
+                    // Get the title attribute of the clicked area
+                    var roomTitle = clickedArea.getAttribute('title');
+
+                    // Display the room value
+                    var outputElement = document.getElementById('output');
+                    outputElement.innerHTML = 'Clicked Room: ' + roomTitle;
+
+                    // You can also save the roomTitle variable or perform other actions here
+                    console.log('Clicked Room:', roomTitle);
+                }
+            });
+        });
     </script>
 
     <?php
-    function generateDatalist($functionName)
-    {
-
-        $conn = new mysqli("localhost", "root", "", "indoor_db");
-
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        $sql = "SELECT roomname FROM room";
-        $result = $conn->query($sql);
-
-        // Check the query result
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<option value=\"" . $row["roomname"] . "\">" . $row["roomname"] . "</option>";
-            }
-        } else {
-            echo "No data found.";
-        }
-        $conn->close();
-    }
-
     function Buildinglist($functionName)
     {
         $conn = new mysqli("localhost", "root", "", "indoor_db");
@@ -204,32 +243,6 @@
 
     ?>
 
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Get the map image and the map areas
-            var mapImage = document.getElementById('mapImage');
-            var imageMap = document.getElementById('imageMap');
-
-            imageMap.addEventListener('click', function (event) {
-                // Get the clicked area
-                var clickedArea = event.target;
-
-                // Check if the clicked element is an area
-                if (clickedArea.tagName.toLowerCase() === 'area') {
-                    // Get the title attribute of the clicked area
-                    var roomTitle = clickedArea.getAttribute('title');
-
-                    // Display the room value
-                    var outputElement = document.getElementById('output');
-                    outputElement.innerHTML = 'Clicked Room: ' + roomTitle;
-
-                    // You can also save the roomTitle variable or perform other actions here
-                    console.log('Clicked Room:', roomTitle);
-                }
-            });
-        });
-    </script>
 
 </body>
 
