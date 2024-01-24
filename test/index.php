@@ -21,6 +21,7 @@
                     <!-- <li class="nav-item"><a href="up_show_DB.php" class="nav-link">UP 2 DATABASE</a></li> -->
                     <li class="nav-item"><a href="map_select.php" class="nav-link ">Map View</a></li>
                     <li class="nav-item"><a href="admin_upload.php" class="nav-link ">UPLOAD</a></li>
+                    <li class="nav-item"><a href="up_show_DB.php" class="nav-link ">UP 2 DATABASE</a></li>
                     <li class="nav-item"><a href="yolov8\wabcam.php" class="nav-link">Finding Room with Camera</a></li>
                     <li class="nav-item"><a href="mapapi.php" class="nav-link">MAP</a></li>
                     <!-- <li class="nav-item"><a href="page3.php" class="nav-link">page3</a></li> -->
@@ -150,33 +151,7 @@
     }
 
     ?>
-    
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Get the map image and the map areas
-            var mapImage = document.getElementById('mapImage');
-            var imageMap = document.getElementById('imageMap');
-
-            imageMap.addEventListener('click', function (event) {
-                // Get the clicked area
-                var clickedArea = event.target;
-
-                // Check if the clicked element is an area
-                if (clickedArea.tagName.toLowerCase() === 'area') {
-                    // Get the title attribute of the clicked area
-                    var roomTitle = clickedArea.getAttribute('title');
-
-                    // Display the room value
-                    var outputElement = document.getElementById('output');
-                    outputElement.innerHTML = 'Clicked Room: ' + roomTitle;
-
-                    // You can also save the roomTitle variable or perform other actions here
-                    console.log('Clicked Room:', roomTitle);
-                }
-            });
-        });
-    </script>
 
 </body>
 

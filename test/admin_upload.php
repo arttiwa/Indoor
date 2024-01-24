@@ -16,11 +16,13 @@
         <header class="d-flex justify-content-center py-3">
             <ul class="nav nav-pills">
                 <li class="nav-item"><a href="index.php" class="nav-link " aria-current="page">Home</a></li>
-                <li class="nav-item"><a href="up_show_DB.php" class="nav-link">UP 2 DATABASE</a></li>
-                <li class="nav-item"><a href="admin_upload.php" class="nav-link active">UPLOAD test</a></li>
-                <li class="nav-item"><a href="yolov8\wabcam.php" class="nav-link">USE CAM FOR FINDING ROOM </a></li>
+                <!-- <li class="nav-item"><a href="up_show_DB.php" class="nav-link">UP 2 DATABASE</a></li> -->
+                <li class="nav-item"><a href="map_select.php" class="nav-link ">Map View</a></li>
+                <li class="nav-item"><a href="admin_upload.php" class="nav-link active">UPLOAD</a></li>
+                <li class="nav-item"><a href="up_show_DB.php" class="nav-link ">UP 2 DATABASE</a></li>
+                <li class="nav-item"><a href="yolov8\wabcam.php" class="nav-link">Finding Room with Camera</a></li>
                 <li class="nav-item"><a href="mapapi.php" class="nav-link">MAP</a></li>
-                <li class="nav-item"><a href="page3.php" class="nav-link">page3</a></li>
+                <!-- <li class="nav-item"><a href="page3.php" class="nav-link">page3</a></li> -->
             </ul>
         </header>
     </div>
@@ -37,7 +39,8 @@
         <div class="upDown"><span style='font-size:100px;'>&#8593;</span></div>
         <div class="midd">
             <div class="uploadFields">
-                <input type="text" class="newPoint" id="fileName2" name="fileName2" placeholder="Left point name" required><br><br><br>
+                <input type="text" class="newPoint" id="fileName2" name="fileName2" placeholder="Left point name"
+                    required><br><br><br>
 
                 <label for="fileInput2">File 2:</label>
                 <input type="file" id="fileInput2" name="fileUpload2"
@@ -53,7 +56,8 @@
             <div class="leftRightSpan"><span style='font-size:100px;'>&#8594;</span></div>
 
             <div class="uploadFields">
-                <input type="text" class="newPoint" id="fileName3" name="fileName3" placeholder="Right point name"required><br><br><br>
+                <input type="text" class="newPoint" id="fileName3" name="fileName3" placeholder="Right point name"
+                    required><br><br><br>
                 <label for="fileInput3">File 3:</label>
                 <input type="file" id="fileInput3" name="fileUpload3"
                     onchange="previewImage(this, 'preview3', 'fileName3')"><br><br>

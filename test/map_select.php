@@ -20,6 +20,7 @@
                 <!-- <li class="nav-item"><a href="up_show_DB.php" class="nav-link">UP 2 DATABASE</a></li> -->
                 <li class="nav-item"><a href="map_select.php" class="nav-link active">Map View</a></li>
                 <li class="nav-item"><a href="admin_upload.php" class="nav-link ">UPLOAD</a></li>
+                <li class="nav-item"><a href="up_show_DB.php" class="nav-link ">UP 2 DATABASE</a></li>
                 <li class="nav-item"><a href="yolov8\wabcam.php" class="nav-link">Finding Room with Camera</a></li>
                 <li class="nav-item"><a href="mapapi.php" class="nav-link">MAP</a></li>
                 <!-- <li class="nav-item"><a href="page3.php" class="nav-link">page3</a></li> -->

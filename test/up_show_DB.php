@@ -16,15 +16,17 @@ include_once 'dbConfig.php';
 
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-
     <div class="container">
         <header class="d-flex justify-content-center py-3">
             <ul class="nav nav-pills">
-                <li class="nav-item"><a href="index.php" class="nav-link" aria-current="page">Home</a></li>
-                <li class="nav-item"><a href="beindex.php" class="nav-link active">UP 2 DATABASE</a></li>
-                <li class="nav-item"><a href="yolov8\wabcam.php" class="nav-link">USE CAM FOR FINDING ROOM </a></li>
+                <li class="nav-item"><a href="index.php" class="nav-link " aria-current="page">Home</a></li>
+                <!-- <li class="nav-item"><a href="up_show_DB.php" class="nav-link">UP 2 DATABASE</a></li> -->
+                <li class="nav-item"><a href="map_select.php" class="nav-link ">Map View</a></li>
+                <li class="nav-item"><a href="admin_upload.php" class="nav-link ">UPLOAD</a></li>
+                <li class="nav-item"><a href="up_show_DB.php" class="nav-link active">UP 2 DATABASE</a></li>
+                <li class="nav-item"><a href="yolov8\wabcam.php" class="nav-link">Finding Room with Camera</a></li>
                 <li class="nav-item"><a href="mapapi.php" class="nav-link">MAP</a></li>
-                <li class="nav-item"><a href="page3.php" class="nav-link">page3</a></li>
+                <!-- <li class="nav-item"><a href="page3.php" class="nav-link">page3</a></li> -->
             </ul>
         </header>
     </div>
@@ -48,7 +50,7 @@ include_once 'dbConfig.php';
             </div>
         </div>
         <div class="row">
-            <?php if(!empty($_SESSION['statusMsg'])) { ?>
+            <?php if (!empty($_SESSION['statusMsg'])) { ?>
                 <div class="alert alert-success" role="alert">
                     <?php
                     echo $_SESSION['statusMsg'];
@@ -59,27 +61,27 @@ include_once 'dbConfig.php';
         </div>
         <!-- SELECT pic to show on web -->
         <div class="row g-2">
-            
+
             <?php
             $query = $conn->query("SELECT * FROM images ORDER BY uploaded_on DESC;
                 ");
             //WHERE file_name IN ('Screenshot 2021-09-16 175807.png', 'picme.jpg') ORDER BY FIELD(file_name, 'Screenshot 2021-09-16 175807.png', 'picme.jpg')
             //SELECT * FROM images WHERE file_name IN ('picme.jpg', 'Screenshot 2021-09-16 175807.png') ORDER BY uploaded_on DESC;
-            if($query->num_rows > 0) {
-                while($row = $query->fetch_assoc()) {
-                    $imageURL = 'uploads/'.$row['file_name'];
+            if ($query->num_rows > 0) {
+                while ($row = $query->fetch_assoc()) {
+                    $imageURL = 'uploads/' . $row['file_name'];
                     ?>
                     <div class="col-sm-6 col-lg-4 col-xl-3">
                         <div class="card shadow h-100">
                             <img src="<?php echo $imageURL ?>" alt="" width="100%" class="card-img">
                         </div>
                     </div>
-                <?php
+                    <?php
                 }
             } else { ?>
                 <p>No image found...</p>
             <?php } ?>
-            
+
         </div>
     </div>
 </body>
