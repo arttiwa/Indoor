@@ -20,14 +20,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fileNameMid = $_POST["fileNameMid"];
         $setFileNameAll = $_POST[$fileNameAll];
 
+        if ($setFileNameAll == null || $setFileNameAll == "" || !isset($setFileNameAll)) {
+            return "no file";
+        }
+        
         $newFileName = $fileNameMid . "_" . $setFileNameAll . "." . $extension;
         $file = $targetDir . $newFileName;
         
-        $insert = $conn->query("INSERT INTO images(file_name, uploaded_on) VALUES ('" . $newFileName . "', NOW())");
-        if (!$insert) {
-            $copyMessages[] = "Error uploading copy file to database for tag $newFileName.";
-        }
-
         $uploadOk = 1;
 
         // Move the file to the specified directory
@@ -41,6 +40,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $pointNames[2] . "_L",
                     $pointNames[3] . "_B"
                 ];
+                if ($_POST["fileName4"] == null || $_POST["fileName4"] == "" ) {
+                    unset($copyTags[3]);
+                }
+                if ($_POST["fileName3"] == null || $_POST["fileName3"] == "" ) {
+                    unset($copyTags[2]);
+                }
+                if ($_POST["fileName2"] == null || $_POST["fileName2"] == "" ) {
+                    unset($copyTags[1]);
+                }
             } elseif ($fileNameAll == "fileName2") {
                 $copyTags = [
                     $pointNames[0] . "_L",
@@ -48,6 +56,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $pointNames[2] . "_B",
                     $pointNames[3] . "_R"
                 ];
+                if ($_POST["fileName4"] == null || $_POST["fileName4"] == "" ) {
+                    unset($copyTags[3]);
+                }
+                if ($_POST["fileName3"] == null || $_POST["fileName3"] == "" ) {
+                    unset($copyTags[2]);
+                }
+                if ($_POST["fileName1"] == null || $_POST["fileName1"] == "" ) {
+                    unset($copyTags[0]);
+                }
             } elseif ($fileNameAll == "fileName3") {
                 $copyTags = [
                     $pointNames[0] . "_R",
@@ -55,6 +72,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $pointNames[2] . "_T",
                     $pointNames[3] . "_L"
                 ];
+                if ($_POST["fileName4"] == null || $_POST["fileName4"] == "" ) {
+                    unset($copyTags[3]);
+                }
+                if ($_POST["fileName2"] == null || $_POST["fileName2"] == "" ) {
+                    unset($copyTags[1]);
+                }
+                if ($_POST["fileName1"] == null || $_POST["fileName1"] == "" ) {
+                    unset($copyTags[0]);
+                }
             } elseif ($fileNameAll == "fileName4") {
                 $copyTags = [
                     $pointNames[0] . "_B",
@@ -62,12 +88,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $pointNames[2] . "_R",
                     $pointNames[3] . "_T"
                 ];
+                if ($_POST["fileName3"] == null || $_POST["fileName3"] == "" ) {
+                    unset($copyTags[2]);
+                }
+                if ($_POST["fileName2"] == null || $_POST["fileName2"] == "" ) {
+                    unset($copyTags[1]);
+                }
+                if ($_POST["fileName1"] == null || $_POST["fileName1"] == "" ) {
+                    unset($copyTags[0]);
+                }
             } else {
                 return "Error fileNameAll = null .";
             }
 
             $copyMessages = [];
 
+            $insert = $conn->query("INSERT INTO images(file_name, uploaded_on) VALUES ('" . $newFileName . "', NOW())");
+            if (!$insert) {
+                $copyMessages[] = "Error uploading copy file to database for tag $newFileName.";
+            }
+    
             foreach ($copyTags as $tag) {
 
                 $copyFileName = $fileNameMid . "_" . $tag . "." . $extension;
@@ -119,34 +159,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-
-
-
-    // Display uploaded images only if they exist
-    if (file_exists($targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload1"]["name"])) {
-        echo "File 1:<br>";
-        echo "<img src='" . $targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload1"]["name"] . "' alt='File 1' width='300' height='300'><br>";
-    }
-
-    if (file_exists($targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload2"]["name"])) {
-        echo "File 2:<br>";
-        echo "<img src='" . $targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload2"]["name"] . "' alt='File 2' width='300' height='300'><br>";
-    }
-
-    if (file_exists($targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload3"]["name"])) {
-        echo "File 3:<br>";
-        echo "<img src='" . $targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload3"]["name"] . "' alt='File 3' width='300' height='300'><br>";
-    }
-
-    if (file_exists($targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload4"]["name"])) {
-        echo "File 4:<br>";
-        echo "<img src='" . $targetDir . $_POST["fileNameMid"] . "_" . $_FILES["fileUpload4"]["name"] . "' alt='File 4' width='300' height='300'><br>";
-    }
-
-    // Redirect only if there were no errors
-    $_SESSION['statusMsg'] = "All files have been uploaded successfully.";
-    header("location: admin_upload.php");
-    exit();
+    // // Redirect only if there were no errors
+    // $_SESSION['statusMsg'] = "All files have been uploaded successfully.";
+    // header("location: admin_upload.php");
+    // exit();
 
 }
 ?>
