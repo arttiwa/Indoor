@@ -28,7 +28,7 @@
     </div>
     <form action="uploadtest2.php" method="post" enctype="multipart/form-data">
         <input type="text" class="BlockUpDown" id="fileName1" name="fileName1" placeholder="Enter next point name"
-            required><br><br>
+            ><br><br>
         <div class="uploadFields">
             <label for="fileInput1">File 1:</label>
             <input type="file" id="fileInput1" name="fileUpload1"
@@ -40,7 +40,7 @@
         <div class="midd">
             <div class="uploadFields">
                 <input type="text" class="newPoint" id="fileName2" name="fileName2" placeholder="Left point name"
-                    required><br><br><br>
+                    ><br><br><br>
 
                 <label for="fileInput2">File 2:</label>
                 <input type="file" id="fileInput2" name="fileUpload2"
@@ -57,7 +57,7 @@
 
             <div class="uploadFields">
                 <input type="text" class="newPoint" id="fileName3" name="fileName3" placeholder="Right point name"
-                    required><br><br><br>
+                    ><br><br><br>
                 <label for="fileInput3">File 3:</label>
                 <input type="file" id="fileInput3" name="fileUpload3"
                     onchange="previewImage(this, 'preview3', 'fileName3')"><br><br>
@@ -67,7 +67,7 @@
         <div class="upDown"><span style='font-size:100px;'>&#8595;</span></div>
 
         <input type="text" class="BlockUpDown" id="fileName4" name="fileName4" placeholder="Enter before point name"
-            required><br><br>
+            ><br><br>
         <div class="uploadFields">
             <label for="fileInput4">File 4:</label>
             <input type="file" id="fileInput4" name="fileUpload4"
