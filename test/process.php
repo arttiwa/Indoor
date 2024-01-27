@@ -51,7 +51,7 @@
             'F11_402_F11_402': { 'X': 615, 'Y': 823 },
 
             'c2': { 'X': 372, 'Y': 703 },
-            'c3': { 'X': 372, 'Y': 890 },           
+            'c3': { 'X': 372, 'Y': 890 },
             'c4': { 'X': 275, 'Y': 712 },
             'c9': { 'X': 658, 'Y': 946 },
 
@@ -83,9 +83,9 @@
 
             'c5': { 'X': 276, 'Y': 424 },
             'b2': { 'X': 276, 'Y': 269 },
- 
-            'Pohmroom': { 'X': 120, 'Y': 347 },            
-            'Pohmroom_Pohmroom': { 'X': 120, 'Y': 295 },            
+
+            'Pohmroom': { 'X': 120, 'Y': 347 },
+            'Pohmroom_Pohmroom': { 'X': 120, 'Y': 295 },
 
 
 
@@ -213,10 +213,10 @@
         'F11_401' => ['c1' => 3, 'F11_402' => 1, 'c9' => 3],
         'F11_402' => ['c1' => 3, 'F11_401' => 1, 'c9' => 3],
 
-        'c9' => ['F11_401' => 3,'F11_402' => 3, 'StairF11_f4s' => 2,'tois4' => 3],
+        'c9' => ['F11_401' => 3, 'F11_402' => 3, 'StairF11_f4s' => 2, 'tois4' => 3],
 
         'StairF11_f4s' => ['c9' => 2, 'tois4' => 1, 'c3' => 3],
-        'tois4' => [ 'StairF11_f4s' => 1, 'c3' => 2,'c9' => 3,],
+        'tois4' => ['StairF11_f4s' => 1, 'c3' => 2, 'c9' => 3,],
 
         'c2' => ['c1' => 4, 'c3' => 4, 'c4' => 3],
         'c3' => ['tois4' => 2, 'c2' => 4, 'F11_407' => 2, 'F11_408' => 4],
@@ -249,7 +249,7 @@
         'F11_419' => ['F11_421b' => 2, 'F11_420' => 1, 'b1' => 3],
         'F11_420' => ['F11_419' => 1, 'b1' => 2],
         'F11_422' => ['F11_421' => 2, 'F11_423' => 1],
-        'F11_423' => [ 'F11_422' => 1],
+        'F11_423' => ['F11_422' => 1],
 
         'b1' => [
             'elevatorF11_4M' => 3,
@@ -290,21 +290,100 @@
 
             // Fetch and display images related to the shortestArrayPath
             echo "<div class='row g-2'>";
+            $namePath = $start . '_' . $start ;
+
+
+
+
+
 
             // แสดงรูปสำหรับ $start
-            $imageURLStart = 'uploads/' . $start . '.jpg';
-            echo "<div class='col-sm-6 col-lg-4 col-xl-3'>";
+            $imageURLStart = 'uploads/' . $namePath . '.jpg';
+            echo "<div class='col-3'>";
+            echo "</div>";
+
+            echo "<div class='col-3'>";
             echo "<div class='card shadow h-100'>";
-            echo "<img src='$imageURLStart' alt='' width='100%' class='card-img'>";
+            echo "<img src='$imageURLStart' alt='' width='20%' class='card-img'>";
+            if (file_exists($imageURLStart)) {
+                echo "$imageURLStart";
+            }
             echo "</div>";
             echo "</div>";
 
+            echo "<div class='col-5'>";
+            echo "</div>";
+
+
+            // แสดงรูปสำหรับ $start l
+            $imageURLStart1 = 'uploads/' . $namePath . '_L.jpg';
+            echo "<div class='col-1'>";
+            echo "</div>";
+
+            echo "<div class='col-3'>";
+            echo "<div class='card shadow h-100'>";
+            echo "<img src='$imageURLStart1' alt='' width='20%' class='card-img'>";
+            if (file_exists($imageURLStart1)) {
+                echo "Left of $start Room";
+            }
+            echo "</div>";
+            echo "</div>";
+
+
+            //circle echo "<div class='col-1 d-flex align-items-center justify-content-center circle'>Circle</div>";
+            echo "<div class='col-3 circle'>You</div>";
+
+
+
+            // แสดงรูปสำหรับ $start r
+            $imageURLStart2 = 'uploads/' . $namePath . '_R.jpg';
+
+            echo "<div class='col-3'>";
+            echo "<div class='card shadow h-100'>";
+            echo "<img src='$imageURLStart2' alt='' width='20%' class='card-img'>";
+            if (file_exists($imageURLStart2)) {
+                echo "Right of $start Room";
+            }
+            echo "</div>";
+            echo "</div>";
+
+
+            // แสดงรูปสำหรับ $start B
+            $imageURLStart3 = 'uploads/' . $namePath . '_B.jpg';
+            echo "<div class='col-3'>";
+            echo "</div>";
+
+            echo "<div class='col-3'>";
+            echo "</div>";
+
+            echo "<div class='col-3'>";
+            echo "<div class='card shadow h-100'>";
+            echo "<img src='$imageURLStart3' alt='' width='20%' class='card-img'>";
+            if (file_exists($imageURLStart3)) {
+                echo "Back of $start Room";
+            }
+            echo "</div>";
+            echo "</div>";
+
+            echo "<div class='col-3'>";
+            echo "</div>";
+            echo "<div class='col-2'>";
+            echo "</div>";
+
+
+
+
+
+
+
+            
             foreach ($shortestArrayPath as $point1) {
                 $nextPointIndex = array_search($point1, $shortestArrayPath) + 1;
                 if ($nextPointIndex < count($shortestArrayPath)) {
                     $point2 = $shortestArrayPath[$nextPointIndex];
+
                     // $fileName = $point1  ;ok can use 1 valiable
-                    $fileName = $point1 . '-' . $point2;
+                    $fileName = $point1 . '_' . $point2;
 
                     // สร้าง query เพื่อค้นหารูปภาพโดยใช้ $fileName
                     //$query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName" . "b.jpg'");ok
@@ -317,7 +396,7 @@
                             echo "<div class='card shadow h-100'>";
                             echo "<img src='$imageURL' alt='' width='100%' class='card-img'>";
                             echo "</div>";
-                            echo "</div>";
+                            echo "</div><br><br>";
                         }
                     } else {
                         echo "<p>No image found for point: $fileName</p>";
@@ -328,7 +407,7 @@
             // แสดงรูปสำหรับ $end
             $imageURLEnd = 'uploads/' . $end . '.jpg';
 
-            echo "<br><div class='col-sm-6 col-lg-4 col-xl-3'>";
+            echo "<div class='col-sm-6 col-lg-4 col-xl-3'>";
             echo "<div class='card shadow h-100'>";
             echo "<img src='$imageURLEnd' alt='' width='100%' class='card-img'>";
             echo "</div>";
@@ -505,5 +584,17 @@
         height: 30px;
         width: 40px;
         margin: 10px;
+    }
+
+    .circle {
+        width: 50px;
+        height: 50px;
+        background-color: #333;
+        /* color of the circle */
+        border-radius: 50%;
+        /* creates a circular shape */
+        margin: auto;
+        text-align: center;
+        /* centers the circle horizontally */
     }
 </style>
