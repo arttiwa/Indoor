@@ -9,18 +9,9 @@
 </head>
 
 <body>
-    <div class="container">
-        <header class="d-flex justify-content-center py-3">
-            <ul class="nav nav-pills">
-                <li class="nav-item"><a href="/indoor/test/index.php" class="nav-link" aria-current="page">Home</a></li>
-                <li class="nav-item"><a href="/indoor/test/up_show_DB.php" class="nav-link">UPLOAD PICTURE TO DATABASE</a></li>
-                <li class="nav-item"><a href="/indoor/test/yolov8/wabcam.php" class="nav-link active">USE CAM FOR FINDING ROOM</a></li>
-                <li class="nav-item"><a href="/indoor/test/mapapi.php" class="nav-link">MAP</a></li>
-                <li class="nav-item"><a href="/indoor/test/page3.php" class="nav-link">page3</a></li>
-            </ul>
-        </header>
-    </div>
+    <?php include('../sidebar.html'); ?>
 
+    <div class="ad">
     <div class="d-flex justify-content-center py-3">
         <form method="post" action="wabcam.php">
             <br />
@@ -93,10 +84,6 @@
         }
         ?>
 
-
-
-
-
         <div class="conFindRoom">
             <div>
                 <h4>Target : </h4>
@@ -109,7 +96,7 @@
         </div>
     </div>
 
-
+</div>
 
 </body>
 
@@ -121,6 +108,9 @@
 </script>
 
 <style>
+    .ad{
+        padding-top: 100px;
+    }
     .pre_output {
         background: wheat;
         margin: auto;

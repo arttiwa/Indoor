@@ -1,0 +1,125 @@
+<header>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</header>
+<div id="sidebar" class="sidebar">
+    <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a> -->
+    <a href="/indoor/test/index.php"><i class="fa fa-building" style="font-size:20px;color:white;padding-right: 10px;"></i>Home</a>
+    <a href="/indoor/test/process.php"><i class="material-icons" style="font-size:20px;color:white;padding-right: 10px;">transfer_within_a_station</i>ANS</a>
+    <a href="/indoor/test/map_select.php"><i class="material-icons" style="font-size:20px;color:white;padding-right: 10px;">zoom_out_map</i>Map View</a>
+    <a href="/indoor/test/admin_upload.php"><i class="material-icons" style="font-size:20px;color:white;padding-right: 10px;">cloud_upload</i>Upload</a>
+    <a href="/indoor/test/up_show_DB.php"><i class="fa fa-database" style="font-size:24px;color:white;padding-right: 10px;"></i>Database</a>
+    <a href="/indoor/test/yolov8/wabcam.php"><i class="fa fa-video-camera" style="font-size:20px;color:white;padding-right: 10px;"></i>Camera</a>
+    <a href="/indoor/test/mapapi.php"><i class="fa fa-map" style="font-size:20px;color:white;padding-right: 10px;"></i>MAP</a>
+    <!-- <a href="/indoor/test/page3.php">page3</a> -->
+
+</div>
+
+<!-- Fixed Header -->
+<div class="header">
+    <!-- Your header content goes here -->
+    <span style="font-size:20px;cursor:pointer" class="openbtn"
+        onclick="ToggleNav()">☰</span>
+    <!-- Add other header content as needed -->
+</div>
+
+<script>
+    let nav = 1
+
+    function ToggleNav() {
+        if (nav == 1) {
+            openNav();
+            nav--;
+        } else {
+            closeNav();
+            nav++;
+        }
+        console.log(nav)
+    }
+
+    function openNav() {
+        document.getElementById("sidebar").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("sidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+    }
+</script>
+
+
+<style>
+    /* Style for the fixed header */
+    .header {
+        background-color: #191919;
+        padding: 10px;
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+    }
+
+    a{
+        text-align: left;
+    }
+    /* Style for the sidebar */
+    .sidebar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 100px; /* Adjusted padding to accommodate the fixed header */
+    }
+
+    .sidebar a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 20px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+        color: #f1f1f1;
+    }
+
+    .sidebar a.active {
+        color: orange; /* Set active link color */
+    }
+
+    .sidebar .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+    .openbtn {
+        float: left;
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #111;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .openbtn:hover {
+        background-color: #444;
+    }
+
+    #main {
+        transition: margin-left .5s;
+        padding: 16px;
+    }
+</style>

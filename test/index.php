@@ -6,55 +6,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shortest Path Finder</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="home.scss"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 </head>
 
 <body>
 
-    <form id="searchForm" action="process.php" method="get">
-        <div class="container">
+    <?php include('sidebar.html'); ?>
+
+    <div id="main">
+        <form id="searchForm" action="process.php" method="get" class="container">
             <header class="d-flex justify-content-center py-3">
-                <ul class="nav nav-pills">
-                    <li class="nav-item"><a href="index.php" class="nav-link active" aria-current="page">Home</a></li>
-                    <!-- <li class="nav-item"><a href="up_show_DB.php" class="nav-link">UP 2 DATABASE</a></li> -->
-                    <li class="nav-item"><a href="map_select.php" class="nav-link ">Map View</a></li>
-                    <li class="nav-item"><a href="admin_upload.php" class="nav-link ">UPLOAD</a></li>
-                    <li class="nav-item"><a href="up_show_DB.php" class="nav-link ">UP 2 DATABASE</a></li>
-                    <li class="nav-item"><a href="yolov8\wabcam.php" class="nav-link">Finding Room with Camera</a></li>
-                    <li class="nav-item"><a href="mapapi.php" class="nav-link">MAP</a></li>
-                    <!-- <li class="nav-item"><a href="page3.php" class="nav-link">page3</a></li> -->
-                </ul>
+                <div class="conPoint">
+                    <div class="conStart">
+                        <div class="start">
+                            <h4>Start : </h4>
+                            <input list="startList" name="start" id="startId" required>
+                            <datalist id="startList">
+                                <option value="test1"></option>
+                                <?php generateDatalist("selectLo1"); ?>
+                            </datalist>
+                        </div>
+                    </div>
+
+                    <div class="conTarget">
+                        <div class="target">
+                            <h4>Target : </h4>
+                            <input list="targetList" name="end" id="endId" required>
+                            <datalist id="targetList">
+                                <option value="test2"></option>
+                                <?php generateDatalist("selectLo2"); ?>
+                            </datalist>
+                        </div>
+                    </div>
+                </div>
+
             </header>
-        </div>
+            <button type="submit" class="goGo"><i class="fa fa-search"></i></button>
 
-        <div class="conPoint">
-            <div class="conStart">
-                <div class="start">
-                    <h4>Start : </h4>
-                    <input list="startList" name="start" id="startId" required>
-                    <datalist id="startList">
-                        <option value="test1"></option>
-                        <?php generateDatalist("selectLo1"); ?>
-                    </datalist>
-                </div>
-            </div>
-
-            <div class="conTarget">
-                <div class="target">
-                    <h4>Target : </h4>
-                    <input list="targetList" name="end" id="endId" required>
-                    <datalist id="targetList">
-                        <option value="test2"></option>
-                        <?php generateDatalist("selectLo2"); ?>
-                    </datalist>
-                </div>
-            </div>
-        </div>
-
-        <button type="submit" class="goGo"><i class="fa fa-search"></i></button>
-    </form>
+        </form>
+    </div>
 
     <script>
         function selectLo1(start) {
@@ -73,6 +63,7 @@
             var end = document.getElementById("endId").value;
             window.location.href = "process.php?start=" + encodeURIComponent(start) + "&end=" + encodeURIComponent(end);
         }
+
         function updateFloors() {
             var buildingDropdown = document.getElementById('BuildingId');
             var selectedBuilding = buildingDropdown.value;
@@ -152,49 +143,38 @@
 
     ?>
 
-
 </body>
 
-</html>
-
-<style lang="scss" :scope>
+<style>
     body {
-        background: #ddd;
+        background: #ddeeed;
         text-align: center;
-
     }
 
     .conPoint {
+        margin-top: 100px;
+        display: flex;
         background: #4682B4;
+        padding: 10px;
+        border-radius: 10px;
 
-
-
-        .conStart {
-            /* background: olive;
-            display: inline-block; */
-
-            h4 {
-                display: inline-block;
-            }
-
-            input {
-                border-radius: 5px;
-                border: none;
-
-            }
-        }
-
+        .conStart,
         .conTarget {
-            /* background: darkcyan;
-            display: inline-block; */
+            flex: 1;
+            margin: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 
             h4 {
-                display: inline-block;
+                margin-bottom: 5px;
             }
 
             input {
                 border-radius: 5px;
                 border: none;
+                padding: 5px;
+                width: 100%;
             }
         }
     }
@@ -225,3 +205,5 @@
         margin: 10px;
     }
 </style>
+
+</html>

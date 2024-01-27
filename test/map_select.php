@@ -6,28 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shortest Path Finder</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="home.scss"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 </head>
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <div class="container">
-        <header class="d-flex justify-content-center py-3">
-            <ul class="nav nav-pills">
-                <li class="nav-item"><a href="index.php" class="nav-link " aria-current="page">Home</a></li>
-                <!-- <li class="nav-item"><a href="up_show_DB.php" class="nav-link">UP 2 DATABASE</a></li> -->
-                <li class="nav-item"><a href="map_select.php" class="nav-link active">Map View</a></li>
-                <li class="nav-item"><a href="admin_upload.php" class="nav-link ">UPLOAD</a></li>
-                <li class="nav-item"><a href="up_show_DB.php" class="nav-link ">UP 2 DATABASE</a></li>
-                <li class="nav-item"><a href="yolov8\wabcam.php" class="nav-link">Finding Room with Camera</a></li>
-                <li class="nav-item"><a href="mapapi.php" class="nav-link">MAP</a></li>
-                <!-- <li class="nav-item"><a href="page3.php" class="nav-link">page3</a></li> -->
-            </ul>
-        </header>
-    </div>
-
+    <?php include('sidebar.html'); ?>
 
     <div class="conBuild">
         <div class="Building">
@@ -59,7 +44,7 @@
     <br><br>
 
 
-    <div class="conMap" id="map_toggle">
+    <div class="conMap" style="display=none" id="map_toggle">
         <div class="map">
             <img src="" usemap="#Map_F11_4" alt="Indoor Map" id="mapImage">
             <map name="Map_F11_4" id="imageMap">
@@ -244,7 +229,6 @@
 
     ?>
 
-
 </body>
 
 </html>
@@ -256,14 +240,17 @@
 
     }
 
+    .conBuild {
+        padding-top: 80px;
+        padding-bottom: 80px;
+    }
+
     .conPoint {
         background: #4682B4;
 
 
 
         .conStart {
-            /* background: olive;
-            display: inline-block; */
 
             h4 {
                 display: inline-block;
@@ -277,8 +264,6 @@
         }
 
         .conTarget {
-            /* background: darkcyan;
-            display: inline-block; */
 
             h4 {
                 display: inline-block;
