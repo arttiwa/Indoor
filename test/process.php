@@ -107,9 +107,10 @@
 </head>
 
 <body>
-    <?php include('sidebar.html'); ?>
+    <?php include('sidebar.html');
+    session_start();
+    ?>
     <div id="main">
-        <button class="openbtn" onclick="openNav()">☰</button>
 
         <div class="conResult">
 
@@ -123,285 +124,447 @@
                     <h1>your destination is "end"</h1>
                 </div>
             </div>
-        </div> <br>
 
-        <button onclick="toggle()">show start end</button><br>
-
-        <div class="conMap">
-            <div class="map">
-                <canvas id="mapCanvas" style="border: solid 1px; position: absolute; "></canvas>
-                <img src="/Indoor/Map_for_indor/Map_F11_41.png" id="mapImage">
+            <div class="conMap">
+                <div class="map">
+                    <canvas id="mapCanvas" style="border: solid 1px; position: absolute; "></canvas>
+                    <img src="/Indoor/Map_for_indor/Map_F11_41.png" id="mapImage">
+                </div>
             </div>
-        </div>
 
-        <br><br>
+            <br><br>
 
-        <?php
-        session_start();
-        include_once 'dbConfig.php';
+            <?php
+            include_once 'dbConfig.php';
 
-        function dijkstra($graph, $start, $end)
-        {
-            $distances = array_fill_keys(array_keys($graph), PHP_INT_MAX);
-            $distances[$start] = 0;
-            $previous = array_fill_keys(array_keys($graph), null);
-            $queue = array_keys($graph);
+            function dijkstra($graph, $start, $end)
+            {
+                $distances = array_fill_keys(array_keys($graph), PHP_INT_MAX);
+                $distances[$start] = 0;
+                $previous = array_fill_keys(array_keys($graph), null);
+                $queue = array_keys($graph);
 
-            while (!empty($queue)) {
-                // Find the node with the smallest distance in the queue
-                $minDistance = PHP_INT_MAX;
-                $minNode = null;
-                foreach ($queue as $node) {
-                    if ($distances[$node] < $minDistance) {
-                        $minDistance = $distances[$node];
-                        $minNode = $node;
+                while (!empty($queue)) {
+                    // Find the node with the smallest distance in the queue
+                    $minDistance = PHP_INT_MAX;
+                    $minNode = null;
+                    foreach ($queue as $node) {
+                        if ($distances[$node] < $minDistance) {
+                            $minDistance = $distances[$node];
+                            $minNode = $node;
+                        }
                     }
-                }
 
-                if ($minNode === $end) {
-                    break; // Found shortest path to end
-                }
-
-                // Remove the selected node from the queue
-                $queue = array_diff($queue, [$minNode]);
-
-                // Update distances and previous nodes for neighboring nodes
-                foreach ($graph[$minNode] as $neighbor => $weight) {
-                    $alt = $distances[$minNode] + $weight;
-                    if ($alt < $distances[$neighbor]) {
-                        $distances[$neighbor] = $alt;
-                        $previous[$neighbor] = $minNode;
+                    if ($minNode === $end) {
+                        break; // Found shortest path to end
                     }
-                }
-            }
 
-            // Reconstruct the shortest path
-            $path = [];
-            $node = $end;
-            while ($previous[$node] !== null) {
-                array_unshift($path, $node);
-                $node = $previous[$node];
-            }
-            array_unshift($path, $start);
+                    // Remove the selected node from the queue
+                    $queue = array_diff($queue, [$minNode]);
 
-            return $path;
-        }
-
-        $graph = [
-            'elevatorF11_4M' => ['c1' => 4, 'b1' => 3],
-            'c1' => ['elevatorF11_4M' => 4, 'F11_401' => 3, 'F11_402' => 3, 'c2' => 4],
-
-            'F11_401' => ['c1' => 3, 'F11_402' => 1, 'c9' => 3],
-            'F11_402' => ['c1' => 3, 'F11_401' => 1, 'c9' => 3],
-
-            'c9' => ['F11_401' => 3, 'F11_402' => 3, 'StairF11_f4s' => 2, 'tois4' => 3],
-
-            'StairF11_f4s' => ['c9' => 2, 'tois4' => 1, 'c3' => 3],
-            'tois4' => ['StairF11_f4s' => 1, 'c3' => 2, 'c9' => 3,],
-
-            'c2' => ['c1' => 4, 'c3' => 4, 'c4' => 3],
-            'c3' => ['tois4' => 2, 'c2' => 4, 'F11_407' => 2, 'F11_408' => 4],
-
-            'F11_407' => ['c3' => 2, 'F11_408' => 1],
-            'F11_408' => ['c3' => 4, 'F11_407' => 2, 'F11_409' => 2],
-
-            'F11_409' => ['F11_408' => 2, 'F11_410' => 1, 'F11_411' => 1, 'F11_415' => 4],
-            'F11_410' => ['F11_409' => 1, 'F11_411' => 1],
-            'F11_411' => ['F11_409' => 1, 'F11_410' => 1],
-
-            'c4' => ['c2' => 3, 'F11_413' => 2, 'F11_415' => 1, 'c5' => 5],
-
-            'F11_412' => ['F11_413' => 1, 'F11_415' => 2],
-            'F11_413' => ['c4' => 2, 'F11_412' => 1, 'F11_415' => 1],
-            //'F11_414' => [ 'c4' => 1, 'F11_412' => 2, 'F11_413' => 1, 'F11_415' => 1 ],
-            'F11_415' => ['c4' => 1, 'F11_412' => 2, 'F11_413' => 1, 'F11_409' => 4],
-
-            'c5' => ['c4' => 5, 'L2' => 4, 'F11_414' => 2, 'b2' => 4],
-            'L2' => ['c5' => 4, 'F11_414' => 1, 'Pohmroom' => 2, 'b2' => 4],
-
-            'F11_414' => ['c5' => 2, 'L2' => 1],
-            'Pohmroom' => ['L2' => 2, 'b2' => 3],
-
-            'b2' => ['c5' => 4, 'L2' => 4, 'Pohmroom' => 3, 'toilet_421' => 2],
-            'toilet_421' => ['b2' => 2, 'F11_421b' => 1],
-
-            'F11_421b' => ['toilet_421' => 1, 'F11_421' => 7, 'F11_419' => 2],
-            'F11_421' => ['F11_421b' => 7, 'F11_422' => 2, 'b1' => 1],
-            'F11_419' => ['F11_421b' => 2, 'F11_420' => 1, 'b1' => 3],
-            'F11_420' => ['F11_419' => 1, 'b1' => 2],
-            'F11_422' => ['F11_421' => 2, 'F11_423' => 1],
-            'F11_423' => ['F11_422' => 1],
-
-            'b1' => [
-                'elevatorF11_4M' => 3,
-                'F11_421' => 1,
-                'F11_420' => 2
-            ],
-
-            'A' => ['B' => 1, 'C' => 4],
-            'B' => ['A' => 1, 'C' => 2, 'D' => 5],
-            'C' => ['A' => 4, 'B' => 2, 'D' => 1],
-            'D' => ['B' => 5, 'C' => 1]
-        ];
-
-        if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            // Get the start and end values from the URL parameters
-            $start = $_GET["start"];
-            $end = $_GET["end"];
-
-
-            // Calculate the shortest path
-            $shortestPath = dijkstra($graph, $start, $end);
-
-            // Display the selected start and end points
-            echo "You selected start point: " . $start . "<br>";
-            echo "You selected end point: " . $end . "<br>";
-
-            if ($shortestPath !== null) {
-                $shortestArrayPath = $shortestPath;
-                echo "Shortest path from $start to $end: " . implode(' -> ', $shortestPath);
-
-                echo "<pre>";
-                print_r($shortestArrayPath);
-                echo "</pre>";
-
-                // Encode the PHP array as JSON
-                $pathWayJSON = json_encode($shortestArrayPath);
-
-
-                // Fetch and display images related to the shortestArrayPath
-                echo "<div class='row g-2'>";
-                $namePath = $start . '_' . $start;
-
-
-
-
-
-
-                // แสดงรูปสำหรับ $start
-                $imageURLStart = 'uploads/' . $namePath . '.jpg';
-                echo "<div class='col-3'>";
-                echo "</div>";
-
-                echo "<div class='col-3'>";
-                echo "<div class='card shadow h-100'>";
-                echo "<img src='$imageURLStart' alt='' width='20%' class='card-img'>";
-                if (file_exists($imageURLStart)) {
-                    echo "$imageURLStart";
-                }
-                echo "</div>";
-                echo "</div>";
-
-                echo "<div class='col-5'>";
-                echo "</div>";
-
-
-                // แสดงรูปสำหรับ $start l
-                $imageURLStart1 = 'uploads/' . $namePath . '_L.jpg';
-                echo "<div class='col-1'>";
-                echo "</div>";
-
-                echo "<div class='col-3'>";
-                echo "<div class='card shadow h-100'>";
-                echo "<img src='$imageURLStart1' alt='' width='20%' class='card-img'>";
-                if (file_exists($imageURLStart1)) {
-                    echo "Left of $start Room";
-                }
-                echo "</div>";
-                echo "</div>";
-
-
-                //circle echo "<div class='col-1 d-flex align-items-center justify-content-center circle'>Circle</div>";
-                echo "<div class='col-3 circle'>You</div>";
-
-
-
-                // แสดงรูปสำหรับ $start r
-                $imageURLStart2 = 'uploads/' . $namePath . '_R.jpg';
-
-                echo "<div class='col-3'>";
-                echo "<div class='card shadow h-100'>";
-                echo "<img src='$imageURLStart2' alt='' width='20%' class='card-img'>";
-                if (file_exists($imageURLStart2)) {
-                    echo "Right of $start Room";
-                }
-                echo "</div>";
-                echo "</div>";
-
-
-                // แสดงรูปสำหรับ $start B
-                $imageURLStart3 = 'uploads/' . $namePath . '_B.jpg';
-                echo "<div class='col-3'>";
-                echo "</div>";
-
-                echo "<div class='col-3'>";
-                echo "</div>";
-
-                echo "<div class='col-3'>";
-                echo "<div class='card shadow h-100'>";
-                echo "<img src='$imageURLStart3' alt='' width='20%' class='card-img'>";
-                if (file_exists($imageURLStart3)) {
-                    echo "Back of $start Room";
-                }
-                echo "</div>";
-                echo "</div>";
-
-                echo "<div class='col-3'>";
-                echo "</div>";
-                echo "<div class='col-2'>";
-                echo "</div>";
-
-
-
-
-
-
-
-
-                foreach ($shortestArrayPath as $point1) {
-                    $nextPointIndex = array_search($point1, $shortestArrayPath) + 1;
-                    if ($nextPointIndex < count($shortestArrayPath)) {
-                        $point2 = $shortestArrayPath[$nextPointIndex];
-
-                        // $fileName = $point1  ;ok can use 1 valiable
-                        $fileName = $point1 . '_' . $point2;
-
-                        // สร้าง query เพื่อค้นหารูปภาพโดยใช้ $fileName
-                        //$query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName" . "b.jpg'");ok
-                        $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName.jpg'");
-
-                        if ($query->num_rows > 0) {
-                            while ($row = $query->fetch_assoc()) {
-                                $imageURL = 'uploads/' . $row['file_name'];
-                                echo "<div class='col-sm-6 col-lg-4 col-xl-3'>";
-                                echo "<div class='card shadow h-100'>";
-                                echo "<img src='$imageURL' alt='' width='100%' class='card-img'>";
-                                echo "</div>";
-                                echo "</div><br><br>";
-                            }
-                        } else {
-                            echo "<p>No image found for point: $fileName</p>";
+                    // Update distances and previous nodes for neighboring nodes
+                    foreach ($graph[$minNode] as $neighbor => $weight) {
+                        $alt = $distances[$minNode] + $weight;
+                        if ($alt < $distances[$neighbor]) {
+                            $distances[$neighbor] = $alt;
+                            $previous[$neighbor] = $minNode;
                         }
                     }
                 }
 
-                // แสดงรูปสำหรับ $end
-                $imageURLEnd = 'uploads/' . $end . '.jpg';
+                // Reconstruct the shortest path
+                $path = [];
+                $node = $end;
+                while ($previous[$node] !== null) {
+                    array_unshift($path, $node);
+                    $node = $previous[$node];
+                }
+                array_unshift($path, $start);
 
-                echo "<div class='col-sm-6 col-lg-4 col-xl-3'>";
-                echo "<div class='card shadow h-100'>";
-                echo "<img src='$imageURLEnd' alt='' width='100%' class='card-img'>";
-                echo "</div>";
-                echo "</div>";
-
-
-            } else {
-                echo "Sorry, there is no way to go from $start to $end. Please select somewhere closer to the target.";
+                return $path;
             }
-        }
 
-        ?>
-    </div>
+            $graph = [
+                'elevatorF11_4M' => ['c1' => 4, 'b1' => 3],
+                'c1' => ['elevatorF11_4M' => 4, 'F11_401' => 3, 'F11_402' => 3, 'c2' => 4],
+
+                'F11_401' => ['c1' => 3, 'F11_402' => 1, 'c9' => 3],
+                'F11_402' => ['c1' => 3, 'F11_401' => 1, 'c9' => 3],
+
+                'c9' => ['F11_401' => 3, 'F11_402' => 3, 'StairF11_f4s' => 2, 'tois4' => 3],
+
+                'StairF11_f4s' => ['c9' => 2, 'tois4' => 1, 'c3' => 3],
+                'tois4' => ['StairF11_f4s' => 1, 'c3' => 2, 'c9' => 3,],
+
+                'c2' => ['c1' => 4, 'c3' => 4, 'c4' => 3],
+                'c3' => ['tois4' => 2, 'c2' => 4, 'F11_407' => 2, 'F11_408' => 4],
+
+                'F11_407' => ['c3' => 2, 'F11_408' => 1],
+                'F11_408' => ['c3' => 4, 'F11_407' => 2, 'F11_409' => 2],
+
+                'F11_409' => ['F11_408' => 2, 'F11_410' => 1, 'F11_411' => 1, 'F11_415' => 4],
+                'F11_410' => ['F11_409' => 1, 'F11_411' => 1],
+                'F11_411' => ['F11_409' => 1, 'F11_410' => 1],
+
+                'c4' => ['c2' => 3, 'F11_415' => 1, 'c5' => 5],
+
+                'F11_412' => ['F11_413' => 1,],
+                'F11_413' => ['F11_412' => 1, 'F11_415' => 1],
+                //'F11_414' => [ 'c4' => 1, 'F11_412' => 2, 'F11_413' => 1, 'F11_415' => 1 ],
+                'F11_415' => ['c4' => 1, 'F11_413' => 1, 'F11_409' => 4],
+
+                'c5' => ['c4' => 5, 'L2' => 4, 'F11_414' => 2, 'b2' => 4],
+                'L2' => ['c5' => 4, 'F11_414' => 1, 'Pohmroom' => 2, 'b2' => 4],
+
+                'F11_414' => ['c5' => 2, 'L2' => 1],
+                'Pohmroom' => ['L2' => 2, 'b2' => 3],
+
+                'b2' => ['c5' => 4, 'L2' => 4, 'Pohmroom' => 3, 'toilet_421' => 2],
+                'toilet_421' => ['b2' => 2, 'F11_421b' => 1],
+
+                'F11_421b' => ['toilet_421' => 1, 'F11_421' => 7, 'F11_419' => 2],
+                'F11_421' => ['F11_421b' => 7, 'F11_422' => 2, 'b1' => 1],
+                'F11_419' => ['F11_421b' => 2, 'F11_420' => 1],
+                'F11_420' => ['F11_419' => 1, 'b1' => 2],
+                'F11_422' => ['F11_421' => 2, 'F11_423' => 1],
+                'F11_423' => ['F11_422' => 1],
+
+                'b1' => [
+                    'elevatorF11_4M' => 3,
+                    'F11_421' => 1,
+                    'F11_420' => 2
+                ],
+
+                'A' => ['B' => 1, 'C' => 4],
+                'B' => ['A' => 1, 'C' => 2, 'D' => 5],
+                'C' => ['A' => 4, 'B' => 2, 'D' => 1],
+                'D' => ['B' => 5, 'C' => 1]
+            ];
+
+            if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                // Get the start and end values from the URL parameters
+                $start = $_GET["start"];
+                $end = $_GET["end"];
+
+
+                // Calculate the shortest path
+                $shortestPath = dijkstra($graph, $start, $end);
+
+                // Display the selected start and end points
+                echo "You selected start point: " . $start . "<br>";
+                echo "You selected end point: " . $end . "<br>";
+
+                if ($shortestPath !== null) {
+                    $shortestArrayPath = $shortestPath;
+                    echo "Shortest path from $start to $end: " . implode(' -> ', $shortestPath);
+
+                    // echo "<pre>";
+                    // print_r($shortestArrayPath);
+                    // echo "</pre>";
+            
+                    // Encode the PHP array as JSON
+                    $pathWayJSON = json_encode($shortestArrayPath);
+
+
+                    // Fetch and display images related to the shortestArrayPath
+                    echo "<div class='row g-2'>";
+                    $namePath = $start . '_' . $start;
+
+                    echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
+                    echo "</div>";
+
+                    // แสดงรูปสำหรับ $start
+                    $imageURLEnd = 'uploads/' . $namePath . '.jpg';
+                    echo "<div class='col-3'>";
+                    echo "</div>";
+
+                    echo "<div class='col-3'>";
+                    echo "<div class='card shadow h-100'>";
+                    echo "<img src='$imageURLEnd' alt='' width='20%' class='card-img'>";
+                    if (file_exists($imageURLEnd)) {
+                        echo "$imageURLEnd";
+                    }
+                    echo "</div>";
+                    echo "</div>";
+
+                    echo "<div class='col-5'>";
+                    echo "</div>";
+
+
+                    // แสดงรูปสำหรับ $start l
+                    $imageURLEnd1 = 'uploads/' . $namePath . '_L.jpg';
+                    echo "<div class='col-1'>";
+                    echo "</div>";
+
+                    echo "<div class='col-3'>";
+                    echo "<div class='card shadow h-100'>";
+                    echo "<img src='$imageURLEnd1' alt='' width='20%' class='card-img'>";
+                    if (file_exists($imageURLEnd1)) {
+                        echo "Left of $start Room";
+                    }
+                    echo "</div>";
+                    echo "</div>";
+
+                    //circle echo "<div class='col-1 d-flex align-items-center justify-content-center circle'>Circle</div>";
+                    echo "<div class='col-3 circle'>You</div>";
+
+                    // แสดงรูปสำหรับ $start r
+                    $imageURLEnd2 = 'uploads/' . $namePath . '_R.jpg';
+
+                    echo "<div class='col-3'>";
+                    echo "<div class='card shadow h-100'>";
+                    echo "<img src='$imageURLEnd2' alt='' width='20%' class='card-img'>";
+                    if (file_exists($imageURLEnd2)) {
+                        echo "Right of $start Room";
+                    }
+                    echo "</div>";
+                    echo "</div>";
+
+                    // แสดงรูปสำหรับ $start B
+                    // $imageURLEnd3 = 'uploads/' . $namePath . '_B.jpg';
+                    echo "<div class='col-3'>";
+                    echo "</div>";
+
+                    // echo "<div class='col-3'>";
+                    // echo "</div>";
+
+                    // echo "<div class='col-3'>";
+                    // echo "<div class='card shadow h-100'>";
+                    // echo "<img src='$imageURLEnd3' alt='' width='20%' class='card-img'>";
+                    // if (file_exists($imageURLEnd3)) {
+                    //     echo "Back of $start Room";
+                    // }
+                    // echo "</div>";
+                    // echo "</div>";
+
+                    // echo "<div class='col-5'>";
+                    // echo "</div>";
+
+
+
+
+
+                    $elementNumber = 1;
+                    foreach ($shortestArrayPath as $point1) {
+                        $nextPointIndex = array_search($point1, $shortestArrayPath) + 1;
+                        if ($nextPointIndex < count($shortestArrayPath)) {
+                            $point2 = $shortestArrayPath[$nextPointIndex];
+
+                            // $fileName = $point1  ;ok can use 1 valiable
+                            $fileName = $point1 . '_' . $point2;
+
+                            // สร้าง query เพื่อค้นหารูปภาพโดยใช้ $fileName
+                            //$query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName" . "b.jpg'");ok
+                            $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName.jpg'");
+
+                            echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
+                            echo "</div>";
+
+
+
+
+                            if ($query->num_rows > 0) {
+                                while ($row = $query->fetch_assoc()) {
+                                    $imageURL = 'uploads/' . $row['file_name'];
+                                    echo "<div class='col-3'>";
+                                    echo "</div>";
+                                    echo "<div class='col-sm-3 col-lg-4 col-xl-3'>";
+                                    echo "<div class='card shadow h-100'>";
+                                    echo "<img src='$imageURL' alt='' width='100%' class='card-img'>";
+                                    echo "Way to  $fileName Room";
+                                    echo "</div>";
+                                    echo "</div>";
+                                    echo "<div class='col-5'>";
+                                    echo "</div>";
+                                }
+                            } else {
+                                echo "<br>";
+                                //echo "<p>No image found for point: $fileName</p>";
+                            }
+
+
+
+
+                            $fileName1 = $point1 . '_' . $point2 . '_L';
+                            $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName1.jpg'");
+
+                            if ($query->num_rows > 0) {
+                                while ($row = $query->fetch_assoc()) {
+                                    $imageURL = 'uploads/' . $row['file_name'];
+                                    echo "<div class='col-3'>";
+                                    echo "<div class='card shadow h-100'>";
+                                    echo "<img src='$imageURL' alt='' width='100%' class='card-img'>";
+                                    echo "Left of $fileName1 Room";
+                                    echo "</div>";
+                                    echo "</div>";
+                                }
+                            } else {
+                                echo "<div class='col-3'>";
+                                // echo "<p>No image found for point: $fileName1</p>";
+                                echo "</div>";
+
+                            }
+
+
+
+
+
+                            //circle
+                            echo "<div id='element$elementNumber' class='col-3' style='text-align: center; margin: auto;'>";
+                            echo "<div class='circle' style='text-align: center; margin: auto;'>You</div>";
+                            echo "</div>";
+                            $elementNumber++;
+
+
+
+
+
+                            $fileName2 = $point1 . '_' . $point2 . '_R';
+                            $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName2.jpg'");
+
+                            if ($query->num_rows > 0) {
+                                while ($row = $query->fetch_assoc()) {
+                                    $imageURL = 'uploads/' . $row['file_name'];
+                                    echo "<div class='col-3'>";
+                                    echo "<div class='card shadow h-100'>";
+                                    echo "<img src='$imageURL' alt='' width='100%' class='card-img'>";
+                                    echo "Right of $fileName2 Room";
+                                    echo "</div>";
+                                    echo "</div>";
+                                }
+                            } else {
+                                echo "<div class='col-3'>";
+                                // echo "<p>No image found for point: $fileName2</p>";
+                                echo "</div>";
+
+                            }
+
+
+
+
+
+                            // $fileName3 = $point1 . '_' . $point2 . '_B';
+                            // $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName3.jpg'");
+                            echo "<div class='col-3'>";
+                            echo "</div>";
+
+                            // echo "<div class='col-3'>";
+                            // echo "</div>";
+
+                            // if ($query->num_rows > 0) {
+                            //     while ($row = $query->fetch_assoc()) {
+                            //         $imageURL = 'uploads/' . $row['file_name'];
+                            //         echo "<div class='col-sm-6 col-lg-4 col-xl-3'>";
+                            //         echo "<div class='card shadow h-100'>";
+                            //         echo "<img src='$imageURL' alt='' width='100%' class='card-img'>";
+                            //         echo "Back of $fileName3 Room";
+                            //         echo "</div>";
+                            //         echo "</div>";
+                            //     }
+                            // } else {
+                            //     echo "<p>No image found for point: $fileName3</p>";
+                            // }
+
+                            echo "<span onclick=\"scrollToElement('element$elementNumber')\" style='cursor: pointer;'>$elementNumber</span>";
+
+                        }
+                    }
+
+
+
+
+
+
+
+                    echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
+                    echo "</div>";
+
+                    $namePath = $end . '_' . $end;
+
+                    // แสดงรูปสำหรับ $end
+                    $imageURLEnd = 'uploads/' . $namePath . '.jpg';
+                    echo "<div class='col-3'>";
+                    echo "</div>";
+
+                    echo "<div class='col-3'>";
+                    echo "<div class='card shadow h-100'>";
+                    echo "<img src='$imageURLEnd' alt='' width='20%' class='card-img'>";
+                    if (file_exists($imageURLEnd)) {
+                        echo "$imageURLEnd";
+                    }
+                    echo "</div>";
+                    echo "</div>";
+
+                    echo "<div class='col-5'>";
+                    echo "</div>";
+
+
+                    // แสดงรูปสำหรับ $end l
+                    $imageURLEnd1 = 'uploads/' . $namePath . '_L.jpg';
+                    echo "<div class='col-1'>";
+                    echo "</div>";
+
+                    echo "<div class='col-3'>";
+                    echo "<div class='card shadow h-100'>";
+                    echo "<img src='$imageURLEnd1' alt='' width='20%' class='card-img'>";
+                    if (file_exists($imageURLEnd1)) {
+                        echo "Left of $end Room";
+                    }
+                    echo "</div>";
+                    echo "</div>";
+
+                    //circle echo "<div class='col-1 d-flex align-items-center justify-content-center circle'>Circle</div>";
+                    echo "<div class='col-3 circle'>You</div>";
+
+                    // แสดงรูปสำหรับ $end r
+                    $imageURLEnd2 = 'uploads/' . $namePath . '_R.jpg';
+
+                    echo "<div class='col-3'>";
+                    echo "<div class='card shadow h-100'>";
+                    echo "<img src='$imageURLEnd2' alt='' width='20%' class='card-img'>";
+                    if (file_exists($imageURLEnd2)) {
+                        echo "Right of $end Room";
+                    }
+                    echo "</div>";
+                    echo "</div>";
+
+                    // // แสดงรูปสำหรับ $end B
+                    // $imageURLEnd3 = 'uploads/' . $namePath . '_B.jpg';
+                    echo "<div class='col-3'>";
+                    echo "</div>";
+
+                    // echo "<div class='col-3'>";
+                    // echo "</div>";
+
+                    // echo "<div class='col-3'>";
+                    // echo "<div class='card shadow h-100'>";
+                    // echo "<img src='$imageURLEnd3' alt='' width='20%' class='card-img'>";
+                    // if (file_exists($imageURLEnd3)) {
+                    //     echo "Back of $end Room";
+                    // }
+                    // echo "</div>";
+                    // echo "</div>";
+
+                    // echo "<div class='col-5'>";
+                    // echo "</div>";
+
+
+                    // // แสดงรูปสำหรับ $end
+                    // $imageURLEnd = 'uploads/' . $end . '.jpg';
+
+                    // echo "<div class='col-sm-6 col-lg-4 col-xl-3'>";
+                    // echo "<div class='card shadow h-100'>";
+                    // echo "<img src='$imageURLEnd' alt='' width='100%' class='card-img'>";
+                    // echo "</div>";
+                    // echo "</div>";
+
+                } else {
+                    echo "Sorry, there is no way to go from $start to $end. Please select somewhere closer to the target.";
+                }
+            }
+
+            ?>
+        </div>
 </body>
 
 <script>
@@ -491,7 +654,26 @@
         ctx.stroke();
     }
 
+    function scrollToElement(elementId) {
+        var element = document.getElementById(elementId);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
 
+    // Function to handle next and back navigation
+    function navigate(direction) {
+        var currentElement = parseInt(localStorage.getItem('currentElement')) || 1;
+
+        if (direction === 'next') {
+            currentElement++;
+        } else if (direction === 'back') {
+            currentElement--;
+        }
+
+        localStorage.setItem('currentElement', currentElement);
+        scrollToElement('element' + currentElement);
+    }
 
 </script>
 
@@ -504,15 +686,13 @@
 
     }
 
-    .conResult{
-        padding-top: 80px;
+    .conResult {
+        padding-top: 20px;
         padding-bottom: 80px;
     }
 
     .conPoint {
         background: #4682B4;
-
-
 
         .conStart {
             /* background: olive;

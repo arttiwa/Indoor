@@ -12,7 +12,7 @@
 
 <body>
     <?php include('sidebar.html'); ?>
-    <div class="container">
+    <div id="main" style="padding: 100px">
 
         <div id="map"></div>
 
@@ -53,10 +53,6 @@
  * Always set the map height explicitly to define the size of the div element
  * that contains the map. 
  */
-    .container {
-        padding-top: 80px;
-        padding-bottom: 80px;
-    }
 
     #map {
         height: 100%;

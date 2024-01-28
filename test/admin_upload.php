@@ -13,7 +13,7 @@
 <body>
     <?php include('sidebar.html'); ?>
 
-    <div class="ad">
+    <div id="main" style="padding: 50px">
         <form action="uploadtest2.php" method="post" enctype="multipart/form-data">
             <input type="text" class="BlockUpDown" id="fileName1" name="fileName1"
                 placeholder="Enter next point name"><br><br>
@@ -133,11 +133,6 @@
 
 </body>
 <style>
-    .ad {
-        padding-top: 80px;
-        padding-bottom: 80px;
-    }
-
     form {
         text-align: center;
         padding: 50px;

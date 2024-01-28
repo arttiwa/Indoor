@@ -18,7 +18,7 @@ include_once 'dbConfig.php';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <?php include('sidebar.html'); ?>
 
-    <div class="ad">
+    <div id="main">
 
         <div class="container">
             <div class="row mt-5">
@@ -78,8 +78,3 @@ include_once 'dbConfig.php';
 </body>
 
 </html>
-<style>
-    .ad{
-        padding-top: 50px;
-    }
-</style>

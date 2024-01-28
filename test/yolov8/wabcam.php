@@ -11,7 +11,7 @@
 <body>
     <?php include('../sidebar.html'); ?>
 
-    <div class="ad">
+    <div id="main" style="padding:50px">
     <div class="d-flex justify-content-center py-3">
         <form method="post" action="wabcam.php">
             <br />
@@ -108,9 +108,7 @@
 </script>
 
 <style>
-    .ad{
-        padding-top: 100px;
-    }
+
     .pre_output {
         background: wheat;
         margin: auto;
