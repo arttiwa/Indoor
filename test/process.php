@@ -110,11 +110,12 @@
     <?php include('sidebar.html');
     session_start();
     ?>
+
     <div id="main">
 
         <div class="conResult">
 
-            <div class="conStart">
+            <!-- <div class="conStart">
                 <div class="ResStart">
                     <h1>your origin is "start"</h1>
                 </div>
@@ -123,16 +124,7 @@
                 <div class="ResDestination">
                     <h1>your destination is "end"</h1>
                 </div>
-            </div>
-
-            <div class="conMap">
-                <div class="map">
-                    <canvas id="mapCanvas" style="border: solid 1px; position: absolute; "></canvas>
-                    <img src="/Indoor/Map_for_indor/Map_F11_41.png" id="mapImage">
-                </div>
-            </div>
-
-            <br><br>
+            </div> -->
 
             <?php
             include_once 'dbConfig.php';
@@ -184,68 +176,159 @@
                 return $path;
             }
 
-            $graph = [
-                'elevatorF11_4M' => ['c1' => 4, 'b1' => 3],
-                'c1' => ['elevatorF11_4M' => 4, 'F11_401' => 3, 'F11_402' => 3, 'c2' => 4],
-
-                'F11_401' => ['c1' => 3, 'F11_402' => 1, 'c9' => 3],
-                'F11_402' => ['c1' => 3, 'F11_401' => 1, 'c9' => 3],
-
-                'c9' => ['F11_401' => 3, 'F11_402' => 3, 'StairF11_f4s' => 2, 'tois4' => 3],
-
-                'StairF11_f4s' => ['c9' => 2, 'tois4' => 1, 'c3' => 3],
-                'tois4' => ['StairF11_f4s' => 1, 'c3' => 2, 'c9' => 3,],
-
-                'c2' => ['c1' => 4, 'c3' => 4, 'c4' => 3],
-                'c3' => ['tois4' => 2, 'c2' => 4, 'F11_407' => 2, 'F11_408' => 4],
-
-                'F11_407' => ['c3' => 2, 'F11_408' => 1],
-                'F11_408' => ['c3' => 4, 'F11_407' => 2, 'F11_409' => 2],
-
-                'F11_409' => ['F11_408' => 2, 'F11_410' => 1, 'F11_411' => 1, 'F11_415' => 4],
-                'F11_410' => ['F11_409' => 1, 'F11_411' => 1],
-                'F11_411' => ['F11_409' => 1, 'F11_410' => 1],
-
-                'c4' => ['c2' => 3, 'F11_415' => 1, 'c5' => 5],
-
-                'F11_412' => ['F11_413' => 1,],
-                'F11_413' => ['F11_412' => 1, 'F11_415' => 1],
-                //'F11_414' => [ 'c4' => 1, 'F11_412' => 2, 'F11_413' => 1, 'F11_415' => 1 ],
-                'F11_415' => ['c4' => 1, 'F11_413' => 1, 'F11_409' => 4],
-
-                'c5' => ['c4' => 5, 'L2' => 4, 'F11_414' => 2, 'b2' => 4],
-                'L2' => ['c5' => 4, 'F11_414' => 1, 'Pohmroom' => 2, 'b2' => 4],
-
-                'F11_414' => ['c5' => 2, 'L2' => 1],
-                'Pohmroom' => ['L2' => 2, 'b2' => 3],
-
-                'b2' => ['c5' => 4, 'L2' => 4, 'Pohmroom' => 3, 'toilet_421' => 2],
-                'toilet_421' => ['b2' => 2, 'F11_421b' => 1],
-
-                'F11_421b' => ['toilet_421' => 1, 'F11_421' => 7, 'F11_419' => 2],
-                'F11_421' => ['F11_421b' => 7, 'F11_422' => 2, 'b1' => 1],
-                'F11_419' => ['F11_421b' => 2, 'F11_420' => 1],
-                'F11_420' => ['F11_419' => 1, 'b1' => 2],
-                'F11_422' => ['F11_421' => 2, 'F11_423' => 1],
-                'F11_423' => ['F11_422' => 1],
-
-                'b1' => [
-                    'elevatorF11_4M' => 3,
-                    'F11_421' => 1,
-                    'F11_420' => 2
-                ],
-
-                'A' => ['B' => 1, 'C' => 4],
-                'B' => ['A' => 1, 'C' => 2, 'D' => 5],
-                'C' => ['A' => 4, 'B' => 2, 'D' => 1],
-                'D' => ['B' => 5, 'C' => 1]
-            ];
-
             if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 // Get the start and end values from the URL parameters
                 $start = $_GET["start"];
                 $end = $_GET["end"];
+                $mapURL = "";
+                $graph = [];
 
+                // select map
+                $query = $conn->query(
+                    "SELECT building.buildingname, room.floors
+                                        FROM building
+                                        JOIN room ON building.buildingid = room.buildingid
+                                        WHERE room.roomname = '$end';"
+                );
+                if ($query->num_rows > 0) {
+                    while ($row = $query->fetch_assoc()) {
+                        $buildingName = $row['buildingname'];
+                        $floors = $row['floors'];
+
+                        echo "Building Name : $buildingName, Floor : $floors";
+                        echo "<br>";
+
+                    }
+                } else {
+                    echo "<div class='col-3'>";
+                    echo "<p>Cannot find floors and building name</p>";
+                    echo "</div>";
+                }
+
+                //check Map - Floor
+                if ($buildingName == 'F11 -- อาคารสิรินธรวิศวพัฒน์') {
+                    if ($floors == 4) {
+                        $mapURL = "Map_F11_41.png";
+                        $graph = [
+                            'elevatorF11_4M' => ['c1' => 4, 'b1' => 3],
+                            'c1' => ['elevatorF11_4M' => 4, 'F11_401' => 3, 'F11_402' => 3, 'c2' => 4],
+
+                            'F11_401' => ['c1' => 3, 'F11_402' => 1, 'c9' => 3],
+                            'F11_402' => ['c1' => 3, 'F11_401' => 1, 'c9' => 3],
+
+                            'c9' => ['F11_401' => 3, 'F11_402' => 3, 'StairF11_f4s' => 2, 'tois4' => 3],
+
+                            'StairF11_f4s' => ['c9' => 2, 'tois4' => 1, 'c3' => 3],
+                            'tois4' => ['StairF11_f4s' => 1, 'c3' => 2, 'c9' => 3,],
+
+                            'c2' => ['c1' => 4, 'c3' => 4, 'c4' => 3],
+                            'c3' => ['tois4' => 2, 'c2' => 4, 'F11_407' => 2, 'F11_408' => 4],
+
+                            'F11_407' => ['c3' => 2, 'F11_408' => 1],
+                            'F11_408' => ['c3' => 4, 'F11_407' => 2, 'F11_409' => 2],
+
+                            'F11_409' => ['F11_408' => 2, 'F11_410' => 1, 'F11_411' => 1, 'F11_415' => 4],
+                            'F11_410' => ['F11_409' => 1, 'F11_411' => 1],
+                            'F11_411' => ['F11_409' => 1, 'F11_410' => 1],
+
+                            'c4' => ['c2' => 3, 'F11_415' => 1, 'c5' => 5],
+
+                            'F11_412' => ['F11_413' => 1,],
+                            'F11_413' => ['F11_412' => 1, 'F11_415' => 1],
+                            //'F11_414' => [ 'c4' => 1, 'F11_412' => 2, 'F11_413' => 1, 'F11_415' => 1 ],
+                            'F11_415' => ['c4' => 1, 'F11_413' => 1, 'F11_409' => 4],
+
+                            'c5' => ['c4' => 5, 'L2' => 4, 'F11_414' => 2, 'b2' => 4],
+                            'L2' => ['c5' => 4, 'F11_414' => 1, 'Pohmroom' => 2, 'b2' => 4],
+
+                            'F11_414' => ['c5' => 2, 'L2' => 1],
+                            'Pohmroom' => ['L2' => 2, 'b2' => 3],
+
+                            'b2' => ['c5' => 4, 'L2' => 4, 'Pohmroom' => 3, 'toilet_421' => 2],
+                            'toilet_421' => ['b2' => 2, 'F11_421b' => 1],
+
+                            'F11_421b' => ['toilet_421' => 1, 'F11_421' => 7, 'F11_419' => 2],
+                            'F11_421' => ['F11_421b' => 7, 'F11_422' => 2, 'b1' => 1],
+                            'F11_419' => ['F11_421b' => 2, 'F11_420' => 1],
+                            'F11_420' => ['F11_419' => 1, 'b1' => 2],
+                            'F11_422' => ['F11_421' => 2, 'F11_423' => 1],
+                            'F11_423' => ['F11_422' => 1],
+
+                            'b1' => [
+                                'elevatorF11_4M' => 3,
+                                'F11_421' => 1,
+                                'F11_420' => 2
+                            ],
+
+                            'A' => ['B' => 1, 'C' => 4],
+                            'B' => ['A' => 1, 'C' => 2, 'D' => 5],
+                            'C' => ['A' => 4, 'B' => 2, 'D' => 1],
+                            'D' => ['B' => 5, 'C' => 1]
+                        ];
+                    } elseif ($floors == 3) {
+                        $mapURL = "Map_F11_3.png";
+                        $graph = [
+                        ];
+                    } elseif ($floors == 2) {
+                        $mapURL = "Map_F11_2.png";
+                        $graph = [
+                        ];
+                    } elseif ($floors == 1) {
+                        $mapURL = "Map_F11_1.png";
+                        $graph = [
+                        ];
+                    }
+                } elseif ($buildingName == 'อาคารเรียนรวม 1') {
+                    if ($floors == 2) {
+                        $mapURL = "Map_M1_2.png";
+                        $graph = [
+                        ];
+                    } elseif ($floors == 1) {
+                        $mapURL = "Map_M1_1.png";
+                        $graph = [
+                        ];
+                    }
+                } elseif ($buildingName == 'อาคารเรียนรวม 2') {
+                    if ($floors == 2) {
+                        $mapURL = "Map_M2_2.png";
+                        $graph = [
+                        ];
+                    } elseif ($floors == 1) {
+                        $mapURL = "Map_M2_1.png";
+                        $graph = [
+                        ];
+                    }
+                } elseif ($buildingName == 'อาคารวิชาการ 1') {
+                    $graph = [];
+                } elseif ($buildingName == 'อาคารวิชาการ 2') {
+                    $graph = [];
+                } elseif ($buildingName == 'F12 อาคารเทพรัตน์วิทยรักษ์') {
+                    if ($floors == 4) {
+                        $mapURL = "Map_F11_41.png";
+                        $graph = [
+                        ];
+                    } elseif ($floors == 3) {
+                        $mapURL = "Map_F11_3.png";
+                        $graph = [
+                        ];
+                    } elseif ($floors == 2) {
+                        $mapURL = "Map_F11_2.png";
+                        $graph = [
+                        ];
+                    } elseif ($floors == 1) {
+                        $mapURL = "Map_F11_1.png";
+                        $graph = [
+                        ];
+                    }
+                }
+
+                echo '<div class="conMap">';
+                echo '    <div class="map">';
+                echo '        <canvas id="mapCanvas" style="border: solid 1px; position: absolute; "></canvas>';
+                echo '        <img src="/Indoor/Map_for_indor/' . $mapURL . '" id="mapImage">';
+                echo '    </div>';
+                echo '</div>';
+                echo '<br><br>';
 
                 // Calculate the shortest path
                 $shortestPath = dijkstra($graph, $start, $end);
@@ -258,13 +341,8 @@
                     $shortestArrayPath = $shortestPath;
                     echo "Shortest path from $start to $end: " . implode(' -> ', $shortestPath);
 
-                    // echo "<pre>";
-                    // print_r($shortestArrayPath);
-                    // echo "</pre>";
-            
                     // Encode the PHP array as JSON
                     $pathWayJSON = json_encode($shortestArrayPath);
-
 
                     // Fetch and display images related to the shortestArrayPath
                     echo "<div class='row g-2'>";
@@ -327,7 +405,7 @@
 
                     // echo "<div class='col-3'>";
                     // echo "</div>";
-
+            
                     // echo "<div class='col-3'>";
                     // echo "<div class='card shadow h-100'>";
                     // echo "<img src='$imageURLEnd3' alt='' width='20%' class='card-img'>";
@@ -336,21 +414,17 @@
                     // }
                     // echo "</div>";
                     // echo "</div>";
-
+            
                     // echo "<div class='col-5'>";
                     // echo "</div>";
-
-
-
-
-
+            
                     $elementNumber = 1;
                     foreach ($shortestArrayPath as $point1) {
                         $nextPointIndex = array_search($point1, $shortestArrayPath) + 1;
                         if ($nextPointIndex < count($shortestArrayPath)) {
                             $point2 = $shortestArrayPath[$nextPointIndex];
 
-                            // $fileName = $point1  ;ok can use 1 valiable
+
                             $fileName = $point1 . '_' . $point2;
 
                             // สร้าง query เพื่อค้นหารูปภาพโดยใช้ $fileName
@@ -359,9 +433,6 @@
 
                             echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
                             echo "</div>";
-
-
-
 
                             if ($query->num_rows > 0) {
                                 while ($row = $query->fetch_assoc()) {
@@ -381,9 +452,6 @@
                                 echo "<br>";
                                 //echo "<p>No image found for point: $fileName</p>";
                             }
-
-
-
 
                             $fileName1 = $point1 . '_' . $point2 . '_L';
                             $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName1.jpg'");
@@ -406,19 +474,15 @@
                             }
 
 
-
-
-
-                            //circle
-                            echo "<div id='element$elementNumber' class='col-3' style='text-align: center; margin: auto;'>";
-                            echo "<div class='circle' style='text-align: center; margin: auto;'>You</div>";
+                            // Next circle
+                            $nextElementNumber = $elementNumber + 1;
+                            echo "<div id='element$nextElementNumber' class='col-3' style='text-align: center; margin: auto;'>";
+                            echo "<div class='circle' style='text-align: center; margin: auto;'>";
+                            echo "<span onclick=\"navigate('next')\" style='cursor: pointer;'>$nextElementNumber</span>";
                             echo "</div>";
-                            $elementNumber++;
+                            echo "</div>";
 
-
-
-
-
+                            //mid R
                             $fileName2 = $point1 . '_' . $point2 . '_R';
                             $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName2.jpg'");
 
@@ -439,10 +503,6 @@
 
                             }
 
-
-
-
-
                             // $fileName3 = $point1 . '_' . $point2 . '_B';
                             // $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName3.jpg'");
                             echo "<div class='col-3'>";
@@ -450,7 +510,7 @@
 
                             // echo "<div class='col-3'>";
                             // echo "</div>";
-
+            
                             // if ($query->num_rows > 0) {
                             //     while ($row = $query->fetch_assoc()) {
                             //         $imageURL = 'uploads/' . $row['file_name'];
@@ -464,17 +524,11 @@
                             // } else {
                             //     echo "<p>No image found for point: $fileName3</p>";
                             // }
-
-                            echo "<span onclick=\"scrollToElement('element$elementNumber')\" style='cursor: pointer;'>$elementNumber</span>";
+            
+                            $elementNumber++;
 
                         }
                     }
-
-
-
-
-
-
 
                     echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
                     echo "</div>";
@@ -535,7 +589,7 @@
 
                     // echo "<div class='col-3'>";
                     // echo "</div>";
-
+            
                     // echo "<div class='col-3'>";
                     // echo "<div class='card shadow h-100'>";
                     // echo "<img src='$imageURLEnd3' alt='' width='20%' class='card-img'>";
@@ -544,20 +598,20 @@
                     // }
                     // echo "</div>";
                     // echo "</div>";
-
+            
                     // echo "<div class='col-5'>";
                     // echo "</div>";
-
+            
 
                     // // แสดงรูปสำหรับ $end
                     // $imageURLEnd = 'uploads/' . $end . '.jpg';
-
+            
                     // echo "<div class='col-sm-6 col-lg-4 col-xl-3'>";
                     // echo "<div class='card shadow h-100'>";
                     // echo "<img src='$imageURLEnd' alt='' width='100%' class='card-img'>";
                     // echo "</div>";
                     // echo "</div>";
-
+            
                 } else {
                     echo "Sorry, there is no way to go from $start to $end. Please select somewhere closer to the target.";
                 }
@@ -654,13 +708,6 @@
         ctx.stroke();
     }
 
-    function scrollToElement(elementId) {
-        var element = document.getElementById(elementId);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
-    }
-
     // Function to handle next and back navigation
     function navigate(direction) {
         var currentElement = parseInt(localStorage.getItem('currentElement')) || 1;
@@ -674,6 +721,14 @@
         localStorage.setItem('currentElement', currentElement);
         scrollToElement('element' + currentElement);
     }
+
+    function scrollToElement(elementId) {
+        var element = document.getElementById(elementId);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
 
 </script>
 
