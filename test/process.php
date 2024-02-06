@@ -16,7 +16,7 @@
         }
 
         let pointXY_f11_4 = {
-            'F11_423': { 'X': 790, 'Y': 350 },
+            'F11_423': { 'X': 792, 'Y': 348 },
             'F11_423_F11_423': { 'X': 820, 'Y': 332 },
 
             'F11_422': { 'X': 790, 'Y': 350 },
@@ -87,8 +87,6 @@
             'Pohmroom': { 'X': 120, 'Y': 347 },
             'Pohmroom_Pohmroom': { 'X': 120, 'Y': 295 },
 
-
-
         };
 
         // Call drawLines after the page has loaded
@@ -109,6 +107,86 @@
 <body>
     <?php include('sidebar.html');
     session_start();
+
+    $up = 0;
+    $holdState = "";
+
+    $pointXY_f11_4 = [
+        'F11_423' => ['X' => 792, 'Y' => 348],
+        'F11_423_F11_423' => ['X' => 820, 'Y' => 332],
+
+        'F11_422' => ['X' => 790, 'Y' => 350],
+        'F11_422_F11_422' => ['X' => 765, 'Y' => 313],
+
+        'F11_421' => ['X' => 712, 'Y' => 400],
+        'F11_421_F11_421' => ['X' => 691, 'Y' => 361],
+
+        'F11_421b' => ['X' => 510, 'Y' => 240],
+        'F11_421b_F11_421b' => ['X' => 542, 'Y' => 224],
+
+        'F11_420' => ['X' => 591, 'Y' => 373],
+        'F11_420_F11_420' => ['X' => 557, 'Y' => 378],
+
+        'F11_419' => ['X' => 540, 'Y' => 290],
+        'F11_419_F11_419' => ['X' => 508, 'Y' => 300],
+
+        'toilet_421' => ['X' => 435, 'Y' => 269],
+        'toilet_421_toilet_421' => ['X' => 422, 'Y' => 238],
+
+        'b1' => ['X' => 650, 'Y' => 440],
+
+        'elevatorF11_4M' => ['X' => 658, 'Y' => 590],
+        'elevatorF11_4M_elevatorF11_4M' => ['X' => 595, 'Y' => 546],
+
+        'c1' => ['X' => 658, 'Y' => 712],
+
+        'F11_401' => ['X' => 658, 'Y' => 786],
+        'F11_401_F11_401' => ['X' => 702, 'Y' => 776],
+
+        'F11_402' => ['X' => 658, 'Y' => 786],
+        'F11_402_F11_402' => ['X' => 615, 'Y' => 823],
+
+        'c2' => ['X' => 372, 'Y' => 712],
+        'c3' => ['X' => 372, 'Y' => 890],
+        'c4' => ['X' => 275, 'Y' => 712],
+        'c9' => ['X' => 658, 'Y' => 946],
+
+        'StairF11_f4s' => ['X' => 375, 'Y' => 946],
+
+        'F11_407' => ['X' => 300, 'Y' => 889],
+        'F11_407_F11_407' => ['X' => 300, 'Y' => 913],
+
+        'F11_408' => ['X' => 210, 'Y' => 888],
+        'F11_408_F11_408' => ['X' => 210, 'Y' => 866],
+
+        'F11_409' => ['X' => 151, 'Y' => 888],
+        'F11_409_F11_409' => ['X' => 151, 'Y' => 913],
+
+        'F11_410' => ['X' => 25, 'Y' => 888],
+        'F11_410_F11_410' => ['X' => 25, 'Y' => 870],
+
+        'F11_411' => ['X' => 25, 'Y' => 888],
+        'F11_411_F11_411' => ['X' => 25, 'Y' => 915],
+
+        'F11_412' => ['X' => 30, 'Y' => 712],
+        'F11_412_F11_412' => ['X' => 35, 'Y' => 737],
+
+        'F11_413' => ['X' => 35, 'Y' => 712],
+        'F11_413_F11_413' => ['X' => 35, 'Y' => 691],
+
+        // 'F11_414' => ['X' => 35, 'Y' => 691],
+        // 'L2' => ['X' => 35, 'Y' => 691],
+    
+        'F11_415' => ['X' => 151, 'Y' => 712],
+        'F11_415_F11_415' => ['X' => 151, 'Y' => 690],
+
+        'c5' => ['X' => 276, 'Y' => 424],
+        'b2' => ['X' => 276, 'Y' => 269],
+
+        'Pohmroom' => ['X' => 120, 'Y' => 347],
+        'Pohmroom_Pohmroom' => ['X' => 120, 'Y' => 295],
+    ];
+
     ?>
 
     <div id="main">
@@ -175,6 +253,80 @@
 
                 return $path;
             }
+
+            // function dijkstraWithDirections($graph, $start, $end, $pointXY_f11_4)
+            // {
+            //     $distances = array_fill_keys(array_keys($graph), PHP_INT_MAX);
+            //     $distances[$start] = 0;
+            //     $previous = array_fill_keys(array_keys($graph), null);
+            //     $directions = array_fill_keys(array_keys($graph), null);
+            //     $queue = array_keys($graph);
+            
+            //     while (!empty($queue)) {
+            //         // Find the node with the smallest distance in the queue
+            //         $minDistance = PHP_INT_MAX;
+            //         $minNode = null;
+            //         foreach ($queue as $node) {
+            //             if ($distances[$node] < $minDistance) {
+            //                 $minDistance = $distances[$node];
+            //                 $minNode = $node;
+            //             }
+            //         }
+            
+            //         if ($minNode === $end) {
+            //             break; // Found shortest path to end
+            //         }
+            
+            //         // Remove the selected node from the queue
+            //         $queue = array_diff($queue, [$minNode]);
+            
+            //         // Update distances, previous nodes, and directions for neighboring nodes
+            //         foreach ($graph[$minNode] as $neighbor => $weight) {
+            //             $alt = $distances[$minNode] + $weight;
+            //             if ($alt < $distances[$neighbor]) {
+            //                 $distances[$neighbor] = $alt;
+            //                 $previous[$neighbor] = $minNode;
+            //                 if (isset($pointXY_f11_4[$minNode]['X']) && isset($pointXY_f11_4[$neighbor]['X'])) {
+            //                     $directions[$neighbor] = ($pointXY_f11_4[$minNode]['X'] < $pointXY_f11_4[$neighbor]['X']) ? 'right' : 'left';
+            //                 } else {
+            //                     error_reporting(E_ERROR | E_PARSE);
+            //                     ini_set('display_errors', 1);
+            //                 }
+            //             }
+            //         }
+            //     }
+            
+            //     // Reconstruct the shortest path
+            //     $path = [];
+            //     $directionInfo = [];
+            //     $node = $end;
+            //     while ($previous[$node] !== null) {
+            //         array_unshift($path, $node);
+            //         array_unshift($directionInfo, $directions[$node]);
+            //         $node = $previous[$node];
+            //     }
+            //     array_unshift($path, $start);
+            
+            //     return ['path' => $path, 'directions' => $directionInfo];
+            // }
+            
+            function calculateAngle($current, $next)
+            {
+                $angle = atan2($next['Y'] - $current['Y'], $next['X'] - $current['X']);
+
+                // Convert radians to degrees
+                $angle = rad2deg($angle);
+
+                // Adjust the angle to be between 0 and 360 degrees
+                $angle = ($angle + 360) % 360;
+
+
+                $up = ($next['Y'] <= $current['Y']) ? 1 : 2;
+
+                return ['angle' => $angle, 'up' => $up];
+            }
+
+
 
             if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 // Get the start and end values from the URL parameters
@@ -337,6 +489,23 @@
                 echo "You selected start point: " . $start . "<br>";
                 echo "You selected end point: " . $end . "<br>";
 
+
+                // // Usage example
+                // $result = dijkstraWithDirections($graph, $start, $end, $pointXY_f11_4);
+                // $shortestArrayPath = $result['path'];
+                // $directions = $result['directions'];
+            
+                // // Display the shortest path and directions
+                // echo "Shortest path from $start to $end: " . implode(' -> ', $shortestArrayPath) . "<br>";
+            
+                // echo "Directions: ";
+                // foreach ($directions as $index => $direction) {
+                //     echo $shortestArrayPath[$index] . " -> " . $direction . " -> ";
+                // }
+                // echo $end;
+                // echo "<br>";
+            
+
                 if ($shortestPath !== null) {
                     $shortestArrayPath = $shortestPath;
                     echo "Shortest path from $start to $end: " . implode(' -> ', $shortestPath);
@@ -398,6 +567,8 @@
                     echo "</div>";
                     echo "</div>";
 
+
+
                     // แสดงรูปสำหรับ $start B
                     // $imageURLEnd3 = 'uploads/' . $namePath . '_B.jpg';
                     echo "<div class='col-3'>";
@@ -418,22 +589,291 @@
                     // echo "<div class='col-5'>";
                     // echo "</div>";
             
+                    // $result = calculateAngle($pointXY_f11_4[$start], $pointXY_f11_4[ $namePath]);
+                    // $angle = $result['angle'];
+                    // $up = $result['up'];
+            
+                    // echo "Angle $up between $start and  $namePath: $angle degrees\n";
+            
+                    // //for up 
+                    // if ($up == 1) {
+                    //     if ($angle >= 45 && $angle < 135) {
+                    //         echo "Go Anywhere\n";
+                    //         $holdState = "upAnywhere";
+            
+                    //     } elseif ($angle >= 135 && $angle < 225) {
+                    //         if ($holdState == "upLeft") {
+                    //             echo "Go straight\n";
+                    //         }elseif ($holdState == "") {
+                    //             echo "Go straight\n";
+                    //         } else {
+                    //             echo "Go Left\n";
+                    //         }
+                    //         $holdState = "upLeft";
+            
+                    //     } elseif ($angle >= 225 && $angle < 315) {
+                    //         if ($holdState == "upLeft" ) {
+                    //             echo "Turn Left\n";
+                    //         }elseif ($holdState == "upRight" ) {
+                    //             echo "Turn Right\n";
+                    //         }
+                    //         echo "Go Straight \n";
+                    //         $holdState = "upStraight";
+            
+                    //     } else {
+                    //         if ($holdState == "upRight") {
+                    //             echo "Go straight\n";
+                    //         }elseif ($holdState == "") {
+                    //             echo "Go straight\n";
+                    //         } else {
+                    //             echo "Go Right\n";
+                    //         }
+                    //         $holdState = "upRight";
+            
+                    //     }
+                    //     $up = 0;
+                    //     //for down
+                    // } elseif ($up == 2) {
+                    //     if ($angle >= 45 && $angle < 135) {
+                    //         if ($holdState == "downLeft" ) {
+                    //             echo "Turn Left\n";
+                    //         }elseif ($holdState == "downRight" ) {
+                    //             echo "Turn Right\n";
+                    //         }
+                    //         echo "Go Straight\n";
+                    //         $holdState = "downStraight";
+            
+                    //     } elseif ($angle >= 135 && $angle < 225) {
+                    //         if ($holdState == "downLeft") {
+                    //             echo "Go straight\n";
+                    //         }elseif ($holdState == "") {
+                    //             echo "Go straight\n";
+                    //         } else {
+                    //             echo "Go Left\n";
+                    //         }
+                    //         $holdState = "downLeft";
+            
+
+                    //     } elseif ($angle >= 225 && $angle < 315) {
+                    //         echo "Degree \n";
+                    //         echo "Go Anywhere \n";
+                    //         $holdState = "downAnywhere";
+            
+                    //     } else {
+                    //         if ($holdState == "downRight") {
+                    //             echo "Go straight\n";
+                    //         }elseif ($holdState == "") {
+                    //             echo "Go straight\n";
+                    //         } else {
+                    //             echo "Go Right\n";
+                    //         }
+                    //         $holdState = "downRight";
+                    //     }
+                    //     $up = 0;
+                    // }
+            
+                    $holdState = "";
                     $elementNumber = 1;
                     foreach ($shortestArrayPath as $point1) {
                         $nextPointIndex = array_search($point1, $shortestArrayPath) + 1;
                         if ($nextPointIndex < count($shortestArrayPath)) {
                             $point2 = $shortestArrayPath[$nextPointIndex];
 
+                            $result = calculateAngle($pointXY_f11_4[$point1], $pointXY_f11_4[$point2]);
+                            $angle = $result['angle'];
+                            $up = $result['up'];
 
-                            $fileName = $point1 . '_' . $point2;
 
                             // สร้าง query เพื่อค้นหารูปภาพโดยใช้ $fileName
                             //$query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName" . "b.jpg'");ok
-                            $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName.jpg'");
-
+            
                             echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
                             echo "</div>";
 
+
+                            echo "<div class='col-12'>";
+                            echo "Angle $up between $point1 and $point2: $angle degrees\n";
+
+
+                            //for up 
+                            if ($up == 1) {
+                                if ($angle >= 45 && $angle < 135) {
+                                    echo "Go Anywhere\n";
+                                    $holdState = "upAnywhere";
+
+                                } elseif ($angle >= 135 && $angle < 225) {
+                                    if ($holdState == "upLeft") {
+                                        echo "Go straight u1\n";
+                                    } elseif ($holdState == "") {
+                                        echo "Go straight start1\n";
+                                    } else {
+                                        echo "Go Left\n";
+                                    }
+                                    $holdState = "upLeft";
+
+                                } elseif ($angle >= 225 && $angle < 315) {
+                                    if ($holdState == "upLeft") {
+                                        echo "Turn Left u2\n";
+                                    } elseif ($holdState == "upRight") {
+                                        echo "Turn Left sus\n";
+
+                                        echo "<div class='row g-2'>";
+
+
+                                        //mid R
+                                        $fileName2 = $point1 . '_' . $point2 . '_R';
+                                        $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName2.jpg'");
+                                        echo "<div class='col-3'>";
+                                        echo "</div>";
+                                        if ($query->num_rows > 0) {
+                                            while ($row = $query->fetch_assoc()) {
+                                                $imageURL = 'uploads/' . $row['file_name'];
+                                                echo "<div class='col-3'>";
+                                                echo "<div class='card shadow h-100'>";
+                                                echo "<img src='$imageURL' alt='' width='100%' class='card-img'>";
+                                                echo "Right of $fileName2 Room";
+                                                echo "</div>";
+                                                echo "</div>";
+                                            }
+                                        } else {
+                                            echo "<div class='col-3'>";
+                                            // echo "<p>No image found for point: $fileName2</p>";
+                                            echo "</div>";
+
+                                        }
+
+                                        // $fileName3 = $point1 . '_' . $point2 . '_B';
+                                        // $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName3.jpg'");
+                                        echo "<div class='col-3'>";
+                                        echo "</div>";
+
+
+                                        // T
+                                        $fileName = $point1 . '_' . $point2;
+                                        $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName.jpg'");
+                                        if ($query->num_rows > 0) {
+                                            while ($row = $query->fetch_assoc()) {
+                                                $imageURL = 'uploads/' . $row['file_name'];
+                                                echo "<div class='col-3'>";
+                                                echo "</div>";
+                                                echo "<div class='col-sm-3 col-lg-4 col-xl-3'>";
+                                                echo "<div class='card shadow h-100'>";
+                                                echo "<img src='$imageURL' alt='' width='100%' class='card-img'>";
+                                                echo "Way to  $fileName Room";
+                                                echo "</div>";
+                                                echo "</div>";
+                                            }
+                                        } else {
+                                            echo "<br>";
+                                            //echo "<p>No image found for point: $fileName</p>";
+                                        }
+
+
+                                        
+                                        // Next circle
+                                        $nextElementNumber = $elementNumber + 1;
+                                        echo "<div id='element$nextElementNumber' class='col-3' style='text-align: center; margin: auto;'>";
+                                        echo "<div class='circle' style='text-align: center; margin: auto;'>";
+                                        echo "<span onclick=\"navigate('next')\" style='cursor: pointer;'>$nextElementNumber</span>";
+                                        echo "</div>";
+                                        echo "</div>";
+
+                                        //B
+                                        $fileName3 = $point1 . '_' . $point2 . '_B';
+                                        $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName3.jpg'");
+
+                                        if ($query->num_rows > 0) {
+                                            while ($row = $query->fetch_assoc()) {
+                                                $imageURL = 'uploads/' . $row['file_name'];
+                                                echo "<div class='col-sm-6 col-lg-4 col-xl-3'>";
+                                                echo "<div class='card shadow h-100'>";
+                                                echo "<img src='$imageURL' alt='' width='100%' class='card-img'>";
+                                                echo "Back of $fileName3 Room";
+                                                echo "</div>";
+                                                echo "</div>";
+                                            }
+                                        } else {
+                                            echo "<div class='col-3'>";
+                                            echo "</div>";
+                                        }
+                                        echo "<div class='col-3'>";
+                                        echo "</div>";
+
+
+                                        echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
+                                        echo "aaaaaaaaaaaaaaaaaaaaaaaaa";
+                                        echo "</div>";
+
+                                        echo "</div>";
+
+
+
+
+
+
+
+
+                                    }
+                                    echo "Go Straight \n";
+                                    $holdState = "upStraight";
+
+                                } else {
+                                    if ($holdState == "upRight") {
+                                        echo "Go straight u3 \n";
+                                    } elseif ($holdState == "") {
+                                        echo "Go straight start2\n";
+                                    } else {
+                                        echo "Go Right\n";
+                                    }
+                                    $holdState = "upRight";
+
+                                }
+                                $up = 0;
+                                //for down
+                            } elseif ($up == 2) {
+                                if ($angle >= 45 && $angle < 135) {
+                                    if ($holdState == "downLeft") {
+                                        echo "Turn Left\n";
+                                    } elseif ($holdState == "downRight") {
+                                        echo "Turn Right\n";
+                                    }
+                                    echo "Go Straight\n";
+                                    $holdState = "downStraight";
+
+                                } elseif ($angle >= 135 && $angle < 225) {
+                                    if ($holdState == "downLeft") {
+                                        echo "Go straight\n";
+                                    } elseif ($holdState == "") {
+                                        echo "Go straight\n";
+                                    } else {
+                                        echo "Go Left\n";
+                                    }
+                                    $holdState = "downLeft";
+
+
+                                } elseif ($angle >= 225 && $angle < 315) {
+                                    echo "Degree \n";
+                                    echo "Go Anywhere \n";
+                                    $holdState = "downAnywhere";
+
+                                } else {
+                                    if ($holdState == "downRight") {
+                                        echo "Go straight\n";
+                                    } elseif ($holdState == "") {
+                                        echo "Go straight\n";
+                                    } else {
+                                        echo "Go Right\n";
+                                    }
+                                    $holdState = "downRight";
+                                }
+                                $up = 0;
+                            }
+
+                            echo "</div>";
+
+
+                            $fileName = $point1 . '_' . $point2;
+                            $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName.jpg'");
                             if ($query->num_rows > 0) {
                                 while ($row = $query->fetch_assoc()) {
                                     $imageURL = 'uploads/' . $row['file_name'];
@@ -453,6 +893,7 @@
                                 //echo "<p>No image found for point: $fileName</p>";
                             }
 
+                            //L
                             $fileName1 = $point1 . '_' . $point2 . '_L';
                             $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName1.jpg'");
 
@@ -503,11 +944,12 @@
 
                             }
 
-                            // $fileName3 = $point1 . '_' . $point2 . '_B';
-                            // $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName3.jpg'");
+
                             echo "<div class='col-3'>";
                             echo "</div>";
-
+                            //B
+                            // $fileName3 = $point1 . '_' . $point2 . '_B';
+                            // $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName3.jpg'");
                             // echo "<div class='col-3'>";
                             // echo "</div>";
             
@@ -526,6 +968,9 @@
                             // }
             
                             $elementNumber++;
+
+
+
 
                         }
                     }
