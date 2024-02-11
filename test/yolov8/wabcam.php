@@ -24,7 +24,6 @@
         <video id="video_feed" autoplay></video>
     </div>
     <div class="pre_output">
-        <h1>Now you stay at . . . </h1>
         <?php
         function fetchDataFromDatabase()
         {
@@ -102,7 +101,6 @@
 
 </html>
 <script>
-    // JavaScript to update the video feed
     const video = document.getElementById('video_feed');
     video.src = '/video_feed';
 </script>

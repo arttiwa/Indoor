@@ -144,7 +144,7 @@
         'F11_401' => ['X' => 658, 'Y' => 786],
         'F11_401_F11_401' => ['X' => 702, 'Y' => 776],
 
-        'F11_402' => ['X' => 658, 'Y' => 786],
+        'F11_402' => ['X' => 658, 'Y' => 790],
         'F11_402_F11_402' => ['X' => 615, 'Y' => 823],
 
         'c2' => ['X' => 372, 'Y' => 712],
@@ -344,6 +344,76 @@
                 }
             }
 
+            function determineBall($mom, $pointXY_f11_4, $namePath, $dad)
+            {
+                $aa = $pointXY_f11_4[$mom];
+                $a = $pointXY_f11_4[$namePath];
+                $b = $pointXY_f11_4[$dad];
+
+                $startX = $aa['X'];
+                $startY = $aa['Y'];
+
+                $namePathX = $a['X'];
+                $namePathY = $a['Y'];
+
+                $nextPointX = $b['X'];
+                $nextPointY = $b['Y'];
+
+                $differenceY = $namePathY - $startY;
+
+                if ($mom == "elevatorF11_4M") {
+                    echo "<script>console.log('elevatorF11_4M==start')</script>";
+                    return "R";
+                } elseif ($namePathX > $startX && abs($differenceY) <= 5) {
+                    if ($namePathY < $nextPointY) {
+                        echo "<script>console.log('Start left')</script>";
+                        return "L";
+                    } elseif ($namePathY > $nextPointY) {
+                        echo "<script>console.log('Start right')</script>";
+                        return "R";
+                    } else {
+                        echo "<script>console.log('Start Turn1')</script>";
+                        return "T";
+                    }
+                } elseif ($namePathX > $startX && abs($differenceY) <= 5) {
+                    if ($namePathY > $nextPointY) {
+                        echo "<script>console.log('Start left')</script>";
+                        return "L";
+                    } elseif ($namePathY < $nextPointY) {
+                        echo "<script>console.log('Start right')</script>";
+                        return "R";
+                    } else {
+                        echo "<script>console.log('Start Turn2')</script>";
+                        return "T";
+                    }
+                } elseif ($namePathY < $startY) {
+                    if ($namePathX > $nextPointX) {
+                        echo "<script>console.log('Start right')</script>";
+                        return "R";
+                    } elseif ($namePathX < $nextPointX) {
+                        echo "<script>console.log('Start left')</script>";
+                        return "L";
+                    } else {
+                        echo "<script>console.log('Start Turn3')</script>";
+                        return "T";
+                    }
+                } elseif ($namePathY > $startY) {
+                    if ($namePathX > $nextPointX) {
+                        echo "<script>console.log('Start left')</script>";
+                        return "L";
+                    } elseif ($namePathX < $nextPointX) {
+                        echo "<script>console.log('Start right')</script>";
+                        return "R";
+                    } else {
+                        echo "<script>console.log('Start Turn4')</script>";
+                        return "T";
+                    }
+                } else {
+                    echo "<script>console.log('Something wrong')</script>";
+                    return "Error";
+                }
+            }
+
 
             if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 // Get the start and end values from the URL parameters
@@ -363,9 +433,11 @@
                     while ($row = $query->fetch_assoc()) {
                         $buildingName = $row['buildingname'];
                         $floors = $row['floors'];
-
-                        echo "Building Name : $buildingName, Floor : $floors";
                         echo "<br>";
+
+                        echo "<div style='font-size: 22px;'>Building Name : $buildingName";
+                        echo "<br>";
+                        echo "Floor : $floors </div>";
 
                     }
                 } else {
@@ -526,18 +598,16 @@
                 if ($shortestPath !== null) {
                     $shortestArrayPath = $shortestPath;
 
-                    $afterDeath = $end . '_' . $end;
-                    // Append $afterDeath to $shortestArrayPath
-                    array_push($shortestArrayPath, $afterDeath);
-
-                    echo "Shortest path from $start to $end: " . implode(' -> ', $shortestPath);
-
+                    //echo "Shortest path from $start to $end: " . implode(' -> ', $shortestPath);
+            
                     // Encode the PHP array as JSON to js use
                     $pathWayJSON = json_encode($shortestArrayPath);
 
                     // Fetch and display images related to the shortestArrayPath
                     echo "<div class='row g-2'>";
                     $namePath = $start . '_' . $start;
+                    $ball = determineBall($start, $pointXY_f11_4, $namePath, $shortestArrayPath[0]);
+
 
                     echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
                     echo "</div>";
@@ -583,8 +653,12 @@
                     }
 
                     //circle echo "<div class='col-1 d-flex align-items-center justify-content-center circle'>Circle</div>";
+                    echo "<div id='element' class='col-3' style='text-align: center; margin: auto;'>";
                     ball2Arrow($ball);
-                    echo "<div class='col-3 circle'>You</div>";
+                    echo "<div class='circle' style='text-align: center; margin: auto;'>";
+                    echo "<span onclick=\"navigate('next')\" style='cursor: pointer;'>you</span>";
+                    echo "</div>";
+                    echo "</div>";
 
                     // แสดงรูปสำหรับ $start r
                     $imageURLEnd2 = 'uploads/' . $namePath . '_R.jpg';
@@ -603,11 +677,11 @@
                     }
 
 
-                    // แสดงรูปสำหรับ $start B
-                    // $imageURLEnd3 = 'uploads/' . $namePath . '_B.jpg';
                     echo "<div class='col-3'>";
                     echo "</div>";
 
+                    // แสดงรูปสำหรับ $start B
+                    // $imageURLEnd3 = 'uploads/' . $namePath . '_B.jpg';
                     // echo "<div class='col-3'>";
                     // echo "</div>";
             
@@ -623,103 +697,6 @@
                     // echo "<div class='col-5'>";
                     // echo "</div>";
             
-                    $result = calculateAngle($pointXY_f11_4[$start], $pointXY_f11_4[$namePath]);
-                    $angle = $result['angle'];
-                    $up = $result['up'];
-
-                    echo "Angle $up between $start and  $namePath: $angle degrees\n";
-
-                    //for up 
-                    if ($up == 1) {
-                        if ($angle >= 45 && $angle < 135) {
-                            echo "Go Anywhere\n";
-                            $holdState = "upAnywhere";
-                            $ball = "?";
-
-                        } elseif ($angle >= 135 && $angle < 225) {
-                            if ($holdState == "upLeft") {
-                                echo "Go straight\n";
-                                $ball = "T";
-                            } elseif ($holdState == "") {
-                                echo "Go straight\n";
-                                $ball = "T";
-                            } else {
-                                echo "Turn Left\n";
-                                $ball = "L";
-                            }
-                            $holdState = "upLeft";
-
-                        } elseif ($angle >= 225 && $angle < 315) {
-                            if ($holdState == "upLeft") {
-                                echo "Turn Left\n";
-                                $ball = "L";
-                            } elseif ($holdState == "upRight") {
-                                echo "Turn Right\n";
-                                $ball = "R";
-                            }
-                            echo "Go Straight \n";
-                            $holdState = "upStraight";
-                            $ball = "T";
-
-                        } else {
-                            if ($holdState == "upRight") {
-                                echo "Go straight\n";
-                                $ball = "T";
-                            } elseif ($holdState == "") {
-                                echo "Go straight\n";
-                                $ball = "T";
-                            } else {
-                                echo "Turn Right\n";
-                                $ball = "R";
-                            }
-                            $holdState = "upRight";
-
-                        }
-                        $up = 0;
-
-                        //for down
-                    } elseif ($up == 2) {
-                        if ($angle >= 45 && $angle < 135) {
-                            if ($holdState == "downLeft") {
-                                echo "Turn Left\n";
-                                $ball = "L";
-                            } elseif ($holdState == "downRight") {
-                                echo "Turn Right\n";
-                                $ball = "R";
-                            }
-                            echo "Go Straight\n";
-                            $holdState = "downStraight";
-                            $ball = "T";
-
-                        } elseif ($angle >= 90 && $angle < 225) {
-                            if ($holdState == "downLeft") {
-                                echo "Go straight\n";
-                                $ball = "T";
-                            } elseif ($holdState == "") {
-                                echo "Go straight\n";
-                                $ball = "T";
-                            } else {
-                                echo "Turn Left\n";
-                                $ball = "L";
-                            }
-                            $holdState = "downLeft";
-
-                        } else {
-                            if ($holdState == "downRight") {
-                                echo "Go straight\n";
-                                $ball = "T";
-                            } elseif ($holdState == "") {
-                                echo "Go straight\n";
-                                $ball = "T";
-                            } else {
-                                echo "Turn Right\n";
-                                $ball = "R";
-                            }
-                            $holdState = "downRight";
-                        }
-                        $up = 0;
-                    }
-
                     $holdState = "";
                     $elementNumber = 1;
                     foreach ($shortestArrayPath as $point1) {
@@ -738,10 +715,8 @@
                             echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
                             echo "</div>";
 
-
                             echo "<div class='col-12'>";
                             echo "Angle $up between $point1 and $point2: $angle degrees\n";
-
 
                             //for up 
                             if ($up == 1) {
@@ -842,9 +817,8 @@
 
 
                                         echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
-                                        //echo "aaaaaaaaaaaaaaaaaaaaaaaaa";
+                                        echo "Turn Right laa  Go straight naxa\n";
                                         echo "</div>";
-                                        echo "Turn Right laa  Go straight naa\n";
                                         $ball = "T";
                                         echo "</div>";
                                     }
@@ -938,7 +912,6 @@
 
 
                                         echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
-                                        //echo "aaaaaaaaaaaaaaaaaaaaaaaaa";
                                         echo "</div>";
 
                                         echo "</div>";
@@ -946,7 +919,7 @@
                                     } else {
                                         echo "Go Straight \n";
                                         $ball = "T";
-                                    }   
+                                    }
                                     $holdState = "upStraight";
 
                                 } else {
@@ -1046,9 +1019,8 @@
 
 
                                         echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
-                                        //echo "aaaaaaaaaaaaaaaaaaaaaaaaa";
+                                        echo "Turn Right laa  Go straight naxa\n";
                                         echo "</div>";
-                                        echo "Turn Right laa  Go straight naa\n";
                                         $ball = "T";
                                         echo "</div>";
 
@@ -1162,7 +1134,7 @@
                                         echo "Turn Right q1\n";
                                     } elseif ($holdState == "upLeft") {
                                         echo "Turn Left\n";
-
+                                        $ball = "L";
                                         echo "<div class='row g-2'>";
 
                                         //mid R
@@ -1209,8 +1181,9 @@
                                                 echo "</div>";
                                             }
                                         } else {
-                                            echo "<br>";
-                                            //echo "<p>No image found for point: $fileName</p>";
+                                            echo "<div class='col-3'>";
+                                            // echo "<p>No image found for point: $fileName2</p>";
+                                            echo "</div>";
                                         }
 
 
@@ -1292,10 +1265,9 @@
                                 }
                                 $up = 0;
                             }
-
                             echo "</div>";
 
-
+                            //T
                             $fileName = $point1 . '_' . $point2;
                             $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName.jpg'");
                             if ($query->num_rows > 0) {
@@ -1314,7 +1286,6 @@
                                 }
                             } else {
                                 echo "<br>";
-                                //echo "<p>No image found for point: $fileName</p>";
                             }
 
                             //L
@@ -1332,12 +1303,10 @@
                                     echo "</div>";
                                 }
                             } else {
-                                echo "<div class='col-3'>";
-                                // echo "<p>No image found for point: $fileName1</p>";
-                                echo "</div>";
+                                echo "<div class='col-3 style='height: 500px;'>";
+                                echo "</div><br><br><br><br><br><br><br><br><br><br><br><br>";
 
                             }
-
 
                             // Next circle
                             $nextElementNumber = $elementNumber + 1;
@@ -1364,14 +1333,13 @@
                                 }
                             } else {
                                 echo "<div class='col-3'>";
-                                // echo "<p>No image found for point: $fileName2</p>";
                                 echo "</div>";
-
                             }
 
 
                             echo "<div class='col-3'>";
                             echo "</div>";
+
                             //B
                             // $fileName3 = $point1 . '_' . $point2 . '_B';
                             // $query = $conn->query("SELECT * FROM images WHERE file_name = '$fileName3.jpg'");
@@ -1393,14 +1361,138 @@
                             // }
             
                             $elementNumber++;
-
-
-
-
                         }
                     }
 
+                    if ($namePath == $end . '_asdawdasdawd' . $end) {
+                        //Before end
+                        $namePath = $end . '_' . $end;
+
+
+                        $ee = $pointXY_f11_4[$end];
+                        $e = $pointXY_f11_4[$namePath];
+
+                        $lastIndex = count($shortestArrayPath) - 1;
+                        $b = $pointXY_f11_4[$shortestArrayPath[$lastIndex]];
+
+                        $bx = $b['X'];
+                        $by = $b['Y'];
+
+                        $ex = $e['X'];
+                        $ey = $e['Y'];
+
+                        $eex = $ee['X'];
+                        $eey = $ee['Y'];
+
+                        $differenceY = $ey - $by;
+                        $differenceX = $ex - $bx;
+                        echo "bx: $bx, by: $by, ex: $ex, ey: $ey, eex: $eex, eey: $eey";
+
+
+                        if ($bx > $ex && abs($differenceY) <= 10) {
+                            if ($ey > $eey) {
+                                echo "<script>console.log('End right1')</script>";
+                                $ball = "R";
+                            } elseif ($ey < $eey) {
+                                echo "<script>console.log('End left1')</script>";
+                                $ball = "L";
+                            }
+                        } elseif ($bx < $ex && abs($differenceY) <= 10) {
+                            if ($ey > $eey) {
+                                echo "<script>console.log('End left2')</script>";
+                                $ball = "L";
+                            } elseif ($ey < $eey) {
+                                echo "<script>console.log('End right2')</script>";
+                                $ball = "R";
+                            }
+                        } elseif ($by > $ey) {
+                            if ($ex > $eex) {
+                                echo "<script>console.log('End left3')</script>";
+                                $ball = "L";
+                            } elseif ($ex < $eex) {
+                                echo "<script>console.log('End right3')</script>";
+                                $ball = "R";
+                            }
+                        } elseif ($by < $ey) {
+                            if ($ex > $eex) {
+                                echo "<script>console.log('End right4')</script>";
+                                $ball = "R";
+                            } elseif ($ex < $eex) {
+                                echo "<script>console.log('End left4')</script>";
+                                $ball = "L";
+                            }
+                        } else {
+                            echo "<script>console.log('Something wrong')</script>";
+                            $ball = "Error";
+                        }
+
+                        echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
+                        echo "Your Destination is ??? of you";
+                        echo "</div>";
+
+
+                        // แสดงรูปสำหรับ Before end
+                        $imageURLEnd = 'uploads/' . $namePath . '.jpg';
+                        echo "<div class='col-3'>";
+                        echo "</div>";
+
+                        if (file_exists($imageURLEnd)) {
+                            echo "<div class='col-3'>";
+                            echo "<div class='card shadow h-100'>";
+                            echo "<img src='$imageURLEnd' alt='' width='20%' class='card-img'>";
+                            echo "</div>";
+                            echo "</div>";
+                        } else {
+                            echo "<div class='col-3'>";
+                            echo "<br>";
+                            echo "</div>";
+                        }
+
+                        echo "<div class='col-4'>";
+                        echo "</div>";
+
+
+                        // แสดงรูปสำหรับ Before$end l
+                        $imageURLEnd1 = 'uploads/' . $namePath . '_L.jpg';
+                        if (file_exists($imageURLEnd1)) {
+                            echo "<div class='col-3'>";
+                            echo "<div class='card shadow h-100'>";
+                            echo "<img src='$imageURLEnd1' alt='' width='20%' class='card-img'>";
+                            //echo "Left of $end Room";
+                            echo "</div>";
+                            echo "</div>";
+                        } else {
+                            echo "<div class='col-3'>";
+                            echo "</div>";
+                        }
+
+                        $nextElementNumber = $elementNumber + 1;
+                        echo "<div id='element$nextElementNumber' class='col-3' style='text-align: center; margin: auto;'>";
+                        ball2Arrow($ball);
+                        echo "<div class='circle' style='text-align: center; margin: auto;'>";
+                        echo "<span onclick=\"navigate('next')\" style='cursor: pointer;'>$nextElementNumber</span>";
+                        echo "</div>";
+                        echo "</div>";
+
+                        // แสดงรูปสำหรับ Before$end r
+                        $imageURLEnd2 = 'uploads/' . $namePath . '_R.jpg';
+                        if (file_exists($imageURLEnd2)) {
+
+                            echo "<div class='col-3'>";
+                            echo "<div class='card shadow h-100'>";
+                            echo "<img src='$imageURLEnd2' alt='' width='20%' class='card-img'>";
+                            echo "</div>";
+                            echo "</div>";
+                        } else {
+                            echo "<div class='col-3'>";
+                            echo "</div>";
+                        }
+                        echo "<div class='col-3'>";
+                        echo "</div>";
+                    }
+
                     echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
+                    echo "You are on the Destination";
                     echo "</div>";
 
                     $namePath = $end . '_' . $end;
@@ -1422,32 +1514,24 @@
                         echo "</div>";
                     }
 
-                    echo "<div class='col-5'>";
+                    echo "<div class='col-4'>";
                     echo "</div>";
 
 
                     // แสดงรูปสำหรับ $end l
                     $imageURLEnd1 = 'uploads/' . $namePath . '_L.jpg';
-                    echo "<div class='col-1'>";
-                    echo "</div>";
                     if (file_exists($imageURLEnd1)) {
-
                         echo "<div class='col-3'>";
                         echo "<div class='card shadow h-100'>";
                         echo "<img src='$imageURLEnd1' alt='' width='20%' class='card-img'>";
-                        echo "Left of $end Room";
-
+                        //echo "Left of $end Room";
+                        echo "</div>";
                         echo "</div>";
                     } else {
                         echo "<div class='col-3'>";
                         echo "</div>";
                     }
 
-
-                    //circle echo "<div class='col-1 d-flex align-items-center justify-content-center circle'>Circle</div>";
-                    // ball2Arrow($ball);
-                    // echo "<div class='col-3 circle'>You</div>";
-                    // Next circle
                     $ball = "T";
                     $nextElementNumber = $elementNumber + 1;
                     echo "<div id='element$nextElementNumber' class='col-3' style='text-align: center; margin: auto;'>";
@@ -1470,37 +1554,10 @@
                         echo "<div class='col-3'>";
                         echo "</div>";
                     }
-
-                    // // แสดงรูปสำหรับ $end B
-                    // $imageURLEnd3 = 'uploads/' . $namePath . '_B.jpg';
                     echo "<div class='col-3'>";
                     echo "</div>";
 
-                    // echo "<div class='col-3'>";
-                    // echo "</div>";
-            
-                    // echo "<div class='col-3'>";
-                    // echo "<div class='card shadow h-100'>";
-                    // echo "<img src='$imageURLEnd3' alt='' width='20%' class='card-img'>";
-                    // if (file_exists($imageURLEnd3)) {
-                    //     echo "Back of $end Room";
-                    // }
-                    // echo "</div>";
-                    // echo "</div>";
-            
-                    // echo "<div class='col-5'>";
-                    // echo "</div>";
-            
-
-                    // // แสดงรูปสำหรับ $end
-                    // $imageURLEnd = 'uploads/' . $end . '.jpg';
-            
-                    // echo "<div class='col-sm-6 col-lg-4 col-xl-3'>";
-                    // echo "<div class='card shadow h-100'>";
-                    // echo "<img src='$imageURLEnd' alt='' width='100%' class='card-img'>";
-                    // echo "</div>";
-                    // echo "</div>";
-            
+                    echo "</div>";
                 } else {
                     echo "Sorry, there is no way to go from $start to $end. Please select somewhere closer to the target.";
                 }
