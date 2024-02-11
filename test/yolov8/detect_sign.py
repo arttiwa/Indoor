@@ -196,23 +196,23 @@ def main():
         # Find matches in the database
         matches = find_matches(text_result, database_entries)
 
-        # Print the result
-        logger.info(f"OCR Result for {image_file}: {text_result}")
-        logger.info("Matches in the database:")
-        for entry, similarity in matches:
-            logger.info(f"{entry}: {similarity} similarity")
+        # # Print the result
+        # logger.info(f"OCR Result for {image_file}: {text_result}")
+        # logger.info("Matches in the database:")
+        # for entry, similarity in matches:
+        #     logger.info(f"{entry}: {similarity} similarity")
 
         # Save the result with the most similarity
         if most_similarity is None or matches[0][1] > most_similarity[2]:
             most_similarity = (text_result, matches[0][0], matches[0][1])
             
-        logger.info("- " * 15)
+        #logger.info("- " * 15)
 
-    # Check if no similarity is greater than 0.6
+    # Check if no similarity is greater than 0.6 first is ocr second is database
     if most_similarity is not None and most_similarity[2] <= 0.6:
-        logger.info(f"No entry has similarity greater than 0.6. The most similar result is {most_similarity[0]} matched with {most_similarity[1]} (Similarity: {most_similarity[2]})")
+        logger.info(f"No entry has similarity greater than 0.6. The most similar matched with-->{most_similarity[0]}<-- matched with>>>{most_similarity[1]}<<< Similarity000{most_similarity[2]}000")
     else:
-        logger.info(f"Most similar result: {most_similarity[0]} matched with {most_similarity[1]} (Similarity: {most_similarity[2]})")
+        logger.info(f"Most similar result: matched with-->{most_similarity[0]}<-- matched with>>>{most_similarity[1]}<<< Similarity000{most_similarity[2]}000")
 
     # Move files to the calculated_data directory
     calculated_data_directory = r'D:\xampp\htdocs\Indoor\test\yolov8\calculated_data'
