@@ -1,27 +1,39 @@
 <header>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
 </header>
 <div id="sidebar" class="sidebar">
     <!-- <a href="/indoor/test/process.php"><i class="material-icons" style="font-size:20px;color:white;padding-right: 10px;">transfer_within_a_station</i>ANS</a> -->
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <a href="/indoor/test/index.php"><i class="fa fa-building" style="font-size:20px;color:white;padding-right: 10px;"></i>Home</a>
-    <a href="#"  onclick="openSoonAlert()"><i class="material-icons" style="font-size:20px;color:white;padding-right: 10px;">transfer_within_a_station</i>ANS</a>
-    <a href="/indoor/test/map_select.php"><i class="material-icons" style="font-size:20px;color:white;padding-right: 10px;">zoom_out_map</i>Map View</a>
-    <a href="/indoor/test/yolov8/wabcam.php"><i class="fa fa-video-camera" style="font-size:20px;color:white;padding-right: 10px;"></i>Camera</a>
-    <a href="#"  onclick="checkAdmin(1)"><i class="material-icons" style="font-size:20px;color:white;padding-right: 10px;">cloud_upload</i>Upload</a>
-    <a href="##"  onclick="checkAdmin(2)"><i class="fa fa-database" style="font-size:24px;color:white;padding-right: 10px;"></i>Database</a>
-    <a href="###"  onclick="checkAdmin(3)"><i class="fa fa-map" style="font-size:20px;color:white;padding-right: 10px;"></i>MAP(Coming Soon)</a>
+    <a href="/indoor/test/index.php"><i class="fa fa-building"
+            style="font-size:20px;color:white;padding-right: 10px;"></i>Home</a>
+    <a href="#" onclick="openSoonAlert()"><i class="material-icons"
+            style="font-size:20px;color:white;padding-right: 10px;">transfer_within_a_station</i>ANS</a>
+    <a href="/indoor/test/map_select.php"><i class="material-icons"
+            style="font-size:20px;color:white;padding-right: 10px;">zoom_out_map</i>Map
+        View</a>
+    <a href="/indoor/test/yolov8/wabcam.php"><i class="fa fa-video-camera"
+            style="font-size:20px;color:white;padding-right: 10px;"></i>Camera</a>
+    <a href="#" onclick="checkAdmin(1)"><i class="material-icons"
+            style="font-size:20px;color:white;padding-right: 10px;">cloud_upload</i>Upload</a>
+    <a href="##" onclick="checkAdmin(2)"><i class="fa fa-database"
+            style="font-size:24px;color:white;padding-right: 10px;"></i>Database</a>
+    <a href="###" onclick="checkAdmin(3)"><i class="fa fa-map"
+            style="font-size:20px;color:white;padding-right: 10px;"></i>MAP(Coming
+        Soon)</a>
     <!-- <a href="/indoor/test/page3.php">page3</a> -->
 </div>
 
 <div class="header">
-    <span style="font-size:20px;cursor:pointer" class="openbtn" onclick="ToggleNav()">☰</span>
+    <span style="font-size:20px;cursor:pointer" class="openbtn"
+        onclick="ToggleNav()">☰</span>
     <div class="Logo">
-        <img src="\Indoor\Map_for_indor\icoico.png" alt="Logo" class="picture" onclick="ToggleNav()">
+        <img src="\Indoor\Map_for_indor\icoico.png" alt="Logo" class="picture"
+            onclick="ToggleNav()">
     </div>
 </div>
-
 
 <script>
     let nav = 1
@@ -50,42 +62,13 @@
         alert("This page can be accessed after calculation only.");
     }
 
-    let admin = 0
-    function checkAdmin(number) {
-        if (admin == 1) {
-            if (number == 1) {
-                document.querySelector('a[href="a"]').setAttribute('href', '/indoor/test/admin_upload.php');
-            } else if (number == 2) {
-                document.querySelector('a[href="b"]').setAttribute('href', '/indoor/test/up_show_DB.php');
-            } else if (number == 3) {
-                document.querySelector('a[href="c"]').setAttribute('href', '/indoor/test/mapapi.php');
-            } 
-        }else {
-            var password = prompt("Enter password:");
-            if (password === "sut") {
-                console.log("You are admin");
-                if (number == 1) {
-                document.querySelector('a[href="a"]').setAttribute('href', '/indoor/test/admin_upload.php');
-                } else if (number == 2) {
-                    document.querySelector('a[href="b"]').setAttribute('href', '/indoor/test/up_show_DB.php');
-                } else if (number == 3) {
-                    document.querySelector('a[href="c"]').setAttribute('href', '/indoor/test/mapapi.php');
-                }        
-            } else {
-                alert("Incorrect password");
-            }
-        }
-        
-    }
-
-
-
+    // let admin = 0
     // function checkAdmin(number) {
     //     if (admin == 1) {
     //         updateLinks(number);
     //     } else {
     //         var password = prompt("Enter password:");
-    //         if (password === "sut") {
+    //         if (password == "sut") {
     //             console.log("You are admin");
     //             admin = 1; // Set admin flag to 1 after successful authentication
     //             updateLinks(number);
@@ -105,9 +88,30 @@
     //     } 
     // }
 
+    function checkAdmin(number) {
+        var password = prompt("Enter password:");
+        
+        if (password == "sut") {
+            console.log("You are admin");
+            updateLinks(number);
+        } else {
+            console.log("Incorrect password");
+        }
+        
+    }
+
+    function updateLinks(number) {
+        if (number == 1) {
+            document.querySelector('a[href="#"]').setAttribute('href', '/indoor/test/admin_upload.php');
+        } else if (number == 2) {
+            document.querySelector('a[href="##"]').setAttribute('href', '/indoor/test/up_show_DB.php');
+        } else if (number == 3) {
+            document.querySelector('a[href="###"]').setAttribute('href', '/indoor/test/mapapi.php');
+        } 
+    }
+
 
 </script>
-
 
 <style>
     /* Style for the fixed header */

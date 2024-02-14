@@ -19,7 +19,7 @@
                 <div class="conPoint">
                     <div class="conStart">
                         <div class="start">
-                            <h4>Start : </h4>
+                            <label for="startId" style="display: inline-block; width: 60px; text-align: right;">Start :</label>
                             <input list="startList" name="start" id="startId" required>
                             <datalist id="startList">
                                 <option value="test1"></option>
@@ -30,7 +30,7 @@
 
                     <div class="conTarget">
                         <div class="target">
-                            <h4>Target : </h4>
+                            <label for="endId" style="display: inline-block; width: 60px; text-align: right;">Destination:</label>
                             <input list="targetList" name="end" id="endId" required>
                             <datalist id="targetList">
                                 <option value="test2"></option>
@@ -41,7 +41,7 @@
                 </div>
 
             </header>
-            <button type="submit" class="goGo"><i class="fa fa-search"></i></button>
+            <button type="submit" class="goGo"><i class="fa fa-search"> Search</i></button>
 
         </form>
     </div>
@@ -147,8 +147,10 @@
 
 <style>
     body {
-        background: #ddeeed;
+        /* background: #555; */
         text-align: center;
+        background-image: url("./1111111.png");
+        /* filter: brightness(100%); */
     }
 
     .conPoint {
@@ -197,12 +199,13 @@
     }
 
     .goGo {
-        border: none;
+        border: 1px solid;
         border-radius: 5px;
         background: rgb(7, 205, 175);
-        height: 30px;
-        width: 40px;
+        height: 40px;
+        width: 80px;
         margin: 10px;
+        margin-left: 30%;
     }
 </style>
 

@@ -59,17 +59,14 @@
         <div class="d-flex justify-content-center py-3">
             <form method="post" action="wabcam.php">
                 <br />
+                <br />
                 <input type="submit" value="Open Camera" class="btn btn-primary">
-                <br />
-                <br />
             </form>
         </div>
-
 
         <div class="window_form_python">
             <video id="video_feed" autoplay></video>
         </div>
-
 
         <div class="pre_output">
 
@@ -77,12 +74,14 @@
 
                 <div class="conFindRoom">
                     <div>
-                        <h4>Your location is : </h4>
+                        <label for="startId">Your location is :</label>
+
                         <input type="text" name="start" id="startId" value="" readonly
-                            style="background-color: #ddd; border: 1px solid; border-radius: 5px;">
+                            style="background-color: #bbb; border: 1px solid; border-radius: 5px;">
                     </div>
+                    <br>
                     <div>
-                        <h4>Your Destination is : </h4>
+                        <label for="endId">Your Destination is :</label>
                         <input list="targetList" name="end" id="endId" required>
                         <datalist id="targetList">
                             <option value="test2"></option>
@@ -90,8 +89,8 @@
                         </datalist>
                     </div>
                 </div>
-
-                <button type="submit" class="goGo"><i class="fa fa-search"></i></button>
+                <br>
+                <button type="submit" class="goGo"><i class="fa fa-search"> Search</i></button>
 
             </form>
 
@@ -162,13 +161,48 @@
 </script>
 
 <style>
+    body {
+        background-image: url("./1111111.png");
+
+    }
+
+    input {
+        border-radius: 5px;
+        border: 1px solid;
+    }
+
+    button {
+        border: 1px solid;
+        border-radius: 5px;
+        background: rgb(7, 205, 175);
+        height: 40px;
+        width: 10%;
+        margin: 10px;
+
+    }
+
     .pre_output {
-        background: wheat;
+        /* background: #4682B4; */
+        background: none;
         margin: auto;
         width: 80%;
+        text-align: center;
+        /* padding: 10px; */
+        border-radius: 10px;
+        /* border: 1px solid; */
+
     }
 
     .pre_output pre {
         background: rosybrown;
+    }
+
+    .conFindRoom {
+        margin: auto;
+        padding: 20px;
+        border-radius: 10px;
+        width: 50%;
+        background-color: #4682B4;
+        /* background-color: #a5e9ef; */
     }
 </style>

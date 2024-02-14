@@ -435,7 +435,7 @@
                         $floors = $row['floors'];
                         echo "<br>";
 
-                        echo "<div style='font-size: 22px;'>Building Name : $buildingName";
+                        echo "<div class='topText' style='font-size: 22px;'>Building Name : $buildingName";
                         echo "<br>";
                         echo "Floor : $floors </div>";
 
@@ -575,8 +575,11 @@
                 $shortestPath = dijkstra($graph, $start, $end);
 
                 // Display the selected start and end points
+                echo "<div class='botMap'>";
+
                 echo "You selected start point: " . $start . "<br>";
                 echo "You selected end point: " . $end . "<br>";
+                echo '</div>';
 
 
                 // // Usage example
@@ -716,7 +719,7 @@
                             echo "</div>";
 
                             echo "<div class='col-12'>";
-                            echo "Angle $up between $point1 and $point2: $angle degrees\n";
+                            echo "<p class='angleText' >\n";
 
                             //for up 
                             if ($up == 1) {
@@ -726,13 +729,13 @@
                                     $ball = "?";
                                 } elseif ($angle >= 135 && $angle < 225) {
                                     if ($holdState == "upLeft") {
-                                        echo "Go straight u1\n";
+                                        echo "Go straight \n";
                                         $ball = "T";
                                     } elseif ($holdState == "") {
-                                        echo "Go straight start1\n";
+                                        echo "Go straight \n";
                                         $ball = "T";
                                     } else {
-                                        echo "Turn Right sxxs\n";
+                                        echo "Turn Right \n";
                                         $ball = "R";
 
                                         echo "<div class='row g-2'>";
@@ -817,8 +820,8 @@
 
 
                                         echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
-                                        echo "Turn Right laa  Go straight naxa\n";
                                         echo "</div>";
+                                        echo "<p class='angleText'>Turn right then Go straight \n </p>";
                                         $ball = "T";
                                         echo "</div>";
                                     }
@@ -826,10 +829,10 @@
 
                                 } elseif ($angle >= 225 && $angle < 315) {
                                     if ($holdState == "upLeft") {
-                                        echo "Turn Left u2\n";
+                                        echo "Turn Left \n";
                                         $ball = "L";
                                     } elseif ($holdState == "upRight") {
-                                        echo "Turn Left sus\n";
+                                        echo "Turn Left \n";
                                         $ball = "L";
 
                                         echo "<div class='row g-2'>";
@@ -924,13 +927,13 @@
 
                                 } else {
                                     if ($holdState == "upRight") {
-                                        echo "Go straight u3 \n";
+                                        echo "Go straight  \n";
                                         $ball = "T";
                                     } elseif ($holdState == "") {
-                                        echo "Go straight start2\n";
+                                        echo "Go straight \n";
                                         $ball = "T";
                                     } else {
-                                        echo "turn Right sasasa\n";
+                                        echo "turn Right \n";
                                         $ball = "R";
 
 
@@ -1019,13 +1022,10 @@
 
 
                                         echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
-                                        echo "Turn Right laa  Go straight naxa\n";
                                         echo "</div>";
+                                        echo "<p class='angleText'>Turn right then Go straight </p>\n";
                                         $ball = "T";
                                         echo "</div>";
-
-
-
 
                                     }
                                     $holdState = "upRight";
@@ -1036,7 +1036,7 @@
                             } elseif ($up == 2) {
                                 if ($angle >= 45 && $angle < 135) {
                                     if ($holdState == "downLeft") {
-                                        echo "Turn Left q1\n";
+                                        echo "Turn Left \n";
                                         $ball = "L";
 
                                         echo "<div class='row g-2'>";
@@ -1123,15 +1123,16 @@
 
 
                                         echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
-                                        echo "Turn Left laa Go straight naa";
+                                        
                                         echo "</div>";
+                                        echo "<p class='angleText'>Turn left then Go straight</p> ";
                                         $ball = "T";
                                         echo "</div>";
 
 
 
                                     } elseif ($holdState == "downRight") {
-                                        echo "Turn Right q1\n";
+                                        echo "Turn Right \n";
                                     } elseif ($holdState == "upLeft") {
                                         echo "Turn Left\n";
                                         $ball = "L";
@@ -1220,26 +1221,27 @@
 
 
                                         echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
-                                        echo "Turn Left laa Go straight naa";
                                         echo "</div>";
+                                        echo "<p class='angleText'>Turn left then Go straight</p> ";
+
                                         $ball = "T";
                                         echo "</div>";
 
                                     } else {
-                                        echo "Go Straight MM\n";
+                                        echo "Go Straight \n";
                                         $ball = "T";
                                     }
                                     $holdState = "downStraight";
 
                                 } elseif ($angle >= 135 && $angle < 225) {
                                     if ($holdState == "downLeft") {
-                                        echo "Go straight  w1\n";
+                                        echo "Go straight  \n";
                                         $ball = "T";
                                     } elseif ($holdState == "") {
-                                        echo "Go straight start w2\n";
+                                        echo "Go straight  \n";
                                         $ball = "T";
                                     } else {
-                                        echo "Turn Left w3\n";
+                                        echo "Turn Left \n";
                                         $ball = "L";
                                     }
                                     $holdState = "downLeft";
@@ -1252,20 +1254,20 @@
                                     $ball = "?";
                                 } else {
                                     if ($holdState == "downRight") {
-                                        echo "Go straight e1\n";
+                                        echo "Go straight \n";
                                         $ball = "T";
                                     } elseif ($holdState == "") {
-                                        echo "Go straight start e2\n";
+                                        echo "Go straight \n";
                                         $ball = "T";
                                     } else {
-                                        echo "Turn Right e3\n";
+                                        echo "Turn Right \n";
                                         $ball = "R";
                                     }
                                     $holdState = "downRight";
                                 }
                                 $up = 0;
                             }
-                            echo "</div>";
+                            echo "</p></div>";
 
                             //T
                             $fileName = $point1 . '_' . $point2;
@@ -1492,7 +1494,7 @@
                     }
 
                     echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";
-                    echo "You are on the Destination";
+                    echo "<p class='angleText'>You are on the Destination\n </p>";
                     echo "</div>";
 
                     $namePath = $end . '_' . $end;
@@ -1682,11 +1684,43 @@
 
 <style lang="scss" :scope>
     body {
-        background: #ddd;
+        background-image: url("./1111111.png");
         text-align: center;
-
     }
-
+    .topText{
+        background-color: #4682B4;
+        color: white;
+        margin: auto;
+        width: 60%;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    .botMap{
+        background-color: #4682B4;
+        color: white;
+        margin: auto;
+        width: 60%;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+    .col-72{
+        background-color: #4682B4;
+        color: white;
+        margin: auto;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+    .angleText{
+        background-color: #4682B4;
+        color: white;
+        margin: auto;
+        width: 60%;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
     .conResult {
         padding-top: 20px;
         padding-bottom: 80px;

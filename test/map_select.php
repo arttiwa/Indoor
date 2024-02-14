@@ -16,42 +16,40 @@
 
     <div id="main">
 
+
         <div class="conBuild">
+
             <div class="Building">
-                <div class="conFloors">
-                    <div class="floors">
-                        <h4>Building : </h4>
-                        <select id="BuildingId" onchange="updateFloors()">
-                            <?php
-                            $buildings = Buildinglist("selectBuilding");
-                            foreach ($buildings as $building) {
-                                echo "<option value=\"" . $building['buildingname'] . "\">" . $building['buildingname'] . "</option>";
-                            }
-                            ?>
-                        </select>
-
-                        <h4>Floors : </h4>
-                        <input list="FloorsList" name="Floors" id="FloorsId" required>
-                        <datalist id="FloorsList"></datalist>
-
-                        <br>
-                        <br>
-                        <button type="submit" onclick="changeMap()">Search Floor Map</button>
-                    </div>
-                </div>
+                <label for="BuildingId">Building :</label>
+                <select id="BuildingId" onchange="updateFloors()">
+                    <?php
+                    $buildings = Buildinglist("selectBuilding");
+                    foreach ($buildings as $building) {
+                        echo "<option value=\"" . $building['buildingname'] . "\">" . $building['buildingname'] . "</option>";
+                    }
+                    ?>
+                </select>
             </div>
-        </div>
-        <br><br>
-        <button type="submit" onclick="toggleVisibility()">Toggle Map</button>
-        <br><br>
+                    <br>
+            <div class="floors">
+                <label for="FloorsId">Floors :</label>
+                <input list="FloorsList" name="Floors" id="FloorsId" required>
+                <datalist id="FloorsList"></datalist>
+            </div>
 
+
+        </div>
+
+        <button type="submit" onclick="changeMap()">Search Floor Map</button><br>
+        <button type="submit" onclick="toggleVisibility()">Toggle Map</button>
 
         <div class="conMap" style="display=none" id="map_toggle">
             <div class="map">
                 <img src="" usemap="#Map_F11_4" alt="Indoor Map" id="mapImage">
                 <map name="Map_F11_4" id="imageMap">
                     <area shape="rect" coords="4,213,154,293" title="P'Ohm">
-                    <area shape="rect" coords="5,294,85,408" title="Elevator">
+                    <area shape="rect" coords="5,294,85,408" title="Elevator"
+                        href="https://www.alibaba.com/trade/search?spm=a2700.7735675.0.0.495cAAYBAAYB4t&fsb=y&IndexArea=product_en&SearchText=elevator+elevator+Goods+Elevators&preKeywords=elevator%20elevator">
 
                     <area shape="rect" coords="4,441,117,576" title="PneuLap">
                     <area shape="rect" coords="120,441,237,576" title="Th">
@@ -69,19 +67,24 @@
                     <area shape="rect" coords="112,912,235,1049" title="409">
                     <area shape="rect" coords="234,912,344,1050" title="407">
 
-                    <area shape="rect" coords="393,972,504,1048" title="WC">
-                    <area shape="rect" coords="506,973,617,1047" title="Stair">
+                    <area shape="rect" coords="393,972,504,1048" title="WC"
+                        href="https://www.boonthavorn.com/cotto-bath-1226820?page=1">
+                    <area shape="rect" coords="506,973,617,1047" title="Stair"
+                        href="https://www.pinterest.com/pamonchopudsa/stair/">
 
                     <area shape="rect" coords="401,739,616,911" title="402">
 
                     <area shape="rect" coords="702,660,924,821" title="401">
                     <area shape="rect" coords="702,823,924,915" title="Th">
-                    <area shape="rect" coords="703,915,924,1047" title="Lab">
+                    <area shape="rect" coords="703,915,924,1047" title="Lab"
+                        href="https://www.petcharavejhospital.com/th/Medical_service/med_tech_detail/Laboratory">
 
-                    <area shape="poly" coords="357,213,410,212,461,181,481,210,427,245,357,245" title="Stair & WC">
+                    <area shape="poly" coords="357,213,410,212,461,181,481,210,427,245,357,245" title="Stair & WC"
+                        href="">
                     <area shape="poly" coords="393,323,486,266,534,344,442,399" title="419">
                     <area shape="poly" coords="442,401,535,345,585,420,491,478" title="420">
-                    <area shape="poly" coords="503,503,598,445,643,518,550,575" title="Elavator">
+                    <area shape="poly" coords="503,503,598,445,643,518,550,575" title="Elavator"
+                        href="https://www.alibaba.com/premium/elevator_elevator.html?src=sem_ggl&field=UG&from=sem_ggl&cmpgn=20777931561&adgrp=154391670663&fditm=&tgt=kwd-296213328936&locintrst=&locphyscl=9047143&mtchtyp=p&ntwrk=g&device=c&dvcmdl=&creative=681208575750&plcmnt=&plcmntcat=&aceid=&position=&gad_source=1&gclid=Cj0KCQiAoKeuBhCoARIsAB4Wxtf92N27XycNI-fRA5B2mAewN3iJGXXxSR2DfWyut5G0H5kL-asvX6AaAophEALw_wcB">
 
                     <area shape="poly" coords="533,211,605,163,722,341,647,389" title="421">
                     <area shape="poly" coords="608,161,685,113,795,293,720,340" title="422">
@@ -96,7 +99,6 @@
                 </map>
             </div>
         </div>
-
 
         <script>
             function changeMap() {
@@ -237,19 +239,54 @@
 </html>
 
 <style lang="scss" :scope>
+    .conBuild {
+        background-color: #777;
+        margin: auto;
+        padding:20px;
+        margin-top: 100px;
+        width: 50%;
+        border-radius: 1em;
+
+        .Building {
+            margin: auto;
+            background-color: none;
+            width: 60%;
+        }
+
+        .floors {
+            margin: auto;
+            background-color: none;
+            width: 60%;
+        }
+    }
+
+    input {
+        height: 30px;
+        border-radius: 5px;
+        border: 1px solid;
+        width: 50%;
+    }
+    select {
+        height: 30px;
+        border-radius: 5px;
+        width: 50%;
+    }
+    button {
+        margin-top: 20px;
+        height: 30px;
+        border-radius: 5px;
+        border: 1px solid;
+        width: 10%;
+    }
+
     body {
-        background: #ddd;
+        background-image: url("./1111111.png");
         text-align: center;
-
     }
 
-    .conBuild{
-        padding-top: 80px;
-    }
+
     .conPoint {
         background: #4682B4;
-
-
 
         .conStart {
 
@@ -279,14 +316,14 @@
 
     .map {
         margin: auto;
-        background: #bbb;
+        background: #d8e9e8;
         width: 80%;
         height: 30%;
         margin-bottom: 50px;
         margin-top: 50px;
-        border-radius: 4px;
+        border-radius: 1em;
         text-align: center;
-
+        padding: 10px;
         area {
             &:hover {
                 cursor: pointer;
@@ -294,12 +331,4 @@
         }
     }
 
-    .goGo {
-        border: none;
-        border-radius: 5px;
-        background: rgb(7, 205, 175);
-        height: 30px;
-        width: 40px;
-        margin: 10px;
-    }
 </style>
