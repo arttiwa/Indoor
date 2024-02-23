@@ -240,7 +240,7 @@
 
 <style lang="scss" :scope>
     .conBuild {
-        background-color: #777;
+        background-color: #4682B4;
         margin: auto;
         padding:20px;
         margin-top: 100px;

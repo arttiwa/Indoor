@@ -76,8 +76,8 @@
                     <div>
                         <label for="startId">Your location is :</label>
 
-                        <input type="text" name="start" id="startId" value="" readonly
-                            style="background-color: #bbb; border: 1px solid; border-radius: 5px;">
+                        <input type="text" name="start" id="startId" value="" readonly 
+                            style="background-color: #bbb; border: 1px solid; border-radius: 5px;" required>
                     </div>
                     <br>
                     <div>
@@ -90,7 +90,7 @@
                     </div>
                 </div>
                 <br>
-                <button type="submit" class="goGo"><i class="fa fa-search"> Search</i></button>
+                <button onclick="submitForm()" type="button" class="goGo"><i class="fa fa-search"> Search</i></button>
 
             </form>
 
@@ -158,6 +158,23 @@
 <script>
     const video = document.getElementById('video_feed');
     video.src = '/video_feed';
+
+    function submitForm() {
+        var startInput = document.getElementById("startId");
+        var userInput = document.getElementById("endId").value;
+        
+        // Set the value of the read-only input field based on user input or other data
+        startInput.value = "Some dynamic value"; // You need to replace this with your actual logic
+        
+        // Check if the start input field has a value
+        if (startInput.value.trim() === "") {
+            alert("Please enter your location.");
+            return false; // Prevent form submission
+        }
+        
+        // If the start input field has a value, submit the form
+        document.getElementById("searchForm").submit();
+    }
 </script>
 
 <style>

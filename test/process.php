@@ -216,7 +216,6 @@
                 $queue = array_keys($graph);
 
                 while (!empty($queue)) {
-                    // Find the node with the smallest distance in the queue
                     $minDistance = PHP_INT_MAX;
                     $minNode = null;
                     foreach ($queue as $node) {
@@ -227,10 +226,9 @@
                     }
 
                     if ($minNode === $end) {
-                        break; // Found shortest path to end
+                        break; 
                     }
 
-                    // Remove the selected node from the queue
                     $queue = array_diff($queue, [$minNode]);
 
                     // Update distances and previous nodes for neighboring nodes
@@ -243,7 +241,6 @@
                     }
                 }
 
-                // Reconstruct the shortest path
                 $path = [];
                 $node = $end;
                 while ($previous[$node] !== null) {
@@ -369,7 +366,7 @@
                         echo "<script>console.log('Start left')</script>";
                         return "L";
                     } elseif ($namePathY > $nextPointY) {
-                        echo "<script>console.log('Start right')</script>";
+                        echo "<script>console.log('Start right11')</script>";
                         return "R";
                     } else {
                         echo "<script>console.log('Start Turn1')</script>";
@@ -380,7 +377,7 @@
                         echo "<script>console.log('Start left')</script>";
                         return "L";
                     } elseif ($namePathY < $nextPointY) {
-                        echo "<script>console.log('Start right')</script>";
+                        echo "<script>console.log('Start right22')</script>";
                         return "R";
                     } else {
                         echo "<script>console.log('Start Turn2')</script>";
@@ -388,7 +385,7 @@
                     }
                 } elseif ($namePathY < $startY) {
                     if ($namePathX > $nextPointX) {
-                        echo "<script>console.log('Start right')</script>";
+                        echo "<script>console.log('Start right33')</script>";
                         return "R";
                     } elseif ($namePathX < $nextPointX) {
                         echo "<script>console.log('Start left')</script>";
@@ -402,7 +399,7 @@
                         echo "<script>console.log('Start left')</script>";
                         return "L";
                     } elseif ($namePathX < $nextPointX) {
-                        echo "<script>console.log('Start right')</script>";
+                        echo "<script>console.log('Start right44')</script>";
                         return "R";
                     } else {
                         echo "<script>console.log('Start Turn4')</script>";
@@ -451,6 +448,7 @@
                     if ($floors == 4) {
                         $mapURL = "Map_F11_41.png";
                         $graph = [
+                            'B1135' => ['elevatorF11_4M' => 1],
                             'elevatorF11_4M' => ['c1' => 4, 'b1' => 3],
                             'c1' => ['elevatorF11_4M' => 4, 'F11_401' => 3, 'F11_402' => 3, 'c2' => 4],
 
@@ -610,6 +608,7 @@
                     echo "<div class='row g-2'>";
                     $namePath = $start . '_' . $start;
                     $ball = determineBall($start, $pointXY_f11_4, $namePath, $shortestArrayPath[0]);
+                    $ball = "T";
 
 
                     echo "<div class='col-72' style='padding: 20px;  background-color: #555; border-radius: 5px;'>";

@@ -22,7 +22,6 @@
                             <label for="startId" style="display: inline-block; width: 60px; text-align: right;">Start :</label>
                             <input list="startList" name="start" id="startId" required>
                             <datalist id="startList">
-                                <option value="test1"></option>
                                 <?php generateDatalist("selectLo1"); ?>
                             </datalist>
                         </div>
@@ -33,7 +32,6 @@
                             <label for="endId" style="display: inline-block; width: 60px; text-align: right;">Destination:</label>
                             <input list="targetList" name="end" id="endId" required>
                             <datalist id="targetList">
-                                <option value="test2"></option>
                                 <?php generateDatalist("selectLo2"); ?>
                             </datalist>
                         </div>
